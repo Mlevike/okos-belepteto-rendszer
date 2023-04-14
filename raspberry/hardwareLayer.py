@@ -206,8 +206,8 @@ ShortBeep() #Csak tesztelés miatt van itt!
 TriggerRelay() #Csak tesztelés miatt van itt!
 
 try:
-    internalReadThread = threading.Thread(target=InternalAuthentication) #Létrehozunk egy háttér folyamatot a belső olvasó kártyadetektálásához
-    internalReadThread.start() #Elindítjuk a belső olvasó háttérfolyamatát
+    #internalReadThread = threading.Thread(target=InternalAuthentication) #Létrehozunk egy háttér folyamatot a belső olvasó kártyadetektálásához
+    #internalReadThread.start() #Elindítjuk a belső olvasó háttérfolyamatát
     while True:
         ExternalAuthentication() #Elindítjuk az Authentikáció
 finally:
