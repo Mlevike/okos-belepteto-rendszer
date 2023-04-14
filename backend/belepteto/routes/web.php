@@ -32,6 +32,11 @@ Route::get('/hello', function () {
     header("Content-type:application/json");
     return json_encode(array("code" => "0000", "isHere" => true));
 }); */
-Route::get('/validate/{id}', function (string $id) {
-    return new ValidateResource();
+Route::get('/validate/{uid}', function() {
+    $uid = Route::input('uid');
+    if($uid == '16722ba2') {
+        return response()->json(['code' => '0000', 'isHere' => 'false']);
+    }else {
+        return response()->json(['code' => '', 'isHere' => '']);
+    }
 });
