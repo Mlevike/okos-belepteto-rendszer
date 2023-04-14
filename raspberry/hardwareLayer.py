@@ -30,6 +30,8 @@ interface = "/dev/ttyAMA0" #Sorosport neve
 connection = serial.Serial(port=interface, baudrate=9600) #Létrehozunk egy sorosportos kapcsolatot
 connection.reset_input_buffer() #Töröljük a soros buffert a tiszta indulás érdekében
 
+#Beállítjuk a kártya validálás linkjét
+validateUrl = "http://192.168.1.223:8000/validate/"
 
 #Inicializájuk a Buzzer globális változóit 
 buzzer = 7 #Kimeneti pin
@@ -68,14 +70,15 @@ def TriggerRelay(): #Relét kapcsoló metódus
     GPIO.output(relay, GPIO.HIGH)
 
 def GetCode(uid): #UID alapján kódot lekérő metódus
-    URL = "http://okos-belepteto.eu/validate/" + uid
+    URL = validateUrl + uid
+    print(URL)
     r = requests.get(URL)
     print("GetCode(): " + str(r.status_code))
     j = json.loads(json.dumps(r.json()))
     return j.get("code")
 
 def GetIsHere(uid): #UID alapján itt létet lekérő metódus
-    URL = "http://okos-belepteto.eu/validate/" + uid
+    URL = validateUrl + uid
     r = requests.get(URL)
     print("GetIsHere(): " + str(r.status_code))
     j = json.loads(json.dumps(r.json()))
