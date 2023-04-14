@@ -20,6 +20,6 @@ services:
       - DB_USERNAME=bn_myapp
       - DB_DATABASE=bitnami_myapp
     volumes:
-      - "./belepteto:/app"
+      - "../belepteto:/app"
     depends_on:
       - mariadb
