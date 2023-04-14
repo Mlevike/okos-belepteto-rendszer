@@ -21,6 +21,10 @@ docker-compose -f .docker/docker-compose.yml up
 ```
 composer require laravel/ui
 ```
+```
+composer require laravel-json-api/laravel:^2.6
+composer require --dev laravel-json-api/testing:^1.1
+```
 
 5. Telepísd a Bootstrap keretkörnyezetet::
 
