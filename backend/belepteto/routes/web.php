@@ -26,6 +26,14 @@ Route::get('/hello', function () {
     return view('hello');
 });
 
+Route::get('/logs', function () {
+    return view('logs');
+});
+
+Route::get('/users', function () {
+    return view('users');
+});
+
 /*Route::get('/validate', function () {
    /* if($id == '16722ba2'){
         return response()->json('uid', '0000');

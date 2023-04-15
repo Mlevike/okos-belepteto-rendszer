@@ -14,5 +14,7 @@ return [
     */
 
     'dashboard' => "Dashboard",
-
+    'entry_system' => "Entry System",
+    'users' => "Users",
+    'logs' => "Logs",
 ];

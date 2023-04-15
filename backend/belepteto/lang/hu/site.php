@@ -14,5 +14,7 @@ return [
     */
 
     'dashboard' => "Vezérlőpult",
-
+    'entry_system' => "Beléptetőrendszer",
+    'users' => "Felhasználók",
+    'logs' => "Logok",
 ];

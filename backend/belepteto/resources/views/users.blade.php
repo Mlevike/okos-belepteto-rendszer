@@ -6,6 +6,6 @@
     <title>{{ __('site.entry_system') }}</title>
 </head>
 <body>
-<h1>{{ __('site.dashboard') }}</h1>
+<h1>{{ __('site.users') }}</h1>
 </body>
 </html>
