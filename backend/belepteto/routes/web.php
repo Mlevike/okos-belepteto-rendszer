@@ -14,11 +14,8 @@ use App\Http\Resources\ValidateResource;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::get('/dashboard', function () {
+Route::get('/', function () {
     return view('dashboard');
 });
 
