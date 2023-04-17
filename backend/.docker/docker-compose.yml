@@ -8,7 +8,9 @@ services:
       - ALLOW_EMPTY_PASSWORD=yes
       - MARIADB_USER=bn_myapp
       - MARIADB_DATABASE=bitnami_myapp
-  myapp:
+    ports:
+      - "3306:3306"
+  belepteto:
     image: docker.io/bitnami/laravel:10
     ports:
       - "8000:8000"
