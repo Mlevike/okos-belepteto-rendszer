@@ -17,30 +17,16 @@ use App\Http\Resources\ValidateResource;
 
 Route::get('/', function () {
     return view('dashboard');
-});
-
-Route::get('/hello', function () {
-    return view('hello');
-});
+})->middleware('auth');
 
 Route::get('/logs', function () {
     return view('logs');
-});
+})->middleware('auth');
 
 Route::get('/users', function () {
     return view('users');
-});
+})->middleware('auth');
 
-/*Route::get('/validate', function () {
-   /* if($id == '16722ba2'){
-        return response()->json('uid', '0000');
-    }else{
-        return response()->json('uid', '');
-    }
-    //return view('hello');
-    header("Content-type:application/json");
-    return json_encode(array("code" => "0000", "isHere" => true));
-}); */
 Route::get('/validate/{uid}', function() {
     $uid = Route::input('uid');
     if($uid == '16722ba2') {
