@@ -14,8 +14,11 @@ return [
     */
 
     'failed' => 'A bejelentkezéshez használni kívánt adatok nem megfelelőek!',
-    'password' => 'A jelszó hibás!',
+    'bad_password' => 'A jelszó hibás!',
     'throttle' => 'Túl sok bejelentkezési kísérlet. Kérlek próbáld újra :seconds másodperc múlva!',
     'login' => 'Bejelentkezés',
-
+    'please_login' => 'Kérlek jelentkezz be!',
+    'remember' => 'Jegyezz meg',
+    'password' => 'Jelszó',
+    'email' => 'Email cím',
 ];
