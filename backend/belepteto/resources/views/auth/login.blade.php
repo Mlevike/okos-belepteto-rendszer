@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<!--Ebben a fájlban található a bejelentkezési nézet sablonja.-->
 <head>
     @include('head')
     <style>

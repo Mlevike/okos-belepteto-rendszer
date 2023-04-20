@@ -13,6 +13,8 @@ return [
     |
     */
 
+    //Ebben a fájlban találhatóak a bejelentkezéssel kapcsolatos angol nyelvű szótárdefiniciók.
+
     'failed' => 'These credentials do not match our records.',
     'bad_password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',

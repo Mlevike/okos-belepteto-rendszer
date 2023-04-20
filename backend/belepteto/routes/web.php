@@ -14,19 +14,25 @@ use App\Http\Resources\ValidateResource;
 |
 */
 
+//Itt találhatóak a különböző nézetekhez tartozó útvonal definiciók
 
+//Vezérlőpulthoz tartozó útvonal
 Route::get('/', function () {
     return view('dashboard');
 })->middleware('auth');
 
+//A logok oldalhoz tartozó útvonal
 Route::get('/logs', function () {
     return view('logs');
 })->middleware('auth');
 
+//A felhasználók oldalhoz tartozó útvonal
 Route::get('/users', function () {
     return view('users');
 })->middleware('auth');
 
+//A kártya validációhoz tartozó útvonal
+//Ez még csak ideiglenes, a végleges változatban majd az adatbázisból kéri le az információkat
 Route::get('/validate/{uid}', function() {
     $uid = Route::input('uid');
     if($uid == '16722ba2') {
