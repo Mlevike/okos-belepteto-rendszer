@@ -15,37 +15,8 @@ Okos, internetre kötött beléptető rendszer Raspberri Pi és Arduino alapokon
 ```
 docker-compose -f .docker/docker-compose.yml up
 ```
-
-4. Telepísd a `laravel/ui` csomagot:
-
-```
-composer require laravel/ui
-```
-```
-composer require laravel-json-api/laravel:^2.6
-composer require --dev laravel-json-api/testing:^1.1
-```
-
-5. Telepísd a Bootstrap keretkörnyezetet::
-
-```
-php artisan ui bootstrap
-php artisan ui bootstrap --auth
-```
-
-6. Futtasd az `npm install` parancsot annyak érdekében, hogy minden szükséges csomag feltelepüljön:
-
-```
-npm install
-```
-
-7. Futtasd az `npm run` parancsot annak érdekében, hogy minden szükséges fájl leforduljon:
-
-```
-npm run dev
-```
+Sikeres telepítés után a projekt a `127.0.0.1:8000` címen lesz elérhető.
 
 ### A dokumentáció írása során felhasznált források:
 
 - [https://hub.docker.com/r/bitnami/laravel](https://hub.docker.com/r/bitnami/laravel)
-- [https://www.positronx.io/how-to-properly-install-and-use-bootstrap-in-laravel/](https://www.positronx.io/how-to-properly-install-and-use-bootstrap-in-laravel/)
