@@ -9,17 +9,35 @@
 <h1>{{ __('site.users') }}</h1>
 <table class="table table-hover">
     <thead>
-        <th>Username</th>
-        <th>Orders</th>
-        <th>Balance</th>
+        <th>Name</th>
+        <th>Picture</th>
+        <th>Code</th>
+        <th>Fingerprint</th>
+        <th>Language</th>
+        <th>Profile</th>
+        <th>isAdmin</th>
+        <th>isWebEnabled</th>
+        <th>isEntryEnabled</th>
+        <th>isEmployee</th>
+        <th>email</th>
+        <th>password</th>
     </thead>
     <tbody>
 
     @foreach($users as $user)
         <tr>
-            <td>{{$user->username}} </td>
-            <td>{{$user->purchases}} </td>
-            <td>{{$user->balance}} </td>
+            <td>{{$user->name}} </td>
+            <td>{{$user->picture}} </td>
+            <td>{{$user->code}} </td>
+            <td>{{$user->fingerprint}} </td>
+            <td>{{$user->language}} </td>
+            <td>{{$user->profile}} </td>
+            <td>{{$user->isAdmin}} </td>
+            <td>{{$user->isWebEnabled}} </td>
+            <td>{{$user->isEntryEnabled}} </td>
+            <td>{{$user->isEmplyee}} </td>
+            <td>{{$user->email}} </td>
+            <td>{{$user->password}} </td>
         </tr>
     @endforeach
     </tbody>

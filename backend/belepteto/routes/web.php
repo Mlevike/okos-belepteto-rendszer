@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Resources\ValidateResource;
@@ -28,7 +29,8 @@ Route::get('/logs', function () {
 
 //A felhasználók oldalhoz tartozó útvonal
 Route::get('/users', function () {
-    return view('users');
+    //return view('users');
+    return view('users', ['users' => User::all()]);
 })->middleware('auth');
 
 //A kártya validációhoz tartozó útvonal
