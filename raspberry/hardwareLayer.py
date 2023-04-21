@@ -14,7 +14,6 @@ from argon2 import PasswordHasher
 
 #internalCardDetected = False #Létrehozunk egy globális változót a belső kártyaérintés érzékelésére
 
-
 #Definiáljuk a LED pineket
 
 redPin = 12
@@ -46,8 +45,13 @@ GPIO.setup(greenPin,GPIO.OUT) #Zöld LED pin kimenetre állítása
 GPIO.setup(bluePin,GPIO.OUT) #Kék LED pin kimenetre állítása
 GPIO.output(relay, GPIO.HIGH) #Relé alapállapotba állítása
 
+<<<<<<< Updated upstream
 #Inicializáljuk a jelszó hashelőt
 ph = PasswordHasher()
+=======
+def Authenticate(): #Ez az argon2 hash alapú autentikációért felelős függvény
+    
+>>>>>>> Stashed changes
 
 def SetLedColor(color):
     if color == "red": #Piros szín esetén
