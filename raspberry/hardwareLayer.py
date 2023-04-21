@@ -95,7 +95,7 @@ def GetIsHere(uid): #UID alapján itt létet lekérő metódus
 
 def SendLog(uid, successful, entry): #Logot mentő metódus
     URL = "http://okos-belepteto.eu/log.php?uid=" + str(uid) + "&successful=" + str(successful) + "&entry=" + str(entry)
-    r = requests.get(URL)
+    #r = requests.get(URL)
     print("SendLog(): " + str(r.status_code))
     return r.status_code
 
