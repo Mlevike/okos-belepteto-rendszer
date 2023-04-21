@@ -36,10 +36,14 @@ Route::get('/users', function () {
 //A kártya validációhoz tartozó útvonal
 //Ez még csak ideiglenes, a végleges változatban majd az adatbázisból kéri le az információkat
 Route::get('/validate/{uid}', function() {
+    //Az uid beolvasása a kérésből
     $uid = Route::input('uid');
-    if($uid == '16722ba2') {
-        return response()->json(['code' => '0000', 'isHere' => 'false']);
-    }else {
+    //A megfelelő cardID-val rendelkező user kiválasztása
+    $user = User::where('cardId', $uid)->first();
+    if ($user == '' or $user == null){
         return response()->json(['code' => '', 'isHere' => '']);
+    }else{
+        return response()->json(['code' => $user->code, 'isHere' => 'false']);
     }
+
 });
