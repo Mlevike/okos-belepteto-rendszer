@@ -35,7 +35,7 @@
             <td>{{$user->isAdmin}} </td>
             <td>{{$user->isWebEnabled}} </td>
             <td>{{$user->isEntryEnabled}} </td>
-            <td>{{$user->isEmplyee}} </td>
+            <td>{{$user->isEmployee}} </td>
             <td>{{$user->email}} </td>
             <td>{{$user->password}} </td>
         </tr>
