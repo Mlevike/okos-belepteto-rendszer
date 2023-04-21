@@ -10,7 +10,7 @@ import time
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 import requests
-import bcrypt
+import argon2
 
 #internalCardDetected = False #Létrehozunk egy globális változót a belső kártyaérintés érzékelésére
 
