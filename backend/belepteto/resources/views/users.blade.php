@@ -21,6 +21,7 @@
         <th>isEmployee</th>
         <th>email</th>
         <th>password</th>
+        <th>cardId</th>
     </thead>
     <tbody>
 
@@ -38,6 +39,7 @@
             <td>{{$user->isEmployee}} </td>
             <td>{{$user->email}} </td>
             <td>{{$user->password}} </td>
+            <td>{{$user->cardId}} </td>
         </tr>
     @endforeach
     </tbody>
