@@ -7,21 +7,22 @@
 <body>
 @include('header')
 <h1>{{ __('site.users') }}</h1>
-<table class="table table-hover">
-    <thead>
-        <th>Name</th>
-        <th>Picture</th>
-        <th>Code</th>
-        <th>Fingerprint</th>
-        <th>Language</th>
-        <th>Profile</th>
-        <th>isAdmin</th>
-        <th>isWebEnabled</th>
-        <th>isEntryEnabled</th>
-        <th>isEmployee</th>
-        <th>email</th>
-        <th>password</th>
-        <th>cardId</th>
+<div class="table-responsive" style="margin: 0px 10px 0px 10px;">
+    <table class="table table-hover">
+        <thead>
+            <th>{{ __('site.name') }}</th>
+            <th>{{ __('site.picture') }}</th>
+            <th>{{ __('site.code') }}</th>
+            <th>{{ __('site.fingerprint') }}</th>
+            <th>{{ __('site.language') }}</th>
+            <th>{{ __('site.profile') }}</th>
+            <th>{{ __('site.isAdmin') }}</th>
+            <th>{{ __('site.isWebEnabled') }}</th>
+            <th>{{ __('site.isEntryEnabled') }}</th>
+            <th>{{ __('site.isEmployee') }}</th>
+            <th>{{ __('auth.email') }}</th>
+            <th>{{ __('auth.password') }}</th>
+            <th>{{ __('site.cardId') }}</th>
     </thead>
     <tbody>
 
@@ -29,20 +30,49 @@
         <tr>
             <td>{{$user->name}} </td>
             <td>{{$user->picture}} </td>
-            <td>{{$user->code}} </td>
+            <td>
+                <i class="bi bi-pencil-square"></i>
+            </td>
             <td>{{$user->fingerprint}} </td>
             <td>{{$user->language}} </td>
             <td>{{$user->profile}} </td>
-            <td>{{$user->isAdmin}} </td>
-            <td>{{$user->isWebEnabled}} </td>
-            <td>{{$user->isEntryEnabled}} </td>
-            <td>{{$user->isEmployee}} </td>
+            <td>
+                @if($user->isAdmin)
+                    <i class="bi bi-check-square-fill" style="color: green"></i>
+                @else
+                    <i class="bi bi-x-square-fill" style="color: red"></i>
+                @endif
+            </td>
+            <td>
+                @if($user->isWebEnabled)
+                    <i class="bi bi-check-square-fill" style="color: green"></i>
+                @else
+                    <i class="bi bi-x-square-fill" style="color: red"></i>
+                @endif
+            </td>
+            <td>
+                @if($user->isEntryEnabled)
+                    <i class="bi bi-check-square-fill" style="color: green"></i>
+                @else
+                    <i class="bi bi-x-square-fill" style="color: red"></i>
+                @endif
+            </td>
+            <td>
+                @if($user->isEmployee)
+                    <i class="bi bi-check-square-fill" style="color: green"></i>
+                @else
+                    <i class="bi bi-x-square-fill" style="color: red"></i>
+                @endif
+            </td>
             <td>{{$user->email}} </td>
-            <td>{{$user->password}} </td>
+            <td>
+                <i class="bi bi-pencil-square"></i>
+            </td>
             <td>{{$user->cardId}} </td>
         </tr>
     @endforeach
-    </tbody>
+        </tbody>
 </table>
+</div>
 </body>
 </html>
