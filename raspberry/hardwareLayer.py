@@ -97,8 +97,8 @@ def SendLog(uid, successful, entry): #Logot mentő metódus
     URL = "http://okos-belepteto.eu/log.php?uid=" + str(uid) + "&successful=" + str(successful) + "&entry=" + str(entry)
     #r = requests.get(URL)
     r = 0 #Ideiglenes megldás, hogy ne boruljon meg a szoftver
-    print("SendLog(): " + str(r.status_code))
-    return r.status_code
+    #print("SendLog(): " + str(r.status_code)) #Ideiglenesen eltávolítva
+    #return r.status_code #Ideiglenesen eltávolítva
 
 def ShortBeep(): #Rövid csippanást lejátszó metódus
     for i in range(600):
