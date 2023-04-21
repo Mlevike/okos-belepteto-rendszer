@@ -45,13 +45,14 @@ GPIO.setup(greenPin,GPIO.OUT) #Zöld LED pin kimenetre állítása
 GPIO.setup(bluePin,GPIO.OUT) #Kék LED pin kimenetre állítása
 GPIO.output(relay, GPIO.HIGH) #Relé alapállapotba állítása
 
-<<<<<<< Updated upstream
 #Inicializáljuk a jelszó hashelőt
 ph = PasswordHasher()
-=======
-def Authenticate(): #Ez az argon2 hash alapú autentikációért felelős függvény
-    
->>>>>>> Stashed changes
+
+def Authenticate(fetchedCode, code): #Ez az argon2 hash alapú autentikációért felelős függvény
+    try:
+        return ph.verify(fetchedCode, str(code))
+    except:
+        return False
 
 def SetLedColor(color):
     if color == "red": #Piros szín esetén
@@ -136,7 +137,6 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
         LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
         LcdSendString("Kerem a kartyat!") #LCD-re írunk
         while True:
-
             if connection.inWaiting() != 0: #Ha van bejövő üzenet a soros porton, akkor azt beolvassuk
                 data = connection.readline().decode("utf-8") #Pontosabban itt olvassuk be
                 rx = json.loads(data) #Json belvasása
@@ -171,7 +171,7 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                                     if rx.get("event") == "code_given": #Ha kód érkezik
                                         code = rx.get("code") #Kiolvassuk a kódot a json adatszerkezetből
                                         kodbeiras = False #Megjött a kód, már nem kell várni rá
-                        if ph.verify(fetchedCode, str(code)):
+                        if Authenticate(fetchedCode, code):
                             #SendLog(uid, 1, 1) #Meghívjuk a logoló metódust
                             LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                             LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
