@@ -1,2 +1,2 @@
 pyserial==3.5
-argon2==0.1.10
+argon2-cffi==21.3.0
