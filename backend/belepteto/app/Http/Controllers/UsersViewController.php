@@ -17,11 +17,7 @@ class UsersViewController extends Controller
         ]);
     }
 
-    /* public function showAllUsers(): View{
-         return view('/users', ['user' => User::all()]);
+     public function add(){
+         return view('users.add', ['user' => User::all()]);
      }
-
-     public function addUser(): View{
-         return view('/add', ['user' => User::all()]);
-     }*/
 }

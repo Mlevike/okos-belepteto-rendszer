@@ -4,6 +4,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Resources\ValidateResource;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,20 +28,11 @@ Route::get('/logs', function () {
     return view('logs');
 })->middleware('auth');
 
-//A felhasználók oldalhoz tartozó útvonal
-/*Route::get('/users', function () {
-    return view('users', ['users' => User::all()]);
-})->middleware('auth');*/
+//A felhasználók oldalhoz tartozó útvonalak
 
-Route::resource('users', App\Http\Controllers\UsersViewController::class)->middleware('auth');
+Route::get('/users', 'App\Http\Controllers\UsersViewController@index')->middleware('auth');
+Route::get('/users/add', 'App\Http\Controllers\UsersViewController@add')->middleware('auth');
 
-/*Route::get('/users/add', function (Request $request) {
-    /*if($request->all() > 0){
-        return view('adduser', ['users' => User::all(), 'errors' => ""]);
-    }else{
-        return view('adduser', ['users' => User::all(), 'errors' => ""]);
-    //}
-})->middleware('auth');*/
 
 //A kártya validációhoz tartozó útvonal
 //Ez még csak ideiglenes, a végleges változatban majd az adatbázisból kéri le az információkat
@@ -56,3 +48,4 @@ Route::get('/validate/{uid}', function() {
     }
 
 });
+
