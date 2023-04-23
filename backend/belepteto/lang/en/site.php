@@ -28,4 +28,7 @@ return [
     'isEntryEnabled' => "Has entry permission?",
     'isEmployee' => "Employee?",
     'cardId' => "Card ID",
+    'options' => "Options",
+    'addUser' => "Add new user",
+    'cancel' => "Cancel",
 ];

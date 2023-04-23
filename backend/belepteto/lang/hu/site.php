@@ -28,4 +28,7 @@ return [
     'isEntryEnabled' => "Van belépési jogosultsága?",
     'isEmployee' => "Alkalmazott?",
     'cardId' => "Kártya azosítója",
+    'options' => "Opciók",
+    'addUser' => "Felhasználó hozzáadása",
+    'cancel' => "Mégsem",
 ];

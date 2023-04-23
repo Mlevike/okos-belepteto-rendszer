@@ -33,6 +33,11 @@ Route::get('/users', function () {
     return view('users', ['users' => User::all()]);
 })->middleware('auth');
 
+Route::get('/users/add', function () {
+    //return view('users');
+    return view('adduser', ['users' => User::all()]);
+})->middleware('auth');
+
 //A kártya validációhoz tartozó útvonal
 //Ez még csak ideiglenes, a végleges változatban majd az adatbázisból kéri le az információkat
 Route::get('/validate/{uid}', function() {

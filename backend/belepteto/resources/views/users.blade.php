@@ -23,6 +23,7 @@
             <th>{{ __('auth.email') }}</th>
             <th>{{ __('auth.password') }}</th>
             <th>{{ __('site.cardId') }}</th>
+            <th>{{ __('site.options') }}</th>
     </thead>
     <tbody>
 
@@ -69,10 +70,16 @@
                 <i class="bi bi-pencil-square"></i>
             </td>
             <td>{{$user->cardId}} </td>
+            <td style="width: 100px"> <!--Egyenlőre így jó, de lehet hogy később változtatni kell rajta!-->
+                <i class="bi bi-trash3-fill" style="color: red"></i>
+                <i class="bi bi-pencil-square"></i>
+                <i class="bi bi-eye-fill"></i>
+            </td>
         </tr>
     @endforeach
         </tbody>
 </table>
+    <a type="button" class="btn btn-primary" href="/users/add" role="button">{{ __('site.addUser') }}</a>
 </div>
 </body>
 </html>
