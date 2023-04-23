@@ -8,6 +8,7 @@
 @include('header')
 <main>
     <h1>{{ __('site.addUser') }}</h1>
+    <p>{{ $errors }}</p>
     <a type="button" class="btn btn-primary" href="/users/add" role="button">{{ __('site.addUser') }}</a>
     <a type="button" class="btn btn-danger" href="/users" role="button">{{ __('site.cancel') }}</a>
 </main>

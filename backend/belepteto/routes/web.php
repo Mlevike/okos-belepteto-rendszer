@@ -28,15 +28,19 @@ Route::get('/logs', function () {
 })->middleware('auth');
 
 //A felhasználók oldalhoz tartozó útvonal
-Route::get('/users', function () {
-    //return view('users');
+/*Route::get('/users', function () {
     return view('users', ['users' => User::all()]);
-})->middleware('auth');
+})->middleware('auth');*/
 
-Route::get('/users/add', function () {
-    //return view('users');
-    return view('adduser', ['users' => User::all()]);
-})->middleware('auth');
+Route::resource('users', App\Http\Controllers\UsersViewController::class)->middleware('auth');
+
+/*Route::get('/users/add', function (Request $request) {
+    /*if($request->all() > 0){
+        return view('adduser', ['users' => User::all(), 'errors' => ""]);
+    }else{
+        return view('adduser', ['users' => User::all(), 'errors' => ""]);
+    //}
+})->middleware('auth');*/
 
 //A kártya validációhoz tartozó útvonal
 //Ez még csak ideiglenes, a végleges változatban majd az adatbázisból kéri le az információkat
