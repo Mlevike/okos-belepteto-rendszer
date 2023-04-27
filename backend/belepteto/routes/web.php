@@ -32,6 +32,7 @@ Route::get('/logs', function () {
 
 Route::get('/users', 'App\Http\Controllers\UsersViewController@index')->middleware('auth');
 Route::get('/users/add', 'App\Http\Controllers\UsersViewController@add')->middleware('auth');
+Route::get('/users/delete', 'App\Http\Controllers\UsersViewController@add')->middleware('auth');
 
 
 //A kártya validációhoz tartozó útvonal
