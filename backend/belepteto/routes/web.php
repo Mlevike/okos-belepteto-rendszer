@@ -31,8 +31,10 @@ Route::get('/logs', function () {
 //A felhasználók oldalhoz tartozó útvonalak
 
 Route::get('/users', 'App\Http\Controllers\UsersViewController@index')->middleware('auth');
-Route::get('/users/add', 'App\Http\Controllers\UsersViewController@add')->middleware('auth');
-Route::get('/users/delete', 'App\Http\Controllers\UsersViewController@add')->middleware('auth');
+//Route::match(['get', 'post'], '/users/add', 'App\Http\Controllers\UsersViewController@add')->middleware('auth');
+Route::get('/users/add', 'App\Http\Controllers\UsersViewController@add')->middleware('auth'); //Ezt majd később lehet egy sorba is írni!
+Route::post('/users/add', 'App\Http\Controllers\UsersViewController@add')->middleware('auth');
+Route::match(['get', 'post'],'/users/delete/', 'App\Http\Controllers\UsersViewController@delete')->middleware('auth');
 
 
 //A kártya validációhoz tartozó útvonal
