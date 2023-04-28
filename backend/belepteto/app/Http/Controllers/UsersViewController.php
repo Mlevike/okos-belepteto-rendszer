@@ -38,9 +38,6 @@ class UsersViewController extends Controller
 
     public function delete(Request $request){
         User::find($request->id)->delete();
-        $users = User::all();
-        return view('users')->with([
-            'users' => $users
-        ]);
+        return redirect('/users')->with('status', 'Felhasználó törölve!');
     }
 }

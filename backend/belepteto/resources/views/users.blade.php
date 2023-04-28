@@ -71,13 +71,15 @@
             </td>
             <td>{{$user->cardId}} </td>
             <td style="width: 100px"> <!--Egyenlőre így jó, de lehet hogy később változtatni kell rajta!-->
-                <form action="/users/delete" method="post">
-                    @csrf
-                    <input type="hidden" value="{{$user->id}}" name="id">
-                    <button type="submit"><i class="bi bi-trash3-fill" style="color: red"></i></button>
-                </form>
-                <i class="bi bi-pencil-square"></i>
-                <i class="bi bi-eye-fill"></i>
+                <div class="btn-group" role="group">
+                    <form action="/users/delete" method="post">
+                        @csrf
+                        <input type="hidden" value="{{$user->id}}" name="id">
+                        <button type="submit" class="btn btn-secondary"><i class="bi bi-trash3-fill" style="color: red"></i></button>
+                    </form>
+                    <button type="button" class="btn btn-secondary"><i class="bi bi-pencil-square"></i></button>
+                    <button type="button" class="btn btn-secondary"><i class="bi bi-eye-fill"></i></button>
+                </div>
             </td>
         </tr>
     @endforeach
