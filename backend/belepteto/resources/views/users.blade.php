@@ -71,7 +71,11 @@
             </td>
             <td>{{$user->cardId}} </td>
             <td style="width: 100px"> <!--Egyenlőre így jó, de lehet hogy később változtatni kell rajta!-->
-                <a href="/users/delete"><i class="bi bi-trash3-fill" style="color: red"></i></a>
+                <form action="/users/delete" method="post">
+                    @csrf
+                    <input type="hidden" value="{{$user->id}}" name="id">
+                    <button type="submit"><i class="bi bi-trash3-fill" style="color: red"></i></button>
+                </form>
                 <i class="bi bi-pencil-square"></i>
                 <i class="bi bi-eye-fill"></i>
             </td>

@@ -36,8 +36,8 @@ class UsersViewController extends Controller
          //return view('users.add', ['user' => User::all(), 'error' => "Külső"]);
      }
 
-    public function delete(){
-        //User::find(2)->delete();
+    public function delete(Request $request){
+        User::find($request->id)->delete();
         $users = User::all();
         return view('users')->with([
             'users' => $users
