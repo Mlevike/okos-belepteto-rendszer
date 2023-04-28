@@ -15,4 +15,4 @@ jobs:
         username: git@mlevente.hu
         password: ${{ secrets.FTP_PASSWORD }}
         server-dir: /
-        local-dir: ./backend/belepteto
+        local-dir: ./backend/belepteto/
