@@ -1,0 +1,17 @@
+on: push
+name: FTP Automation
+jobs:
+  web-deploy:
+    name: FTP Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get latest code...
+      uses: actions/checkout@v3
+    
+    - name: Sync files...
+      uses: SamKirkland/FTP-Deploy-Action@4.3.3
+      with:
+        server: mlevente.hu
+        username: git@mlevente.hu
+        password: ${{ secrets.FTP_PASSWORD }}
+        server-dir: /
