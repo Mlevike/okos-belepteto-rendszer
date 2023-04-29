@@ -78,14 +78,14 @@
                         <button type="submit" class="btn btn-primary"><i class="bi bi-trash3-fill" style="color: red"></i></button>
                     </form>
                     <a type="button" class="btn btn-primary" href="users/edit/{{$user->id}}" role="button"><i class="bi bi-pencil-square"></i></a>
-                    <button type="button" class="btn btn-primary"><i class="bi bi-eye-fill"></i></button>
+                    <button type="button" class="btn btn-primary invisible"><i class="bi bi-eye-fill"></i></button> <!--Ideiglenesen láthatatlanná téve-->
                 </div>
             </td>
         </tr>
     @endforeach
         </tbody>
 </table>
-    <a type="button" class="btn btn-primary" href="users/add" role="button">{{ __('site.addUser') }}</a>
+    <a type="button" class="btn btn-primary" href="{{ route('users-add') }}" role="button">{{ __('site.addUser') }}</a>
 </div>
 </body>
 </html>
