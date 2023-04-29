@@ -30,5 +30,6 @@ return [
     'cardId' => "Card ID",
     'options' => "Options",
     'addUser' => "Add new user",
+    'editUser' => 'Edit user',
     'cancel' => "Cancel",
 ];

@@ -30,5 +30,6 @@ return [
     'cardId' => "Kártya azosítója",
     'options' => "Opciók",
     'addUser' => "Felhasználó hozzáadása",
+    'editUser' => 'Felhasználó szerkesztése',
     'cancel' => "Mégsem",
 ];

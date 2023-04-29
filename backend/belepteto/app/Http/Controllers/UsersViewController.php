@@ -40,7 +40,8 @@ class UsersViewController extends Controller
      public function edit(Request $request, string $userId){
 
          if ($request->isMethod('GET')){
-             return view('users.edit', ['user' => User::all(), 'errors' => "", "userId" => $userId]);
+             $user = User::findOrFail($request->userId);
+             return view('users.edit', ['user' => User::all(), 'errors' => "", "user" => $user]);
          }
          if ($request->isMethod('POST'))
          {
