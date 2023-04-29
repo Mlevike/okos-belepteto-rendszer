@@ -57,14 +57,14 @@ class UsersViewController extends Controller
     public function delete(Request $request){
         //Felhasználó törlése, ezt majd lehet hogy rövidebben kéne megvalósítani!
         $user = User::findOrFail($request->id);
-        $user->name = "Törölt felhasználó";
-        $user->email = 0;
+        $user->name = "deleted_user_" . (string)$user->id;
+        $user->email = "deleted_user_" . (string)$user->id;
         $user->password = 0;
         $user->picture = 0;
         $user->code = 0;
         $user->fingerprint = 0;
         $user->language = 0;
-        $user->profile = 0;
+        $user->profile = "deleted_user_" . (string)$user->id;
         $user->isAdmin = 0;
         $user->isWebEnabled = 0;
         $user->isEntryEnabled = 0;

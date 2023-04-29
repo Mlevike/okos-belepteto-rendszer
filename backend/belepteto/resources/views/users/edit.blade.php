@@ -39,7 +39,7 @@
             <p>{{ __('site.cardId') }}: </p>
             <input type="text" class="form-control" id="cardId" name="cardId">
             <button type="submit" class="btn btn-primary"  >{{ __('site.addUser') }}</button>
-            <a type="button" class="btn btn-danger" href="/users" role="button">{{ __('site.cancel') }}</a>
+            <a type="button" class="btn btn-danger" href="users" role="button">{{ __('site.cancel') }}</a>
         </form>
 </main>
 </body>
