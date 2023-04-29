@@ -55,7 +55,9 @@ class UsersViewController extends Controller
      }
 
     public function delete(Request $request){
-        User::find($request->id)->name = "Törölt felhasnáló";
+        $user = User::findOrFail($request->id);
+        $user->name = "Törölt felhasnáló";
+        $user->save();
         User::find($request->id)->delete();
         return redirect('/users')->with('status', 'Felhasználó törölve!');
     }
