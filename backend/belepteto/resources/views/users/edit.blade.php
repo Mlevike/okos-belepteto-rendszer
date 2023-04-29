@@ -25,7 +25,7 @@
             <input type="text" class="form-control" id="profile" name="profile" value="{{ $user->profile }}">
             <p> </p>
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="isAdminSwitch" {{  $user->isAdmin  ? 'checked' : '' }}>
+                <input class="form-check-input" type="checkbox" role="switch" id="isAdminSwitch" name="isAdmin" {{  $user->isAdmin  ? 'checked' : '' }}>
                 <label class="form-check-label" for="isAdminSwitch">{{ __('site.isAdmin') }}</label>
             </div>
             <div class="form-check form-switch">
@@ -33,7 +33,7 @@
                 <label class="form-check-label" for="isWebEnabledSwitch">{{ __('site.isWebEnabled') }}</label>
             </div>
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="isEntryEnabledSwitch" {{  $user->isEntryEnabled  ? 'checked' : '' }}>
+                <input class="form-check-input" type="checkbox" role="switch" id="isEntryEnabledSwitch" name="isEntryEnabled" {{  $user->isEntryEnabled  ? 'checked' : '' }}>
                 <label class="form-check-label" for="isEntryEnabledSwitch">{{ __('site.isEntryEnabled') }}</label>
             </div>
             <div class="form-check form-switch">

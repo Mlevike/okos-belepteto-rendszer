@@ -28,7 +28,7 @@ class UsersViewController extends Controller
          {
              if(($request->filled('name')) and ($request->filled('email')) and  ($request->filled('password'))){
                  User::create(['name'=> $request->name, 'email'=> $request->email, 'email_verified_at'=> now(), 'password'=> Hash::make($request->password, ['memory' => 1024, 'time' => 2, 'threads' => 2,]), 'picture'=>'', 'code'=>Hash::make('1111', ['memory' => 1024, 'time' => 2, 'threads' => 2,]), 'fingerprint'=>'', 'language'=>'en', 'profile'=>'Kártya2', 'isAdmin'=> false, 'isWebEnabled'=> false, 'isEntryEnabled'=> true, 'isEmployee'=> false, 'cardId' =>'724b41f
-']);             return redirect('/users')->with('status', 'Felhasználó törölve!');
+']);             return redirect(route('users'))->with('status', 'Felhasználó törölve!');
              }else{
                  return view('users.add', ['user' => User::all(), 'errors' => "A csillagal jelölt mezők kitöltése kötelező!"]);
              }
@@ -46,8 +46,50 @@ class UsersViewController extends Controller
          if ($request->isMethod('POST'))
          {
              if(($request->filled('name')) and ($request->filled('email')) and  ($request->filled('password'))){
-                 User::create(['name'=> $request->name, 'email'=> $request->email, 'email_verified_at'=> now(), 'password'=> Hash::make($request->password, ['memory' => 1024, 'time' => 2, 'threads' => 2,]), 'picture'=>'', 'code'=>Hash::make('1111', ['memory' => 1024, 'time' => 2, 'threads' => 2,]), 'fingerprint'=>'', 'language'=>'en', 'profile'=>'Kártya2', 'isAdmin'=> false, 'isWebEnabled'=> false, 'isEntryEnabled'=> true, 'isEmployee'=> false, 'cardId' =>'724b41f
-']);             return redirect('/users')->with('status', 'Felhasználó törölve!');
+                 $user = User::findOrFail($request->userId); //Felhasználó módosítás, ezt majd lehet, hogy egyszerűbben is mbeg lehet oldani! Illetve, most még hiányos is!
+                 if($request->filled('name')) { //Az if-ek azért szükségesek, hogy meggyőződjunk affelől, hogy a lekérésben szerepel az általunk változtatni kívánt attribútum!
+                     $user->name = $request->name;
+                 }
+                 if($request->filled('email')) {
+                     $user->email = $request->email;
+                 }
+                 if($request->filled('picture')) {
+                     $user->picture = $request->picture;
+                 }
+                 if($request->filled('fingerprint')) {
+                     $user->fingerprint = $request->fingerprint;
+                 }
+                 if($request->filled('language')) {
+                     $user->language = $request->language;
+                 }
+                 if($request->filled('profile')) {
+                     $user->profile = $request->profile;
+                 }
+                 if($request->filled('isAdmin')) {
+                     if($request->isAdmin === 'on'){
+                         $user->isAdmin = true; //Ezért azért kell, mert a kapcsoló on értéket ad vissza!
+                     }else{
+                         $user->isAdmin = false;
+                     }
+                 }
+                 if($request->filled('isWebEnabled')) {
+                     $user->isWebEnabled = $request->isWebEnabled;
+                 }
+                 if($request->filled('isEntryEnabled')) {
+                     if($request->isEntryEnabled === 'on'){
+                         $user->isEntryEnabled = true; //Ezért azért kell, mert a kapcsoló on értéket ad vissza!
+                     }else{
+                         $user->isEntryEnabled = false;
+                     }
+                 }
+                 if($request->filled('isEmployee')) {
+                     $user->isEmployee = $request->isEmployee;
+                 }
+                 if($request->filled('cardId')) {
+                     $user->cardId = $request->cardId;
+                 }
+                 $user->save();
+                 return redirect(route('users'))->with('status', 'Felhasználó módosítva!');
              }else{
                  return view('users.edit', ['user' => User::all(), 'errors' => "A csillagal jelölt mezők kitöltése kötelező!"]);
              }
@@ -73,6 +115,6 @@ class UsersViewController extends Controller
         $user->cardId = 0;
         $user->save();
         User::find($request->id)->delete();
-        return redirect('/users')->with('status', 'Felhasználó törölve!');
+        return redirect(route('users'))->with('status', 'Felhasználó törölve!');
     }
 }
