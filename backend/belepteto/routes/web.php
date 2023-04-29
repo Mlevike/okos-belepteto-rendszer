@@ -36,8 +36,8 @@ Route::get('users', 'App\Http\Controllers\UsersViewController@index')->middlewar
 Route::get('users/add', 'App\Http\Controllers\UsersViewController@add')->middleware('auth'); //Ezt majd később lehet egy sorba is írni!
 Route::post('users/add', 'App\Http\Controllers\UsersViewController@add')->middleware('auth');
 
-Route::get('users/edit/{id}', 'App\Http\Controllers\UsersViewController@edit')->middleware('auth'); //Ezt majd később lehet egy sorba is írni!
-Route::post('users/edit/{id}', 'App\Http\Controllers\UsersViewController@edit')->middleware('auth');
+Route::get('users/edit/{userId}', 'App\Http\Controllers\UsersViewController@edit')->middleware('auth'); //Ezt majd később lehet egy sorba is írni!
+Route::post('users/edit/{userId}', 'App\Http\Controllers\UsersViewController@edit')->middleware('auth');
 
 Route::match(['get', 'post'],'users/delete/', 'App\Http\Controllers\UsersViewController@delete')->middleware('auth');
 

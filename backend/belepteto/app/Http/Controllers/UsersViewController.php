@@ -37,10 +37,10 @@ class UsersViewController extends Controller
          //return view('users.add', ['user' => User::all(), 'error' => "Külső"]);
      }
 
-     public function edit(Request $request){
+     public function edit(Request $request, string $userId){
 
          if ($request->isMethod('GET')){
-             return view('users.edit', ['user' => User::all(), 'errors' => "", "userId" => $id]);
+             return view('users.edit', ['user' => User::all(), 'errors' => "", "userId" => $userId]);
          }
          if ($request->isMethod('POST'))
          {
