@@ -11,7 +11,8 @@ class UsersViewController extends Controller
 {
     public function index()
     {
-        $users = User::all();
+        $users = User::All();
+        $users = $users;
 
         return view('users')->with([
             'users' => $users

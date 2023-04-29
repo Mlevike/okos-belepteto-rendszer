@@ -72,7 +72,7 @@
             <td>{{$user->cardId}} </td>
             <td style="width: 100px"> <!--Egyenlőre így jó, de lehet hogy később változtatni kell rajta!-->
                 <div class="btn-group" role="group">
-                    <form action="/users/delete" method="post">
+                    <form action="users/delete" method="post">
                         @csrf
                         <input type="hidden" value="{{$user->id}}" name="id">
                         <button type="submit" class="btn btn-secondary"><i class="bi bi-trash3-fill" style="color: red"></i></button>
@@ -85,7 +85,7 @@
     @endforeach
         </tbody>
 </table>
-    <a type="button" class="btn btn-primary" href="/users/add" role="button">{{ __('site.addUser') }}</a>
+    <a type="button" class="btn btn-primary" href="users/add" role="button">{{ __('site.addUser') }}</a>
 </div>
 </body>
 </html>
