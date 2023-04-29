@@ -21,28 +21,28 @@ use App\Http\Resources\ValidateResource;
 //Vezérlőpulthoz tartozó útvonal
 Route::get('', function () {
     return view('dashboard');
-})->middleware('auth');
+})->middleware('auth')->name('dashboard');
 
 //A logok oldalhoz tartozó útvonal
 Route::get('logs', function () {
     return view('logs');
-})->middleware('auth');
+})->middleware('auth')->name('logs');
 
 //A felhasználók oldalhoz tartozó útvonalak
 
-Route::get('users', 'App\Http\Controllers\UsersViewController@index')->middleware('auth');
+Route::get('users', 'App\Http\Controllers\UsersViewController@index')->middleware('auth')->name('users');
 //Route::match(['get', 'post'], '/users/add', 'App\Http\Controllers\UsersViewController@add')->middleware('auth');
 
-Route::get('users/add', 'App\Http\Controllers\UsersViewController@add')->middleware('auth'); //Ezt majd később lehet egy sorba is írni!
-Route::post('users/add', 'App\Http\Controllers\UsersViewController@add')->middleware('auth');
+Route::get('users/add', 'App\Http\Controllers\UsersViewController@add')->middleware('auth')->name('users-add'); //Ezt majd később lehet egy sorba is írni!
+Route::post('users/add', 'App\Http\Controllers\UsersViewController@add')->middleware('auth')->name('users-add');
 
-Route::get('users/edit/{userId}', 'App\Http\Controllers\UsersViewController@edit')->middleware('auth'); //Ezt majd később lehet egy sorba is írni!
-Route::post('users/edit/{userId}', 'App\Http\Controllers\UsersViewController@edit')->middleware('auth');
+Route::get('users/edit/{userId}', 'App\Http\Controllers\UsersViewController@edit')->middleware('auth')->name('users-edit'); //Ezt majd később lehet egy sorba is írni!
+Route::post('users/edit/{userId}', 'App\Http\Controllers\UsersViewController@edit')->middleware('auth')->name('users-edit');
 
-Route::match(['get', 'post'],'users/delete/', 'App\Http\Controllers\UsersViewController@delete')->middleware('auth');
+Route::match(['get', 'post'],'users/delete/', 'App\Http\Controllers\UsersViewController@delete')->middleware('auth')->name('users-delete');
 
 
-//A kártya validációhoz tartozó útvonal
+//A kártya validációhoz tartozó útvonalm ennek egyenéőre nem adunk nevet!
 //Ez még csak ideiglenes, a végleges változatban majd az adatbázisból kéri le az információkat
 Route::get('validate/{uid}', function() {
     //Az uid beolvasása a kérésből

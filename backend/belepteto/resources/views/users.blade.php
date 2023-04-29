@@ -75,10 +75,10 @@
                     <form action="users/delete" method="post">
                         @csrf
                         <input type="hidden" value="{{$user->id}}" name="id">
-                        <button type="submit" class="btn btn-secondary"><i class="bi bi-trash3-fill" style="color: red"></i></button>
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-trash3-fill" style="color: red"></i></button>
                     </form>
-                    <button type="button" class="btn btn-secondary"><i class="bi bi-pencil-square"></i></button>
-                    <button type="button" class="btn btn-secondary"><i class="bi bi-eye-fill"></i></button>
+                    <a type="button" class="btn btn-primary" href="users/edit/{{$user->id}}" role="button"><i class="bi bi-pencil-square"></i></a>
+                    <button type="button" class="btn btn-primary"><i class="bi bi-eye-fill"></i></button>
                 </div>
             </td>
         </tr>
