@@ -85,7 +85,7 @@
     @endforeach
         </tbody>
 </table>
-    <a type="button" class="btn btn-primary" href="{{ route('users-add') }}" role="button">{{ __('site.addUser') }}</a>
 </div>
+    <a type="button" class="btn btn-primary" href="{{ route('users-add') }}" role="button">{{ __('site.addUser') }}</a>
 </body>
 </html>
