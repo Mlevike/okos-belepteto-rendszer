@@ -55,8 +55,21 @@ class UsersViewController extends Controller
      }
 
     public function delete(Request $request){
+        //Felhasználó törlése, ezt majd lehet hogy rövidebben kéne megvalósítani!
         $user = User::findOrFail($request->id);
-        $user->name = "Törölt felhasnáló";
+        $user->name = "Törölt felhasználó";
+        unset($user->email);
+        unset($user->password);
+        unset($user->picture);
+        unset($user->code);
+        unset($user->fingerprint);
+        unset($user->language);
+        unset($user->profile);
+        unset($user->isAdmin);
+        unset($user->isWebEnabled);
+        unset($user->isEntryEnabled);
+        unset($user->isEmployee);
+        unset($user->cardId);
         $user->save();
         User::find($request->id)->delete();
         return redirect('/users')->with('status', 'Felhasználó törölve!');
