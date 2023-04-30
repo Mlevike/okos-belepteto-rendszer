@@ -10,6 +10,7 @@
 <div class="table-responsive" style="margin: 0px 10px 0px 10px;">
     <table class="table table-hover">
         <thead>
+            <th>#</th>
             <th>{{ __('site.name') }}</th>
             <th>{{ __('site.picture') }}</th>
             <th>{{ __('site.code') }}</th>
@@ -29,6 +30,7 @@
 
     @foreach($users as $user)
         <tr>
+            <td>{{$user->id}} </td>
             <td>{{$user->name}} </td>
             <td>{{$user->picture}} </td>
             <td>
