@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Log;
 
 use App\Http\Resources\ValidateResource;
 
@@ -15,6 +16,13 @@ use App\Http\Resources\ValidateResource;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
+//A felhasználó nyelvi beállításának alkalmazása
+//Ellenőrizzük azt, hogy a felhasználó authentikálva, van-e? Ezt is majd lehet, hogy egyszerűbben is meg lehet oldani!
+$user = User::findOrFail(1); //Ez egyenlőre nem teljesen működőlépes
+App::setLocale($user->language);
+
 
 //Itt találhatóak a különböző nézetekhez tartozó útvonal definiciók
 
