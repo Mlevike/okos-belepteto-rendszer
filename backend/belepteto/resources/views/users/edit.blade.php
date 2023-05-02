@@ -9,6 +9,7 @@
 <main>
     <h1>{{ __('site.editUser') }}</h1>
         <p>{{ $errors }}</p>
+        <!--A felhasználó szerkeztésére szolgáló form-->
         <form action="" method="post">
             @csrf
             <p>{{ __('site.name') }}:* </p>
@@ -24,12 +25,13 @@
             <p>{{ __('site.profile') }}: </p>
             <input type="text" class="form-control" id="profile" name="profile" value="{{ $user->profile }}">
             <p> </p>
+            <!--A felhasználó jogosultságait szabályozó kapcsolók-->
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" role="switch" id="isAdminSwitch" name="isAdmin" {{  $user->isAdmin  ? 'checked' : '' }}>
                 <label class="form-check-label" for="isAdminSwitch">{{ __('site.isAdmin') }}</label>
             </div>
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="isWebEnabledSwitch" {{  $user->isWebEnabled  ? 'checked' : '' }}>
+                <input class="form-check-input" type="checkbox" role="switch" id="isWebEnabledSwitch" name="isWebEnabled" {{  $user->isWebEnabled  ? 'checked' : '' }}>
                 <label class="form-check-label" for="isWebEnabledSwitch">{{ __('site.isWebEnabled') }}</label>
             </div>
             <div class="form-check form-switch">
@@ -37,7 +39,7 @@
                 <label class="form-check-label" for="isEntryEnabledSwitch">{{ __('site.isEntryEnabled') }}</label>
             </div>
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="isEmployeeSwitch" {{  $user->isEmployee  ? 'checked' : '' }}>
+                <input class="form-check-input" type="checkbox" role="switch" id="isEmployeeSwitch" name="isEmployee" {{  $user->isEmployee  ? 'checked' : '' }}>
                 <label class="form-check-label" for="isEmployeeSwitch">{{ __('site.isEmployee') }}</label>
             </div>
             <p>{{ __('auth.email') }}:* </p>

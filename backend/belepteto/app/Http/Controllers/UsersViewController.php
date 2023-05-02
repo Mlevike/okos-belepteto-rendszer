@@ -66,24 +66,25 @@ class UsersViewController extends Controller
                      $user->profile = $request->profile;
                  }
                  if($request->filled('isAdmin')) {
-                     if($request->isAdmin === 'on'){
-                         $user->isAdmin = true; //Ezért azért kell, mert a kapcsoló on értéket ad vissza!
-                     }else{
+
+                         $user->isAdmin = true;
+                 }else{
                          $user->isAdmin = false;
-                     }
                  }
                  if($request->filled('isWebEnabled')) {
-                     $user->isWebEnabled = $request->isWebEnabled;
+                     $user->isWebEnabled = true;
+                 }else{
+                     $user->isWebEnabled = false;
                  }
                  if($request->filled('isEntryEnabled')) {
-                     if($request->isEntryEnabled === 'on'){
-                         $user->isEntryEnabled = true; //Ezért azért kell, mert a kapcsoló on értéket ad vissza!
-                     }else{
-                         $user->isEntryEnabled = false;
-                     }
+                     $user->isEntryEnabled = true;
+                 }else{
+                     $user->isEntryEnabled = false;
                  }
                  if($request->filled('isEmployee')) {
-                     $user->isEmployee = $request->isEmployee;
+                     $user->isEmployee = true;
+                 }else{
+                     $user->isEmployee = false;
                  }
                  if($request->filled('cardId')) {
                      $user->cardId = $request->cardId;
