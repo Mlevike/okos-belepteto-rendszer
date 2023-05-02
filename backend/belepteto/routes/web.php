@@ -4,6 +4,7 @@ use App\Models\User;
 use \App\Models\History;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 
 use App\Http\Resources\ValidateResource;
 
@@ -65,5 +66,10 @@ Route::get('validate/{uid}', function() {
         return response()->json(['code' => $user->code, 'isHere' => 'false']);
     }
 
+});
+
+//A belépési kísérletek logolására szolgáló útvonal, ezt majd lehet, hogy máshogy kell megcsinálni
+Route::get('log', function (Request $request){
+    return response()->json(['code' => $request->has('successful'), 'isHere' => '']);
 });
 
