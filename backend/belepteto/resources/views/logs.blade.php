@@ -7,5 +7,7 @@
 <body>
 @include('header')
 <h1>{{ __('site.logs') }}</h1>
+<h2>{{ __('site.user_logs') }}</h2>
+<h2>{{ __('site.system_logs') }}</h2>
 </body>
 </html>

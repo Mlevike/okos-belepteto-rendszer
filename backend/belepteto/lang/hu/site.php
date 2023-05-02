@@ -32,4 +32,6 @@ return [
     'addUser' => "Felhasználó hozzáadása",
     'editUser' => 'Felhasználó szerkesztése',
     'cancel' => "Mégsem",
+    'user_logs' => "Felhasználókkal kapcsolatos logok",
+    'system_logs' => "Rendszerrel kapcsolatos logok"
 ];

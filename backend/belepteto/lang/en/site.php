@@ -32,4 +32,6 @@ return [
     'addUser' => "Add new user",
     'editUser' => 'Edit user',
     'cancel' => "Cancel",
+    'user_logs' => "User logs",
+    'system_logs' => "System logs",
 ];
