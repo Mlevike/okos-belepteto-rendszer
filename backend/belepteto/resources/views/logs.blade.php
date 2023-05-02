@@ -8,6 +8,35 @@
 @include('header')
 <h1>{{ __('site.logs') }}</h1>
 <h2>{{ __('site.user_logs') }}</h2>
+<!--A felhasználókkal kapcsolatos logok megjelenítése táblázatos formában-->
+<div class="table-responsive" style="margin: 0px 10px 0px 10px;">
+    <table class="table table-hover">
+        <thead>
+            <th>#</th>
+            <th>Direction</th>
+            <th>Successful?</th>
+            <th>arriveTime</th>
+            <th>leaveTime</th>
+            <th>workTime</th>
+        </thead>
+        <tbody>
+    @foreach($history as $current)
+            <tr>
+                <td>{{$current->id}}</td>
+                <td>{{$current->direction}}</td>
+                <td> @if($current->successful)
+                        <i class="bi bi-check-square-fill" style="color: green"></i>
+                    @else
+                        <i class="bi bi-x-square-fill" style="color: red"></i>
+                    @endif</td>
+                <td>{{$current->arriveTime}}</td>
+                <td>{{$current->leaveTime}}</td>
+                <td>{{$current->workTime}}</td>
+            </tr>
+    @endforeach
+        </tbody>
+    </table>
+</div>
 <h2>{{ __('site.system_logs') }}</h2>
 </body>
 </html>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use \App\Models\History;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
 
@@ -33,7 +34,8 @@ Route::get('', function () {
 
 //A logok oldalhoz tartozó útvonal
 Route::get('logs', function () {
-    return view('logs');
+    $history = History::all();
+    return view('logs', ["history"=>$history]);
 })->middleware('auth')->name('logs');
 
 //A felhasználók oldalhoz tartozó útvonalak
