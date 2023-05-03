@@ -13,6 +13,8 @@
     <table class="table table-hover">
         <thead>
             <th>#</th>
+            <th>Kártya azonosító</th>
+            <th>Név</th>
             <th>Direction</th>
             <th>Successful?</th>
             <th>arriveTime</th>
@@ -23,6 +25,14 @@
     @foreach($history as $current)
             <tr>
                 <td>{{$current->id}}</td>
+                <td>{{$current->card_id}}</td>
+                <td>
+                    @foreach($users as $user)
+                        @if($user->id === $current->user_id) <!--Ez lehet, hogy nem a legoptimálisabb megolldás,de egyenlőre nem találtam jobbat!-->
+                            {{$user->name}}
+                        @endif
+                    @endforeach
+                </td>
                 <td>{{$current->direction}}</td>
                 <td> @if($current->successful)
                         <i class="bi bi-check-square-fill" style="color: green"></i>

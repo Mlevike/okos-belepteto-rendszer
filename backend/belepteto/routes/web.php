@@ -36,7 +36,8 @@ Route::get('', function () {
 //A logok oldalhoz tartozó útvonal
 Route::get('logs', function () {
     $history = History::all();
-    return view('logs', ["history"=>$history]);
+    $users = User::all();
+    return view('logs', ["history"=>$history, "users"=>$users]);
 })->middleware('auth')->name('logs');
 
 //A felhasználók oldalhoz tartozó útvonalak
