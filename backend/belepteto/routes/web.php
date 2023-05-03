@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Models\Settings;
 use \App\Models\History;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
@@ -75,4 +76,20 @@ Route::get('log', function (Request $request){
         $user = User::where('cardId', $request->uid)->first(); //Lekérjük a felhasználó azonosítóját kártya azonosító alapján
         History::create(['card_id' => $request->uid, 'user_id' => $user === null ? null : $user->id, 'direction' => $request->entry ? 'in' : 'out', 'successful' => $request->successful, 'arriveTime' => $request->entry ? now() : null, 'leaveTime' => $request->entry ? null : now(), 'workTime' => null]);
     }});
+
+//A telepítésnél történő kártyabeolvasáshoz használt útvonal
+
+Route::get('setup', function(Request $request){ //Egyemlőre még csak a kártyaazonosítóval működik
+    if($request->has('fingerprint') or $request->has('cardId')){
+        if(is_null(Settings::where('setting_name', 'setup_cardId'))){
+            Settings::create(['setting_name'=>'setup_cardId', 'setting_value'=>'']);
+            $setupVar = Settings::all()->where('setting_name', 'setup_cardId');
+        }else{
+            $setupVar = Settings::all()->where('setting_name', 'setup_cardId');
+        }
+        $setupVar->setup_cardId = $request->cardId;
+        return $setupVar;
+        //$setupVar->save();
+    }
+});
 

@@ -21,6 +21,7 @@
             <th>{{ __('site.isWebEnabled') }}</th>
             <th>{{ __('site.isEntryEnabled') }}</th>
             <th>{{ __('site.isEmployee') }}</th>
+            <th>{{ __('site.isHere') }}</th>
             <th>{{ __('auth.email') }}</th>
             <th>{{ __('auth.password') }}</th>
             <th>{{ __('site.cardId') }}</th>
@@ -66,6 +67,8 @@
                 @else
                     <i class="bi bi-x-square-fill" style="color: red"></i>
                 @endif
+            </td>
+            <td>
             </td>
             <td>{{$user->email}} </td>
             <td>
