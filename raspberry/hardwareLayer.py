@@ -3,6 +3,7 @@
 #Fontos azt megjegyezni, hogy az olvasótól kért muvelet csak a kártya hozzáérintése után fut le!
 
 #Beimprtáljuk a szükséges könyvtárakat
+import os
 import json
 import serial
 import threading
@@ -11,6 +12,11 @@ import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 import requests
 from argon2 import PasswordHasher
+from dotenv import load_dotenv
+
+#Betöltjük a .env file-t
+
+load_dotenv()
 
 #internalCardDetected = False #Létrehozunk egy globális változót a belső kártyaérintés érzékelésére
 
@@ -30,7 +36,9 @@ connection = serial.Serial(port=interface, baudrate=9600) #Létrehozunk egy soro
 connection.reset_input_buffer() #Töröljük a soros buffert a tiszta indulás érdekében
 
 #Beállítjuk a kártya validálás linkjét
-validateUrl = "http://192.168.1.223:8000/validate/"
+validateUrl = "https://mlevente.hu/belepteto/public/validate/"
+logUrl = "https://mlevente.hu/belepteto/public/log"
+
 
 #Inicializájuk a Buzzer globális változóit 
 buzzer = 7 #Kimeneti pin
@@ -80,25 +88,25 @@ def TriggerRelay(): #Relét kapcsoló metódus
 def GetCode(uid): #UID alapján kódot lekérő metódus
     URL = validateUrl + uid
     print(URL)
-    r = requests.get(URL)
+    r = requests.get(URL, auth=(os.getenv('SERVER_USERNAME'), os.getenv('SERVER_PW')))
     print("GetCode(): " + str(r.status_code))
     j = json.loads(json.dumps(r.json()))
     return j.get("code")
 
 def GetIsHere(uid): #UID alapján itt létet lekérő metódus
     URL = validateUrl + uid
-    r = requests.get(URL)
+    r = requests.get(URL, auth=(os.getenv('SERVER_USERNAME'), os.getenv('SERVER_PW')))
     print("GetIsHere(): " + str(r.status_code))
     j = json.loads(json.dumps(r.json()))
     return j.get("isHere")
 
 
 def SendLog(uid, successful, entry): #Logot mentő metódus
-    URL = "http://okos-belepteto.eu/log.php?uid=" + str(uid) + "&successful=" + str(successful) + "&entry=" + str(entry)
-    #r = requests.get(URL)
-    r = 0 #Ideiglenes megldás, hogy ne boruljon meg a szoftver
-    #print("SendLog(): " + str(r.status_code)) #Ideiglenesen eltávolítva
-    #return r.status_code #Ideiglenesen eltávolítva
+    URL = logUrl + "?uid=" + str(uid) + "&successful=" + str(successful) + "&entry=" + str(entry)
+    print(URL) #Teszteléshez
+    r = requests.get(URL, auth=(os.getenv('SERVER_USERNAME'), os.getenv('SERVER_PW')))
+    print("SendLog(): " + str(r.status_code))
+    return r.status_code
 
 def ShortBeep(): #Rövid csippanást lejátszó metódus
     for i in range(600):
@@ -173,7 +181,7 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                                         code = rx.get("code") #Kiolvassuk a kódot a json adatszerkezetből
                                         kodbeiras = False #Megjött a kód, már nem kell várni rá
                         if Authenticate(fetchedCode, code):
-                            #SendLog(uid, 1, 1) #Meghívjuk a logoló metódust
+                            SendLog(uid, 1, 1) #Meghívjuk a logoló metódust
                             LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                             LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
                             LcdSendString("Elfogadva") #LCD-re írunk
@@ -181,7 +189,7 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                             time.sleep(1) #Késleltetünk azért, hogy olvasható legyen a felirat
                             break
                         else:
-                            #SendLog(uid, 0, 1) #Meghívjuk a logoló metódust
+                            SendLog(uid, 0, 1) #Meghívjuk a logoló metódust
                             LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                             LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
                             LcdSendString("Elutasitva") #LCD-re írunk
