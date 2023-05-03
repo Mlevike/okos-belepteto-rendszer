@@ -72,8 +72,6 @@ Route::get('validate/{uid}', function() {
 Route::get('log', function (Request $request){
     if($request->has('successful') and $request->has('uid') and $request->has('entry')) {
         $user = User::where('cardId', $request->uid)->first(); //Lekérjük a felhasználó azonosítóját kártya azonosító alapján
-        if($user !== null) {
-                History::create(['card_id' => $request->uid, 'user_id' => $user->id, 'direction' => $request->entry ? 'in' : 'out', 'successful' => $request->successful, 'arriveTime' => $request->entry ? now() : null, 'leaveTime' => $request->entry ? null : now(), 'workTime' => null]);
-            }
+        History::create(['card_id' => $request->uid, 'user_id' => $user === null ? null : $user->id, 'direction' => $request->entry ? 'in' : 'out', 'successful' => $request->successful, 'arriveTime' => $request->entry ? now() : null, 'leaveTime' => $request->entry ? null : now(), 'workTime' => null]);
     }});
 

@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('history', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('history', function (Blueprint $table) {
+            $table->integer('user_id')->unsigned()->nullable()->change();
         });
     }
 
@@ -22,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('history');
+        Schema::table('history', function (Blueprint $table) {
+            $table->integer('user_id')->unsigned()->nullable(false)->change();
+        });
     }
 };
