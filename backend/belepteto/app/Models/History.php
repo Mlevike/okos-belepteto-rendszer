@@ -26,6 +26,7 @@ class History extends Model
         'leaveTime',
         'workTime',
         'direction',
-        'user_id'
+        'user_id',
+        'card_id'
     ];
 }

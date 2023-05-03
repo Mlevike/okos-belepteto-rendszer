@@ -70,6 +70,10 @@ Route::get('validate/{uid}', function() {
 
 //A belépési kísérletek logolására szolgáló útvonal, ezt majd lehet, hogy máshogy kell megcsinálni
 Route::get('log', function (Request $request){
-    return response()->json(['code' => $request->has('successful'), 'isHere' => '']);
-});
+    if($request->has('successful') and $request->has('uid') and $request->has('entry')) {
+        $user = User::where('cardId', $request->uid)->first(); //Lekérjük a felhasználó azonosítóját kártya azonosító alapján
+        if($user !== null) {
+                History::create(['card_id' => $request->uid, 'user_id' => $user->id, 'direction' => $request->entry ? 'in' : 'out', 'successful' => $request->successful, 'arriveTime' => $request->entry ? now() : null, 'leaveTime' => $request->entry ? null : now(), 'workTime' => null]);
+            }
+    }});
 
