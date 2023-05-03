@@ -28,13 +28,8 @@
                 <td>{{$current->card_id}}</td>
                 <td>
                     @foreach($users as $user)
-                        {{$user->id}}
-                        {{$current->user_id}}
-                        @if($user->id === $current->user_id) <!--Ez lehet, hogy nem a legoptimálisabb megoldás,de egyenlőre nem találtam jobbat!-->
-                            {{$user->id}}
-                            {{$current->user_id}}
-                            {{$user->name}}
-                        @endif
+                        {{"User ID: ".$user->id}}
+                        {{"History User ID: ".$current->user_id}}
                     @endforeach
                 </td>
                 <td>{{$current->direction}}</td>
