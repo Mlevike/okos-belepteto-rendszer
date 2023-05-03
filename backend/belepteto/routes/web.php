@@ -80,16 +80,14 @@ Route::get('log', function (Request $request){
 //A telepítésnél történő kártyabeolvasáshoz használt útvonal
 
 Route::get('setup', function(Request $request){ //Egyemlőre még csak a kártyaazonosítóval működik
+    $cardId = Settings::all()->where('setting_name', 'setup_cardId');
     if($request->has('fingerprint') or $request->has('cardId')){
-        if(is_null(Settings::where('setting_name', 'setup_cardId'))){
+        if($cardId->isEmpty()){
             Settings::create(['setting_name'=>'setup_cardId', 'setting_value'=>'']);
-            $setupVar = Settings::all()->where('setting_name', 'setup_cardId');
+            Settings::all()->where('setting_name', 'setup_cardId')->setting_value = $request->cardId;
         }else{
-            $setupVar = Settings::all()->where('setting_name', 'setup_cardId');
+            Settings::all()->where('setting_name', 'setup_cardId')->setting_value = $request->cardId;
         }
-        $setupVar->setup_cardId = $request->cardId;
-        return $setupVar;
-        //$setupVar->save();
     }
 });
 
