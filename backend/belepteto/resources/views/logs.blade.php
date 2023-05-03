@@ -30,7 +30,7 @@
                     @foreach($users as $user)
                         {{"User ID: ".$user->id}}
                         {{"History User ID: ".$current->user_id}}
-                        @if($user->id === $current->user_id) <!--Ez lehet, hogy nem a legoptimálisabb megoldás,de egyenlőre nem találtam jobbat!-->
+                        @if($user->id == $current->user_id) <!--Ez lehet, hogy nem a legoptimálisabb megoldás,de egyenlőre nem találtam jobbat!-->
                             " Egyezés van..!"
                         @endif
                     @endforeach
