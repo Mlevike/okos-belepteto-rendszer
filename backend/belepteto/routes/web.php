@@ -84,9 +84,9 @@ Route::get('setup', function(Request $request){ //Egyemlőre még csak a kártya
     if($request->has('fingerprint') or $request->has('cardId')){
         if($cardId->isEmpty()){
             Settings::create(['setting_name'=>'setup_cardId', 'setting_value'=>'']);
-            Settings::all()->where('setting_name', 'setup_cardId')->setting_value = $request->cardId;
+            Settings::all()->where('setting_name', 'setup_cardId')->setting_value = $request->cardId->save();
         }else{
-            Settings::all()->where('setting_name', 'setup_cardId')->setting_value = $request->cardId;
+            Settings::all()->where('setting_name', 'setup_cardId')->setting_value = $request->cardId->save();
         }
     }
 });
