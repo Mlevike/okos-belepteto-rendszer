@@ -89,6 +89,9 @@ class UsersViewController extends Controller
                  if($request->filled('cardId')) {
                      $user->cardId = $request->cardId;
                  }
+                 if($request->filled('code')) {
+                     $user->code = Hash::make($request->code, ['memory' => 1024, 'time' => 2, 'threads' => 2,]);
+                 }
                  $user->save();
                  return redirect(route('users'))->with('status', 'Felhasználó módosítva!');
              }else{
