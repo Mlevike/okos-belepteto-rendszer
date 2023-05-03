@@ -28,6 +28,8 @@
                 <td>{{$current->card_id}}</td>
                 <td>
                     @foreach($users as $user)
+                        {{$user->id}}
+                        {{$current->user_id}}
                         @if($user->id === $current->user_id) <!--Ez lehet, hogy nem a legoptimálisabb megoldás,de egyenlőre nem találtam jobbat!-->
                             {{$user->id}}
                             {{$current->user_id}}
