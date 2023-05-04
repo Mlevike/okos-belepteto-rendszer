@@ -236,13 +236,13 @@ try:
         while True:
             ExternalAuthentication() #Elindítjuk az Authentikáció
     else:
-        print("Telepítési mód")
+        print("Telepítési mód:")
         print("--------------")
         LcdClearScreen() #Töröljük az LCD kijelző tartalmát
         LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
         LcdSendString("TELEPITESI MOD") #LCD-re írunk
-        LcdGoto(0, 0) #A kurzort a második sor első pontjára állítjuk
-        LcdSendString("Kerem a kartyat...") #LCD-re írunk
+        LcdGoto(1, 0) #A kurzort a második sor első pontjára állítjuk
+        LcdSendString("Kerem a kartyat!") #LCD-re írunk
         while True:
             if connection.inWaiting() != 0: #Ha van bejövő üzenet a soros porton, akkor azt beolvassuk
                 data = connection.readline().decode("utf-8") #Pontosabban itt olvassuk be
@@ -250,6 +250,7 @@ try:
                 if rx.get("type") == "event": #Ha történik valamilyen esemény a külső olvasón
                     if rx.get("event") == "card_detected": #Ha kártyát érintenek az olvasóhoz
                         uid = rx.get("uid") #Kiolvassuk az uid-t
+
                         URL = setupUrl + "?cardId=" + uid
                         r = requests.get(URL, auth=(os.getenv('SERVER_USERNAME'), os.getenv('SERVER_PW')))
                         print("SeneSetup(): " + str(r.status_code))       
