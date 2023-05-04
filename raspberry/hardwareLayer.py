@@ -258,22 +258,20 @@ try:
                         URL = setupUrl + "?cardId=" + uid
                         r = requests.get(URL, auth=(os.getenv('SERVER_USERNAME'), os.getenv('SERVER_PW'))) #Végrehajtjuk a lekérdezést
                         print("Kommunikáció a szerverrel", end=' ') #Kommunikálunk a felhasználóval
-                        if str(r.status_code) == 200:
-                            print("[OK]") #Siker esetén
+                        if r.status_code == 200:
+                            print("[OK] (" + str(r.status_code) + ")") #Siker esetén
                             LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                             LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
                             LcdSendString("TELEPITESI MOD") #LCD-re írunk
                             LcdGoto(1, 0) #A kurzort a második sor első pontjára állítjuk
-                            LcdSendString("OK") #LCD-re írunk
-                            time.sleep(1) #Várunk egy másodpercet
+                            LcdSendString("OK (" + str(r.status_code) + ")" ) #LCD-re írunk
                         else:
-                            print("[HIBA]") #Sikertelenség esetén
+                            print("[HIBA] (" + str(r.status_code) + ")") #Sikertelenség esetén
                             LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                             LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
                             LcdSendString("TELEPITESI MOD") #LCD-re írunk
                             LcdGoto(1, 0) #A kurzort a második sor első pontjára állítjuk
-                            LcdSendString("HIBA") #LCD-re írunk
-                            time.sleep(1) #Várunk egy másodpercet
+                            LcdSendString("HIBA (" + str(r.status_code) + ")") #LCD-re írunk
 finally:
     LcdClearScreen()
     GPIO.cleanup() #Visszaállítjuk kiinduló állapotba a kimeneteket
