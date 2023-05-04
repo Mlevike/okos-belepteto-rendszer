@@ -80,13 +80,19 @@ Route::get('log', function (Request $request){
 //A telepítésnél történő kártyabeolvasáshoz használt útvonal
 
 Route::get('setup', function(Request $request){ //Egyemlőre még csak a kártyaazonosítóval működik
-    $cardId = Settings::all()->where('setting_name', 'setup_cardId');
     if($request->has('fingerprint') or $request->has('cardId')){
-        if($cardId->isEmpty()){
+        if(Settings::all()->where('setting_name', 'setup_cardId')->isEmpty()){
             Settings::create(['setting_name'=>'setup_cardId', 'setting_value'=>'']);
-            Settings::all()->where('setting_name', 'setup_cardId')->setting_value = $request->cardId->save();
+            $cardId = Settings::all()->where('setting_name', 'setup_cardId')->first();
+            //return "Létrehozva, ".Settings::all()->where('setting_name', 'setup_cardId')->id;
+            //Settings::all()->where('setting_name', 'setup_cardId')->setting_value = $request->cardId;
+            $cardId->setting_value = $request->cardId;
+            $cardId->save();
+
         }else{
-            Settings::all()->where('setting_name', 'setup_cardId')->setting_value = $request->cardId->save();
+            $cardId = Settings::all()->where('setting_name', 'setup_cardId')->first();
+            $cardId->setting_value = $request->cardId;
+            $cardId->save();
         }
     }
 });
