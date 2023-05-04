@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UsersViewController extends Controller
 {
@@ -20,25 +21,28 @@ class UsersViewController extends Controller
     }
 
      public function add(Request $request){
-
+         if(Auth::user()->isAdmin) {
          if ($request->isMethod('GET')){
             return view('users.add', ['user' => User::all(), 'errors' => ""]);
         }
          if ($request->isMethod('POST'))
          {
-             if(($request->filled('name')) and ($request->filled('email')) and  ($request->filled('password'))){
-                 User::create(['name'=> $request->name, 'email'=> $request->email, 'email_verified_at'=> now(), 'password'=> Hash::make($request->password, ['memory' => 1024, 'time' => 2, 'threads' => 2,]), 'picture'=>'', 'code'=>Hash::make('1111', ['memory' => 1024, 'time' => 2, 'threads' => 2,]), 'fingerprint'=>'', 'language'=>'en', 'profile'=>'Kártya2', 'isAdmin'=> false, 'isWebEnabled'=> false, 'isEntryEnabled'=> true, 'isEmployee'=> false, 'cardId' =>'724b41f
-']);             return redirect(route('users'))->with('status', 'Felhasználó törölve!');
-             }else{
-                 return view('users.add', ['user' => User::all(), 'errors' => "A csillagal jelölt mezők kitöltése kötelező!"]);
-             }
 
+                 if (($request->filled('name')) and ($request->filled('email')) and ($request->filled('password'))) {
+                     User::create(['name' => $request->name, 'email' => $request->email, 'email_verified_at' => now(), 'password' => Hash::make($request->password, ['memory' => 1024, 'time' => 2, 'threads' => 2,]), 'picture' => '', 'code' => Hash::make('1111', ['memory' => 1024, 'time' => 2, 'threads' => 2,]), 'fingerprint' => '', 'language' => 'en', 'profile' => 'Kártya2', 'isAdmin' => false, 'isWebEnabled' => false, 'isEntryEnabled' => true, 'isEmployee' => false, 'cardId' => '724b41f
+']);
+                     return redirect(route('users'))->with('status', 'Felhasználó törölve!');
+                 } else {
+                     return view('users.add', ['user' => User::all(), 'errors' => "A csillagal jelölt mezők kitöltése kötelező!"]);
+                 }
+             }
+         }else{
+             return view('error', [ 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users')]);
          }
-         //return view('users.add', ['user' => User::all(), 'error' => "Külső"]);
      }
 
      public function edit(Request $request, string $userId){
-
+         if(Auth::user()->isAdmin) {
          if ($request->isMethod('GET')){
              $user = User::findOrFail($request->userId);
              return view('users.edit', ['user' => User::all(), 'errors' => "", "user" => $user]);
@@ -99,9 +103,13 @@ class UsersViewController extends Controller
              }
 
          }
+         }else{
+             return view('error', [ 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users')]);
+         }
      }
 
     public function delete(Request $request){
+        if(Auth::user()->isAdmin) {
         //Felhasználó törlése, ezt majd lehet hogy rövidebben kéne megvalósítani!
         $user = User::findOrFail($request->id);
         $user->name = "deleted_user_" . (string)$user->id;
@@ -120,5 +128,8 @@ class UsersViewController extends Controller
         $user->save();
         User::find($request->id)->delete();
         return redirect(route('users'))->with('status', 'Felhasználó törölve!');
+        }else{
+            return view('error', [ 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users')]);
+        }
     }
 }
