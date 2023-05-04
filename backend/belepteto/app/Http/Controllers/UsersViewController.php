@@ -14,16 +14,19 @@ class UsersViewController extends Controller
     {
         $users = User::All();
         $users = $users;
+        $current_user = Auth::user();
 
         return view('users')->with([
-            'users' => $users
+            'users' => $users,
+            'current_user' => $current_user
         ]);
     }
 
      public function add(Request $request){
-         if(Auth::user()->isAdmin) {
+         $current_user = Auth::user();
+         if($current_user->isAdmin) {
          if ($request->isMethod('GET')){
-            return view('users.add', ['user' => User::all(), 'errors' => ""]);
+            return view('users.add', ['user' => User::all(), 'errors' => "", 'current_user'=> $current_user]);
         }
          if ($request->isMethod('POST'))
          {
@@ -33,19 +36,20 @@ class UsersViewController extends Controller
 ']);
                      return redirect(route('users'))->with('status', 'Felhasználó törölve!');
                  } else {
-                     return view('users.add', ['user' => User::all(), 'errors' => "A csillagal jelölt mezők kitöltése kötelező!"]);
+                     return view('users.add', ['user' => User::all(), 'errors' => "A csillagal jelölt mezők kitöltése kötelező!", 'current_user'=>$current_user]);
                  }
              }
          }else{
-             return view('error', [ 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users')]);
+             return view('error', [ 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users'), 'current_user'=>$current_user]);
          }
      }
 
      public function edit(Request $request, string $userId){
-         if(Auth::user()->isAdmin) {
+        $current_user = Auth::user();
+         if($current_user->isAdmin) {
          if ($request->isMethod('GET')){
              $user = User::findOrFail($request->userId);
-             return view('users.edit', ['user' => User::all(), 'errors' => "", "user" => $user]);
+             return view('users.edit', ['user' => User::all(), 'errors' => "", "user" => $user, 'current_user'=>$current_user]);
          }
          if ($request->isMethod('POST'))
          {
@@ -99,17 +103,18 @@ class UsersViewController extends Controller
                  $user->save();
                  return redirect(route('users'))->with('status', 'Felhasználó módosítva!');
              }else{
-                 return view('users.edit', ['user' => User::all(), 'errors' => "A csillagal jelölt mezők kitöltése kötelező!"]);
+                 return view('users.edit', ['user' => User::all(), 'errors' => "A csillagal jelölt mezők kitöltése kötelező!", 'current_user'=>$current_user]);
              }
 
          }
          }else{
-             return view('error', [ 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users')]);
+             return view('error', [ 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users'), 'current_user'=>$current_user]);
          }
      }
 
     public function delete(Request $request){
-        if(Auth::user()->isAdmin) {
+        $current_user = Auth::user();
+        if($current_user->isAdmin) {
         //Felhasználó törlése, ezt majd lehet hogy rövidebben kéne megvalósítani!
         $user = User::findOrFail($request->id);
         $user->name = "deleted_user_" . (string)$user->id;
@@ -129,7 +134,7 @@ class UsersViewController extends Controller
         User::find($request->id)->delete();
         return redirect(route('users'))->with('status', 'Felhasználó törölve!');
         }else{
-            return view('error', [ 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users')]);
+            return view('error', [ 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users'), 'current_user'=>$current_user]);
         }
     }
 }

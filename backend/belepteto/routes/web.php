@@ -3,6 +3,7 @@
 use App\Models\User;
 use App\Models\Settings;
 use \App\Models\History;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
@@ -31,20 +32,25 @@ App::setLocale($user->language);
 
 //Vezérlőpulthoz tartozó útvonal
 Route::get('', function () {
-    return view('dashboard');
+    $current_user = Auth::user(); //Jelenleg bejelentkezett felhasználó adatainak lekérése
+    return view('dashboard', ['current_user'=>$current_user]);
 })->middleware('auth')->name('dashboard');
 
 //A logok oldalhoz tartozó útvonal
 Route::get('logs', function () {
     $history = History::all();
     $users = User::all();
-    return view('logs', ["history"=>$history, "users"=>$users]);
+    $current_user = Auth::user(); //Jelenleg bejelentkezett felhasználó adatainak lekérése
+    if($current_user->isAdmin or $current_user->isEmployee) {
+        return view('logs', ["history" => $history, "users" => $users, "current_user" => $current_user]);
+    }else{
+        return view('error', [ 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users')]); //Ez majd lehet, hogy máshová irányít át később
+    }
 })->middleware('auth')->name('logs');
 
 //A felhasználók oldalhoz tartozó útvonalak
 
-Route::get('users', 'App\Http\Controllers\UsersViewController@index')->middleware('auth')->name('users');
-//Route::match(['get', 'post'], '/users/add', 'App\Http\Controllers\UsersViewController@add')->middleware('auth');
+Route::get('users', 'App\Http\Controllers\UsersViewController@index')->middleware('auth')->name('users'); //A felhasználók listázásához vezető útvonal linkje
 
 Route::get('users/add', 'App\Http\Controllers\UsersViewController@add')->middleware('auth')->name('users-add'); //Ezt majd később lehet egy sorba is írni!
 Route::post('users/add', 'App\Http\Controllers\UsersViewController@add')->middleware('auth')->name('users-add');
@@ -52,7 +58,7 @@ Route::post('users/add', 'App\Http\Controllers\UsersViewController@add')->middle
 Route::get('users/edit/{userId}', 'App\Http\Controllers\UsersViewController@edit')->middleware('auth')->name('users-edit'); //Ezt majd később lehet egy sorba is írni!
 Route::post('users/edit/{userId}', 'App\Http\Controllers\UsersViewController@edit')->middleware('auth')->name('users-edit');
 
-Route::match(['get', 'post'],'users/delete/', 'App\Http\Controllers\UsersViewController@delete')->middleware('auth')->name('users-delete');
+Route::match(['get', 'post'],'users/delete/', 'App\Http\Controllers\UsersViewController@delete')->middleware('auth')->name('users-delete'); //A felhasználók törléséhez vezető útvonal linkje
 
 
 //A kártya validációhoz tartozó útvonalm ennek egyenéőre nem adunk nevet!

@@ -5,7 +5,7 @@
 @include('head')
 </head>
 <body>
-@include('header')
+@include('header', ['current_user'=>$current_user])
 <h1>{{ __('site.dashboard') }}</h1>
 </body>
 </html>

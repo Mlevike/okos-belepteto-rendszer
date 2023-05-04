@@ -5,7 +5,7 @@
 @include('head')
 </head>
 <body>
-@include('header')
+@include('header', ['$current_user'=>$current_user])
 <h1>{{ __('site.logs') }}</h1>
 <h2>{{ __('site.user_logs') }}</h2>
 <!--A felhasználókkal kapcsolatos logok megjelenítése táblázatos formában-->
@@ -47,6 +47,8 @@
         </tbody>
     </table>
 </div>
+@if($current_user->isAdmin)
 <h2>{{ __('site.system_logs') }}</h2>
+@endif
 </body>
 </html>
