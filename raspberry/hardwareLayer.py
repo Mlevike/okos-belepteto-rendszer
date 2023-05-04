@@ -8,6 +8,7 @@ import json
 import serial
 import threading
 import time
+import sys
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 import requests
@@ -19,6 +20,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 #internalCardDetected = False #Létrehozunk egy globális változót a belső kártyaérintés érzékelésére
+
+print(len(sys.argv))
+print(sys.argv[0])
 
 #Definiáljuk a LED pineket
 
