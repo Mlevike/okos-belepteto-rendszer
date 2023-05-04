@@ -21,8 +21,11 @@ load_dotenv()
 
 #internalCardDetected = False #Létrehozunk egy globális változót a belső kártyaérintés érzékelésére
 
-print(len(sys.argv))
-print(sys.argv[0])
+#Ellenőrizzük azt, hogy telepítési módban indul-e az olvasó?
+setupMode = False #Ha a telapítési módhoz szükséges argumentumot megkapjuk, akkor ezt átállítjuk True-ra
+if len(sys.argv) == 2: #Ha az argumentumok száma 2
+    if sys.argv[1] == "setup": #Ha a 2. argumentum értéke setup, akkor... 
+        setupMode = True #Átállítjuk a változó értékét True-ra
 
 #Definiáljuk a LED pineket
 
@@ -228,8 +231,12 @@ TriggerRelay() #Csak tesztelés miatt van itt!
 try:
     #internalReadThread = threading.Thread(target=InternalAuthentication) #Létrehozunk egy háttér folyamatot a belső olvasó kártyadetektálásához
     #internalReadThread.start() #Elindítjuk a belső olvasó háttérfolyamatát
-    while True:
-        ExternalAuthentication() #Elindítjuk az Authentikáció
+    if not(setupMode):
+        while True:
+            ExternalAuthentication() #Elindítjuk az Authentikáció
+    else:
+        print("Telepítési mód")
+        print("--------------")
 finally:
     LcdClearScreen()
     GPIO.cleanup() #Visszaállítjuk kiinduló állapotba a kimeneteket
