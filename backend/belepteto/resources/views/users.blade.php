@@ -94,7 +94,7 @@
                         <button type="submit" class="btn btn-primary"><i class="bi bi-trash3-fill" style="color: red"></i></button>
                     </form>
                     <a type="button" class="btn btn-primary" href="{{ route('users-edit', [$userId = $user->id]) }}" role="button"><i class="bi bi-pencil-square"></i></a>
-                    <button type="button" class="btn btn-primary disabled"><i class="bi bi-eye-fill"></i></button> <!--Ideiglenesen láthatatlanná téve-->
+                    <a type="button" class="btn btn-primary" href="{{ route('users-show', [$userId = $user->id]) }}" role="button"><i class="bi bi-eye-fill"></i></a>
                 </div>
             </td>
             @endif

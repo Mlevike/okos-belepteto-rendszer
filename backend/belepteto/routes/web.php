@@ -58,6 +58,8 @@ Route::post('users/add', 'App\Http\Controllers\UsersViewController@add')->middle
 Route::get('users/edit/{userId}', 'App\Http\Controllers\UsersViewController@edit')->middleware('auth')->name('users-edit'); //Ezt majd később lehet egy sorba is írni!
 Route::post('users/edit/{userId}', 'App\Http\Controllers\UsersViewController@edit')->middleware('auth')->name('users-edit');
 
+Route::get('users/show/{userId}', 'App\Http\Controllers\UsersViewController@show')->middleware('auth')->name('users-show'); //Az adott felhasználó adatainak megtekintésére szolgáló útvonal
+
 Route::match(['get', 'post'],'users/delete/', 'App\Http\Controllers\UsersViewController@delete')->middleware('auth')->name('users-delete'); //A felhasználók törléséhez vezető útvonal linkje
 
 

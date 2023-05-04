@@ -137,4 +137,15 @@ class UsersViewController extends Controller
             return view('error', [ 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users'), 'current_user'=>$current_user]);
         }
     }
+    public function show(Request $request)
+    {
+        $current_user = Auth::user();
+        if ($current_user->isAdmin or $current_user->isEmployee or $current_user->id == $request->userId) {
+            if ($request->isMethod('GET')) {
+                return view('users.show', ['user' => User::findOrFail($request->userId), 'current_user' => $current_user]);
+            } else {
+                return view('error', ['errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users'), 'current_user' => $current_user]);
+            }
+        }
+    }
 }
