@@ -12,7 +12,7 @@ class UsersViewController extends Controller
 {
     public function index()
     {
-        $users = User::All();
+        $users = User::paginate(20); //Ez azért kell, hogy max. csak húsz találatot jelenítsünk meg egyszerre
         $users = $users;
         $current_user = Auth::user();
 

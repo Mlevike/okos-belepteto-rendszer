@@ -108,6 +108,9 @@
         </tbody>
 </table>
 </div>
+<div>
+    {{$users->links()}}
+</div>
 @if($current_user->isAdmin)
     <a type="button" class="btn btn-primary" href="{{ route('users-add') }}" role="button">{{ __('site.addUser') }}</a>
 @endif

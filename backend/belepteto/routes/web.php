@@ -38,7 +38,7 @@ Route::get('', function () {
 
 //A logok oldalhoz tartozó útvonal
 Route::get('logs', function () {
-    $history = History::all();
+    $history = History::paginate(20); //15 elem látszódjon egyszerre
     $users = User::all();
     $current_user = Auth::user(); //Jelenleg bejelentkezett felhasználó adatainak lekérése
     if($current_user->isAdmin or $current_user->isEmployee) {
