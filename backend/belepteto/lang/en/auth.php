@@ -19,6 +19,7 @@ return [
     'bad_password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'login' => 'Login',
+    'login' => 'Logout',
     'please_login' => 'Please log in!',
     'remember' => 'Remember me',
     'password' => 'Password',

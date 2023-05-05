@@ -17,7 +17,7 @@
                 <ul class="dropdown-menu text-small">
                     <li><p class="dropdown-header">Hello, {{$current_user->name}}</p></li>
                     <div class="dropdown-divider"></div>
-                    <li><a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
+                    <li><a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{__('auth.logout')}}</a></li>
                 </ul>
             </div>
         </div>
