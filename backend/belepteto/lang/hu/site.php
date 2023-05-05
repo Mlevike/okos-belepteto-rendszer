@@ -33,5 +33,10 @@ return [
     'editUser' => 'Felhasználó szerkesztése',
     'cancel' => "Mégsem",
     'user_logs' => "Felhasználókkal kapcsolatos logok",
-    'system_logs' => "Rendszerrel kapcsolatos logok"
+    'system_logs' => "Rendszerrel kapcsolatos logok",
+    'showCurrentUser' => "Az aktuális belépési kísérlet mutatása",
+    'successful' => "Sikeres",
+    'fail' => "Sikertelen",
+    'in' => "Be",
+    'out' => "Ki",
 ];

@@ -34,4 +34,9 @@ return [
     'cancel' => "Cancel",
     'user_logs' => "User logs",
     'system_logs' => "System logs",
+    'showCurrentUser' => "Show current entry attempt",
+    'successful' => "Successful",
+    'fail' => "Fail",
+    'in' => "In",
+    'out' => "Out",
 ];
