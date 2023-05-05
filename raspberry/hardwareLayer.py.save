@@ -22,10 +22,10 @@ load_dotenv()
 #internalCardDetected = False #Létrehozunk egy globális változót a belső kártyaérintés érzékelésére
 
 #Ellenőrizzük azt, hogy telepítési módban indul-e az olvasó?
-setupMode = False #Ha a telapítési módhoz szükséges argumentumot megkapjuk, akkor ezt átállítjuk True-ra
-if len(sys.argv) == 2: #Ha az argumentumok száma 2
-    if sys.argv[1] == "setup": #Ha a 2. argumentum értéke setup, akkor... 
-        setupMode = True #Átállítjuk a változó értékét True-ra
+setupMode = False
+if(len(sys.argv) == 1):
+    if(sys.agrv[1] == "setup"):
+        setupMode = True
 
 #Definiáljuk a LED pineket
 
@@ -45,7 +45,6 @@ connection.reset_input_buffer() #Töröljük a soros buffert a tiszta indulás �
 #Beállítjuk a kártya validálás linkjét
 validateUrl = "https://mlevente.hu/belepteto/public/validate/"
 logUrl = "https://mlevente.hu/belepteto/public/log"
-setupUrl = "https://mlevente.hu/belepteto/public/setup"
 
 
 #Inicializájuk a Buzzer globális változóit 
@@ -162,7 +161,7 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                         uid = rx.get("uid") #Kiolvassuk az uid-t
                         isHere = GetIsHere(uid)
                         fetchedCode = GetCode(uid)
-                        if ((fetchedCode == "") or (isHere == 1)): #Ha nem kapunk a szervertől kódot, akkor megtagadjuk a belépést
+                        if ((fetchedCode == "") or (isHere == "1")): #Ha nem kapunk a szervertől kódot, akkor megtagadjuk a belépést
                             SendLog(uid, 0, 1) #Meghívjuk a logoló metódust
                             LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                             LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
@@ -214,12 +213,12 @@ def InternalAuthentication(): #Létrehozunk egy függvényt a belső kártyaolva
         isHere = GetIsHere(uid)
         ShortBeep() #Csippantunk jelezve a kártya beolvasást
         SetLedColor("none") #Kikapcsoljuk a LED-et
-        if (GetCode(uid) != "") and (isHere != 0): #Ha kapunk vissza kódot
-            SendLog(uid, 1, 0) #Meghívjuk a logoló metódust
+        if (GetCode(uid) != "") and (isHere != "0"): #Ha kapunk vissza kódot
+            #SendLog(uid, 1, 0) #Meghívjuk a logoló metódust
             TriggerRelay() #Kapcsoljuk a relét
             SetLedColor("green") #Beállítjuk a LED színét zöldre
         else:
-            SendLog(uid, 0, 0) #Meghívjuk a logoló metódust
+            #SendLog(uid, 0, 0) #Meghívjuk a logoló metódust
             SetLedColor ("red") #Beállítjuk a LED színét pirosra
         time.sleep(1) #Egy másodperces szünet
         SetLedColor("red") #Beállítjuk a LED színét pirosra
@@ -229,49 +228,12 @@ print(GetCode("16722ba2")) #Csak tesztelés miatt van itt!
 ShortBeep() #Csak tesztelés miatt van itt!
 TriggerRelay() #Csak tesztelés miatt van itt!
 
-try:
-    if not(setupMode):
-        internalReadThread = threading.Thread(target=InternalAuthentication) #Létrehozunk egy háttér folyamatot a belső olvasó kártyadetektálásához
-        internalReadThread.start() #Elindítjuk a belső olvasó háttérfolyamatát
+if(!setupMode):
+    try:
+        #internalReadThread = threading.Thread(target=InternalAuthentication) #Létrehozunk egy háttér folyamatot a belső olvasó kártyadetektálásához
+        #internalReadThread.start() #Elindítjuk a belső olvasó háttérfolyamatát
         while True:
             ExternalAuthentication() #Elindítjuk az Authentikáció
-    else:
-        print("Telepítési mód:")
-        print("--------------")
-        LcdClearScreen() #Töröljük az LCD kijelző tartalmát
-        LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
-        LcdSendString("TELEPITESI MOD") #LCD-re írunk
-        LcdGoto(1, 0) #A kurzort a második sor első pontjára állítjuk
-        LcdSendString("Kerem a kartyat!") #LCD-re írunk
-        while True:
-            if connection.inWaiting() != 0: #Ha van bejövő üzenet a soros porton, akkor azt beolvassuk
-                data = connection.readline().decode("utf-8") #Pontosabban itt olvassuk be
-                rx = json.loads(data) #Json belvasása
-                if rx.get("type") == "event": #Ha történik valamilyen esemény a külső olvasón
-                    if rx.get("event") == "card_detected": #Ha kártyát érintenek az olvasóhoz
-                        uid = rx.get("uid") #Kiolvassuk az uid-t
-                        LcdClearScreen() #Töröljük az LCD kijelző tartalmát
-                        LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
-                        LcdSendString("TELEPITESI MOD") #LCD-re írunk
-                        LcdGoto(1, 0) #A kurzort a második sor első pontjára állítjuk
-                        LcdSendString("Kommunikacio...") #LCD-re írunk
-                        URL = setupUrl + "?cardId=" + uid
-                        r = requests.get(URL, auth=(os.getenv('SERVER_USERNAME'), os.getenv('SERVER_PW'))) #Végrehajtjuk a lekérdezést
-                        print("Kommunikáció a szerverrel", end=' ') #Kommunikálunk a felhasználóval
-                        if r.status_code == 200:
-                            print("[OK] (" + str(r.status_code) + ")") #Siker esetén
-                            LcdClearScreen() #Töröljük az LCD kijelző tartalmát
-                            LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
-                            LcdSendString("TELEPITESI MOD") #LCD-re írunk
-                            LcdGoto(1, 0) #A kurzort a második sor első pontjára állítjuk
-                            LcdSendString("OK (" + str(r.status_code) + ")" ) #LCD-re írunk
-                        else:
-                            print("[HIBA] (" + str(r.status_code) + ")") #Sikertelenség esetén
-                            LcdClearScreen() #Töröljük az LCD kijelző tartalmát
-                            LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
-                            LcdSendString("TELEPITESI MOD") #LCD-re írunk
-                            LcdGoto(1, 0) #A kurzort a második sor első pontjára állítjuk
-                            LcdSendString("HIBA (" + str(r.status_code) + ")") #LCD-re írunk
-finally:
-    LcdClearScreen()
-    GPIO.cleanup() #Visszaállítjuk kiinduló állapotba a kimeneteket
+    finally:
+        LcdClearScreen()
+        GPIO.cleanup() #Visszaállítjuk kiinduló állapotba a kimeneteket
