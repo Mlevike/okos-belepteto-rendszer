@@ -84,7 +84,7 @@ Route::get('validate/{uid}', function() {
         return response()->json(['code' => '', 'isHere' => '']);
     }else{
         if($user->isEntryEnabled) {
-            return response()->json(['code' => $user->code, 'isHere' => 'false']);
+            return response()->json(['code' => $user->code, 'isHere' => $user->isHere]);
         }else{
             return response()->json(['code' => '', 'isHere' => '']);
         }
