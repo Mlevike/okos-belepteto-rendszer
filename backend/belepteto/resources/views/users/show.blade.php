@@ -20,7 +20,11 @@
     @endif
     </div>
     <div class="col">
-    <p>{{ __('site.language') }}: {{$user->language}}</p>
+    <p>{{ __('site.language') }}:
+        <td>
+            <span class="fi fi-{{$user->language}}"></span>
+        </td>
+    </p>
     <p>{{ __('site.profile') }}: {{$user->profile}}</p>
     <p>{{ __('site.isAdmin') }}:
         @if($user->isAdmin)

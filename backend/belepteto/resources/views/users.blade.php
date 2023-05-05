@@ -38,7 +38,9 @@
             <td>{{$user->id}} </td>
             <td>{{$user->name}} </td>
             <td>{{$user->picture}} </td>
-            <td>{{$user->language}} </td>
+            <td>
+                <span class="fi fi-{{$user->language}}"></span>
+            </td>
             <td>{{$user->profile}} </td>
             <td>
                 @if($user->isAdmin)
