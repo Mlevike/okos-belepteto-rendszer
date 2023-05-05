@@ -64,4 +64,7 @@ A User modell a következő attribútumokat tartalmazza:
 ## A projektben használt Laravel Controllerek
 - UsersViewController: A felhasználókkal kapcsolatos műveletekért felelős vezérlő.
 
-
+## A projekt frontetndjének kialakítására használt küső könyvtárak
+-https://github.com/lipis/flag-icons
+-Bootstrap
+-Bootstrap icons
