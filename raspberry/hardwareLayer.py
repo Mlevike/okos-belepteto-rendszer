@@ -159,6 +159,9 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                 rx = json.loads(data) #Json belvasása
                 if rx.get("type") == "event": #Ha történik valamilyen esemény a külső olvasón
                     if rx.get("event") == "card_detected": #Ha kártyát érintenek az olvasóhoz
+                        LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+                        LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+                        LcdSendString("Kerem varjon...") #LCD-re írunk
                         uid = rx.get("uid") #Kiolvassuk az uid-t
                         isHere = GetIsHere(uid)
                         fetchedCode = GetCode(uid)
