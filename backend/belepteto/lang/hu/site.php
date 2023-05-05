@@ -39,4 +39,5 @@ return [
     'fail' => "Sikertelen",
     'in' => "Be",
     'out' => "Ki",
+    'isHere' => "Itt van?",
 ];

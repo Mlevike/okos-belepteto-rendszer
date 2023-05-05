@@ -39,4 +39,5 @@ return [
     'fail' => "Fail",
     'in' => "In",
     'out' => "Out",
+    'isHere' => "Is here?",
 ];

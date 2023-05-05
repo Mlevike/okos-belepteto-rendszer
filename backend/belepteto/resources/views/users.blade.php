@@ -77,6 +77,11 @@
                 @endif
             </td>
             <td>
+                @if($user->isHere)
+                    <i class="bi bi-check-square-fill" style="color: green"></i>
+                @else
+                    <i class="bi bi-x-square-fill" style="color: red"></i>
+                @endif
             </td>
             <td>{{$user->email}} </td>
             @if($current_user->isAdmin)
