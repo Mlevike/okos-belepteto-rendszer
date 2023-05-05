@@ -162,7 +162,7 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                         uid = rx.get("uid") #Kiolvassuk az uid-t
                         isHere = GetIsHere(uid)
                         fetchedCode = GetCode(uid)
-                        if ((fetchedCode == "") or (isHere == 1)): #Ha nem kapunk a szervertől kódot, akkor megtagadjuk a belépést
+                        if ((fetchedCode == "") or (isHere == "1")): #Ha nem kapunk a szervertől kódot, akkor megtagadjuk a belépést
                             SendLog(uid, 0, 1) #Meghívjuk a logoló metódust
                             LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                             LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
@@ -214,7 +214,7 @@ def InternalAuthentication(): #Létrehozunk egy függvényt a belső kártyaolva
         isHere = GetIsHere(uid)
         ShortBeep() #Csippantunk jelezve a kártya beolvasást
         SetLedColor("none") #Kikapcsoljuk a LED-et
-        if (GetCode(uid) != "") and (isHere != 0): #Ha kapunk vissza kódot
+        if (GetCode(uid) != "") and (isHere != "0"): #Ha kapunk vissza kódot
             SendLog(uid, 1, 0) #Meghívjuk a logoló metódust
             TriggerRelay() #Kapcsoljuk a relét
             SetLedColor("green") #Beállítjuk a LED színét zöldre
