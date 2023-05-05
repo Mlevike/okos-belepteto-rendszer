@@ -40,4 +40,6 @@ return [
     'in' => "Be",
     'out' => "Ki",
     'isHere' => "Itt van?",
+    'hasCode' => "Van kódja?",
+    'hasFingerprint' => "Van rögzített ujjlenyomata?",
 ];

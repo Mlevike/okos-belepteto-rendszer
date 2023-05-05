@@ -43,6 +43,22 @@
             <i class="bi bi-x-square-fill" style="color: red"></i>
         @endif
     </p>
+        <p>
+            {{ __('site.hasCode') }}:
+            @if($user->code != null and $user->code != "")
+                <i class="bi bi-check-square-fill" style="color: green"></i>
+            @else
+                <i class="bi bi-x-square-fill" style="color: red"></i>
+            @endif
+        </p>
+        <p>
+            {{ __('site.hasFingerprint') }}:
+            @if($user->fingerprint != null and $user->fingerprint != "")
+                <i class="bi bi-check-square-fill" style="color: green"></i>
+            @else
+                <i class="bi bi-x-square-fill" style="color: red"></i>
+            @endif
+        </p>
     <p>{{ __('site.isEmployee') }}:
         @if($user->isEmployee)
             <i class="bi bi-check-square-fill" style="color: green"></i>

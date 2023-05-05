@@ -282,6 +282,7 @@ except:
     LcdSendString("NEM KEZELT") #LCD-re írunk
     LcdGoto(1, 0) #A kurzort visszaállítjuk a nulla pontra
     LcdSendString("KIVETEL!") #LCD-re írunk
+    #Egyenlőre a kivételek nem működnek!
 finally:
     #LcdClearScreen()
     GPIO.cleanup() #Visszaállítjuk kiinduló állapotba a kimeneteket

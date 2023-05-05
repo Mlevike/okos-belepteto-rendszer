@@ -40,4 +40,6 @@ return [
     'in' => "In",
     'out' => "Out",
     'isHere' => "Is here?",
+    'hasCode' => "Has Code?",
+    'hasFingerprint' => "Has Fingerprint?",
 ];

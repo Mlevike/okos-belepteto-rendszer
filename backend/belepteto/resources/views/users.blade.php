@@ -13,15 +13,13 @@
             <th>#</th>
             <th>{{ __('site.name') }}</th>
             <th>{{ __('site.picture') }}</th>
-            @if($current_user->isAdmin)
-            <th>{{ __('site.code') }}</th>
-            @endif
-            <th>{{ __('site.fingerprint') }}</th>
             <th>{{ __('site.language') }}</th>
             <th>{{ __('site.profile') }}</th>
             <th>{{ __('site.isAdmin') }}</th>
             <th>{{ __('site.isWebEnabled') }}</th>
             <th>{{ __('site.isEntryEnabled') }}</th>
+            <th>{{ __('site.hasCode') }}</th>
+            <th>{{ __('site.hasFingerprint') }}</th>
             <th>{{ __('site.isEmployee') }}</th>
             <th>{{ __('site.isHere') }}</th>
             <th>{{ __('auth.email') }}</th>
@@ -40,12 +38,6 @@
             <td>{{$user->id}} </td>
             <td>{{$user->name}} </td>
             <td>{{$user->picture}} </td>
-            @if($current_user->isAdmin)
-            <td>
-                <a type="button" class="btn btn-primary" href="{{ route('users-edit', [$userId = $user->id]) }}" role="button"><i class="bi bi-pencil-square"></i></a>
-            </td>
-            @endif
-            <td>{{$user->fingerprint}} </td>
             <td>{{$user->language}} </td>
             <td>{{$user->profile}} </td>
             <td>
@@ -64,6 +56,20 @@
             </td>
             <td>
                 @if($user->isEntryEnabled)
+                    <i class="bi bi-check-square-fill" style="color: green"></i>
+                @else
+                    <i class="bi bi-x-square-fill" style="color: red"></i>
+                @endif
+            </td>
+            <td>
+                @if($user->code != null and $user->code != "")
+                    <i class="bi bi-check-square-fill" style="color: green"></i>
+                @else
+                    <i class="bi bi-x-square-fill" style="color: red"></i>
+                @endif
+            </td>
+            <td>
+                @if($user->fingerprint != null and $user->fingerprint != "")
                     <i class="bi bi-check-square-fill" style="color: green"></i>
                 @else
                     <i class="bi bi-x-square-fill" style="color: red"></i>
