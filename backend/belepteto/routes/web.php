@@ -63,7 +63,7 @@ Route::get('users/show/{userId}', 'App\Http\Controllers\UsersViewController@show
 Route::get('current', function(){
     $history = History::latest()->first();
     if($history->user_id != null){
-    $user = User::where('id', $history->user->id)->first();
+    $user = User::where('id', $history->user_id)->first();
     }else{
         $user = null;
     }
