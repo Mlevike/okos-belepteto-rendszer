@@ -215,11 +215,11 @@ def InternalAuthentication(): #Létrehozunk egy függvényt a belső kártyaolva
         ShortBeep() #Csippantunk jelezve a kártya beolvasást
         SetLedColor("none") #Kikapcsoljuk a LED-et
         if (GetCode(uid) != "") and (isHere != "0"): #Ha kapunk vissza kódot
-            #SendLog(uid, 1, 0) #Meghívjuk a logoló metódust
+            SendLog(uid, 1, 0) #Meghívjuk a logoló metódust
             TriggerRelay() #Kapcsoljuk a relét
             SetLedColor("green") #Beállítjuk a LED színét zöldre
         else:
-            #SendLog(uid, 0, 0) #Meghívjuk a logoló metódust
+            SendLog(uid, 0, 0) #Meghívjuk a logoló metódust
             SetLedColor ("red") #Beállítjuk a LED színét pirosra
         time.sleep(1) #Egy másodperces szünet
         SetLedColor("red") #Beállítjuk a LED színét pirosra
@@ -230,10 +230,10 @@ ShortBeep() #Csak tesztelés miatt van itt!
 TriggerRelay() #Csak tesztelés miatt van itt!
 
 try:
-    #internalReadThread = threading.Thread(target=InternalAuthentication) #Létrehozunk egy háttér folyamatot a belső olvasó kártyadetektálásához
-    #internalReadThread.start() #Elindítjuk a belső olvasó háttérfolyamatát
     if not(setupMode):
         while True:
+            internalReadThread = threading.Thread(target=InternalAuthentication) #Létrehozunk egy háttér folyamatot a belső olvasó kártyadetektálásához
+            internalReadThread.start() #Elindítjuk a belső olvasó háttérfolyamatát
             ExternalAuthentication() #Elindítjuk az Authentikáció
     else:
         print("Telepítési mód:")
