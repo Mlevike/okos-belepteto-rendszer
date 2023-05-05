@@ -50,6 +50,13 @@
             <i class="bi bi-x-square-fill" style="color: red"></i>
         @endif
     </p>
+    <p>{{ __('site.isHere') }}:
+        @if($user->isHere)
+            <i class="bi bi-check-square-fill" style="color: green"></i>
+        @else
+            <i class="bi bi-x-square-fill" style="color: red"></i>
+        @endif
+    </p>
     <p>{{ __('auth.email') }}: {{$user->email}}</p>
     <p>{{ __('site.cardId') }}: {{$user->cardId}}</p>
 </div>
