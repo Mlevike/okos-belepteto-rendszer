@@ -272,6 +272,16 @@ try:
                             LcdSendString("TELEPITESI MOD") #LCD-re írunk
                             LcdGoto(1, 0) #A kurzort a második sor első pontjára állítjuk
                             LcdSendString("HIBA (" + str(r.status_code) + ")") #LCD-re írunk
+except requests.exceptions.ConnectionError:
+    LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+    LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+    LcdSendString("HALOZATI HIBA!") #LCD-re írunk
+except:
+    LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+    LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+    LcdSendString("NEM KEZELT") #LCD-re írunk
+    LcdGoto(1, 0) #A kurzort visszaállítjuk a nulla pontra
+    LcdSendString("KIVETEL!") #LCD-re írunk
 finally:
-    LcdClearScreen()
+    #LcdClearScreen()
     GPIO.cleanup() #Visszaállítjuk kiinduló állapotba a kimeneteket
