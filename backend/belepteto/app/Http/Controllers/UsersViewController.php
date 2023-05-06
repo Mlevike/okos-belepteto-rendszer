@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Image;
 
 class UsersViewController extends Controller
 {
@@ -61,17 +63,20 @@ class UsersViewController extends Controller
                  if($request->filled('email')) {
                      $user->email = $request->email;
                  }
-                 if($request->filled('picture')) {
-                     $user->picture = $request->picture;
-                 }
                  if($request->filled('fingerprint')) {
                      $user->fingerprint = $request->fingerprint;
                  }
                  if($request->filled('language')) {
                      $user->language = $request->language;
                  }
-                 if($request->filled('profile')) {
-                     $user->profile = $request->profile;
+                 if($request->hasFile('picture')){ //A profilkép feltöltésének kezelése
+                     $filename = $user->id.'.'.$request->picture->extension(); //Ez adja a fájl nevét
+                     $img = Image::make($request->picture);
+                     $img->resize(1024, null, function ($constraint){
+                         $constraint->aspectRatio();
+                     })->save(public_path('/pictures/profile/').$filename);
+                     //$img->storeAs('pictures/profile',$filename,'public'); //Ennek a segítségével tároljuk el
+                     $user->picture = $filename; //És végül ezzel frissítjük az adatbázist
                  }
                  if($request->filled('isAdmin')) {
 

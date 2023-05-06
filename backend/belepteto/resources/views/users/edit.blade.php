@@ -10,12 +10,12 @@
     <h1>{{ __('site.editUser') }}</h1>
         <p>{{ $errors }}</p>
         <!--A felhasználó szerkeztésére szolgáló form-->
-        <form action="" method="post">
+        <form action="" method="post" enctype=multipart/form-data>
             @csrf
             <p>{{ __('site.name') }}:* </p>
             <input type="text" class="form-control" id="name" placeholder="Kis Géza" name="name" value="{{ $user->name }}">
             <p>{{ __('site.picture') }}: </p>
-            <input type="text" class="form-control" id="picture" name="picture" value="{{ $user->picture }}">
+            <input type="file" class="form-control" id="picture" name="picture">
             <p>{{ __('site.code') }}: </p>
             <input type="password" class="form-control" id="code" name="code" value="{{__('site.code') }}">
             <p>{{ __('site.fingerprint') }}: </p>
@@ -24,7 +24,6 @@
             <input type="text" class="form-control" id="language" name="language" value="{{ $user->language }}">
             <p>{{ __('site.profile') }}: </p>
             <input type="text" class="form-control" id="profile" name="profile" value="{{ $user->profile }}">
-            <p> </p>
             <!--A felhasználó jogosultságait szabályozó kapcsolók-->
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" role="switch" id="isAdminSwitch" name="isAdmin" {{  $user->isAdmin  ? 'checked' : '' }}>
