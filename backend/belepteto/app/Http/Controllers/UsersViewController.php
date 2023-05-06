@@ -72,10 +72,10 @@ class UsersViewController extends Controller
                  if($request->hasFile('picture')){ //A profilkép feltöltésének kezelése
                      $filename = $user->id.'.'.$request->picture->extension(); //Ez adja a fájl nevét
                      $img = Image::make($request->picture);
-                     $img->resize(1024, null, function ($constraint){
+                     /*$img->resize(1024, null, function ($constraint){ //Majd valahogy a képek méretét jó lenne ha tudnánk állítani!!
                          $constraint->aspectRatio();
-                     })->save(public_path('/pictures/profile/').$filename);
-                     //$img->storeAs('pictures/profile',$filename,'public'); //Ennek a segítségével tároljuk el
+                     })->save(public_path('/pictures/profile/').$filename);*/
+                     $request->picture->storeAs('pictures/profile',$filename,'public'); //Ennek a segítségével tároljuk el
                      $user->picture = $filename; //És végül ezzel frissítjük az adatbázist
                  }
                  if($request->filled('isAdmin')) {
