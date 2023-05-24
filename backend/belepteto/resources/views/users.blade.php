@@ -6,6 +6,7 @@
 </head>
 <body>
 @include('header', ['current_user', $current_user])
+<main class="p-2">
 <h1>{{ __('site.users') }}</h1>
 <div class="table-responsive" style="margin: 0px 10px 0px 10px;">
     <table class="table table-hover">
@@ -129,7 +130,8 @@
     {{$users->links()}}
 </div>
 @if($current_user->isAdmin)
-    <a type="button" class="btn btn-primary" href="{{ route('users-add') }}" role="button">{{ __('site.addUser') }}</a>
+    <a type="button" class="btn btn-primary mt-2 mb-2" href="{{ route('users-add') }}" role="button">{{ __('site.addUser') }}</a>
 @endif
+</main>
 </body>
 </html>
