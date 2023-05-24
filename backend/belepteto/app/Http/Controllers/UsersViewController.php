@@ -28,7 +28,7 @@ class UsersViewController extends Controller
          $current_user = Auth::user();
          if($current_user->isAdmin) {
          if ($request->isMethod('GET')){
-            return view('users.add', ['user' => User::all(), 'errors' => "", 'current_user'=> $current_user]);
+            return view('users.edit', [ 'errors' => "", 'user' => null, 'current_user'=> $current_user]);
         }
          if ($request->isMethod('POST'))
          {
@@ -37,11 +37,11 @@ class UsersViewController extends Controller
                      User::create(['name' => $request->name, 'email' => $request->email, 'email_verified_at' => now(), 'password' => Hash::make($request->password, ['memory' => 1024, 'time' => 2, 'threads' => 2,]), 'picture' => '', 'code' => Hash::make($request->code, ['memory' => 1024, 'time' => 2, 'threads' => 2,]), 'fingerprint' => '', 'language' => 'en', 'profile' => 'Kártya2', 'isAdmin' => false, 'isWebEnabled' => false, 'isEntryEnabled' => true, 'isEmployee' => false, 'isHere' => false, 'cardId' => $request->cardId,]);
                      return redirect(route('users'))->with('status', 'Felhasználó törölve!');
                  } else {
-                     return view('users.add', ['user' => User::all(), 'errors' => "A csillagal jelölt mezők kitöltése kötelező!", 'current_user'=>$current_user]);
+                     return view('users.edit', [ 'user' => null, 'errors' => "A csillagal jelölt mezők kitöltése kötelező!", 'current_user'=>$current_user]);
                  }
              }
          }else{
-             return view('error', [ 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users'), 'current_user'=>$current_user]);
+             return view('error', [ 'user' => null, 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users'), 'current_user'=>$current_user]);
          }
      }
 
@@ -50,7 +50,7 @@ class UsersViewController extends Controller
          if($current_user->isAdmin) {
          if ($request->isMethod('GET')){
              $user = User::findOrFail($request->userId);
-             return view('users.edit', ['user' => User::all(), 'errors' => "", "user" => $user, 'current_user'=>$current_user]);
+             return view('users.edit', [ 'errors' => "", 'user' => $user, 'current_user'=>$current_user]);
          }
          if ($request->isMethod('POST'))
          {
