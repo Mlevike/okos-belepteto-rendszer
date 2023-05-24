@@ -24,9 +24,6 @@
             <th>{{ __('site.isEmployee') }}</th>
             <th>{{ __('site.isHere') }}</th>
             <th>{{ __('auth.email') }}</th>
-            @if($current_user->isAdmin)
-            <th>{{ __('auth.password') }}</th>
-            @endif
             <th>{{ __('site.cardId') }}</th>
             @if($current_user->isAdmin)
             <th>{{ __('site.options') }}</th>
@@ -102,11 +99,6 @@
                 @endif
             </td>
             <td>{{$user->email}} </td>
-            @if($current_user->isAdmin)
-            <td>
-                <a type="button" class="btn btn-primary" href="{{ route('users-edit', [$userId = $user->id]) }}" role="button"><i class="bi bi-pencil-square"></i></a>
-            </td>
-            @endif
             <td>{{$user->cardId}} </td>
             @if($current_user->isAdmin)
             <td style="width: 100px"> <!--Egyenlőre így jó, de lehet hogy később változtatni kell rajta!-->

@@ -12,7 +12,6 @@
         <!--A felhasználó szerkeztésére szolgáló form-->
         <form action="" method="post" enctype=multipart/form-data> <!-- Létrehozunk egy formot a felhasználük adatainak szerkesztéséhez-->
             @csrf
-            {{$user}}
             <p>{{ __('site.name') }}:* </p>
             <input type="text" class="form-control" id="name" placeholder="Kis Géza" name="name" value="{{ $user != null ? $user->name : '' }}" required>
             <p>{{ __('site.picture') }}: </p>
