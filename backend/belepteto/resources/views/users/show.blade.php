@@ -6,6 +6,7 @@
 </head>
 <body>
 @include('header')
+<main class="p-2">
 <h1>{{ $user->name }}</h1>
 <div class="container">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -16,7 +17,7 @@
             <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
         </svg>
     @else
-        <img class="image rounded-circle" alt="{{ __('site.picture') }}" src="{{asset('/storage/pictures/profile/'.$user->picture)}}" alt="profile_image" style="width: 200px;height: 200px; padding: 10px; margin: 0px; "/>
+        <img class="image rounded-circle" alt="{{ __('site.picture') }}" src="{{asset('/storage/pictures/profile/'.$user->picture)}}" alt="profile_image" style="width: 200px;height: 200px; padding: 10px; margin: 0px; object-fit: cover; "/>
     @endif
     </div>
     <div class="col">
@@ -83,5 +84,6 @@
 </div>
 </div>
 <a type="button" class="btn btn-danger" href="{{ route('users') }}" role="button">{{ __('site.cancel') }}</a>
+</main>
 </body>
 </html>

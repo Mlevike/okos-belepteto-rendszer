@@ -114,7 +114,7 @@
                     <form action="{{ route('users-delete') }}" method="post">
                         @csrf
                         <input type="hidden" value="{{$user->id}}" name="id">
-                        <button type="submit" class="btn btn-primary"><i class="bi bi-trash3-fill" style="color: red"></i></button>
+                        <button type="submit" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></button>
                     </form>
                     <a type="button" class="btn btn-primary" href="{{ route('users-edit', [$userId = $user->id]) }}" role="button"><i class="bi bi-pencil-square"></i></a>
                     <a type="button" class="btn btn-primary" href="{{ route('users-show', [$userId = $user->id]) }}" role="button"><i class="bi bi-eye-fill"></i></a>
