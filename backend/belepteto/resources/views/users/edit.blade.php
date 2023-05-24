@@ -14,13 +14,13 @@
             @csrf
             {{$user}}
             <p>{{ __('site.name') }}:* </p>
-            <input type="text" class="form-control" id="name" placeholder="Kis Géza" name="name" value="{{ $user != null ? $user->name : ''}}">
+            <input type="text" class="form-control" id="name" placeholder="Kis Géza" name="name" value="{{ $user != null ? $user->name : '' }}" required>
             <p>{{ __('site.picture') }}: </p>
             <input type="file" class="form-control" id="picture" name="picture">
             <p>{{ __('site.code') }}: </p>
             <input type="password" class="form-control" id="code" name="code" placeholder="****">
             <p>{{ __('site.fingerprint') }}: </p>
-            <input type="text" class="form-control" id="fingerprint" name="fingerprint" value="{{$user != null ? $user->fingerprint : ''}}">
+            <input type="text" class="form-control" id="fingerprint" name="fingerprint" value="{{ $user != null ? $user->fingerprint : '' }}">
             <p>{{ __('site.language') }}: </p>
             <input type="text" class="form-control" id="language" name="language" value="{{ $user != null ? $user->language : '' }}">
             <p>{{ __('site.profile') }}: </p>
@@ -43,9 +43,9 @@
                 <label class="form-check-label" for="isEmployeeSwitch">{{ __('site.isEmployee') }}</label>
             </div>
             <p>{{ __('auth.email') }}:* </p>
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" value="{{$user != null ? $user->email : ''}}">
+            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" value="{{$user != null ? $user->email : ''}}" required>
             <p>{{ __('auth.password') }}:* </p>
-            <input type="password" class="form-control" id="password" name="password" placeholder="********">
+            <input type="password" class="form-control" id="password" name="password" placeholder="********" {{$user == null ? 'reguired' : ''}}>
             <p>{{ __('site.cardId') }}: </p>
             <input type="text" class="form-control" id="cardId" name="cardId" value="{{$user != null ? $user->cardId : ''}}">
             <button type="submit" class="btn btn-primary mt-2 mb-2"  >{{$user != null ?  __('site.editUser')  :  __('site.addUser') }}</button>

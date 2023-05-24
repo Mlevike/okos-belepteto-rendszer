@@ -54,8 +54,8 @@ class UsersViewController extends Controller
          }
          if ($request->isMethod('POST'))
          {
-             if(($request->filled('name')) and ($request->filled('email')) and  ($request->filled('password'))){
-                 $user = User::findOrFail($request->userId); //Felhasználó módosítás, ezt majd lehet, hogy egyszerűbben is mbeg lehet oldani! Illetve, most még hiányos is!
+             $user = User::findOrFail($request->userId); //Felhasználó módosítás, ezt majd lehet, hogy egyszerűbben is mbeg lehet oldani! Illetve, most még hiányos is!
+             if(($request->filled('name')) and ($request->filled('email'))){
                  if($request->filled('name')) { //Az if-ek azért szükségesek, hogy meggyőződjunk affelől, hogy a lekérésben szerepel az általunk változtatni kívánt attribútum!
                      $user->name = $request->name;
                  }
@@ -107,7 +107,7 @@ class UsersViewController extends Controller
                  $user->save();
                  return redirect(route('users'))->with('status', 'Felhasználó módosítva!');
              }else{
-                 return view('users.edit', ['user' => User::all(), 'errors' => "A csillagal jelölt mezők kitöltése kötelező!", 'current_user'=>$current_user]);
+                 return view('users.edit', ['user' => $user, 'errors' => "A csillagal jelölt mezők kitöltése kötelező!", 'current_user'=>$current_user]);
              }
 
          }
