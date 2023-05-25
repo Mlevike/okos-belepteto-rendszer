@@ -14,6 +14,7 @@ return [
     */
 
     'dashboard' => "Vezérlőpult",
+    'delete' => "Törlés",
     'entry_system' => "Beléptetőrendszer",
     'users' => "Felhasználók",
     'logs' => "Logok",

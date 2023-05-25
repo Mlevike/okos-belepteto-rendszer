@@ -8,6 +8,19 @@
 @include('header', ['current_user', $current_user])
 <main class="p-2">
 <h1>{{ __('site.users') }}</h1>
+    <!--Opciók a csoportos művelet végzéshez (egyenlőre el vannak rejtve)
+    @if($current_user->isAdmin)
+            <div class="btn-group" role="group" >
+                <p>{{ __('site.options') }}:</p>
+                <form action="{{ route('users-delete') }}" method="post">
+                    @csrf
+                    <input type="hidden" value="1" name="id"> (A felhasználók kijelölése még nem megoldot)
+                    <button type="submit" class="btn btn-danger"><i class="bi bi-trash3-fill">{{ __('site.delete') }}</i></button>
+                </form>
+                <a type="button" class="btn btn-primary" href="{{ route('users-edit', [$userId = 1]) }}" role="button"><i class="bi bi-pencil-square">{{ __('site.edit') }}</i></a>
+                <a type="button" class="btn btn-primary" href="{{ route('users-show', [$userId = 1]) }}" role="button"><i class="bi bi-eye-fill">{{ __('site.view') }}</i></a>
+            </div>-->
+    @endif
 <div class="table-responsive" style="margin: 0px 10px 0px 10px;">
     <table class="table table-hover">
         <thead>
@@ -25,14 +38,11 @@
             <th>{{ __('site.isHere') }}</th>
             <th>{{ __('auth.email') }}</th>
             <th>{{ __('site.cardId') }}</th>
-            @if($current_user->isAdmin)
-            <th>{{ __('site.options') }}</th>
-            @endif
     </thead>
     <tbody>
 
     @foreach($users as $user)
-        <tr>
+        <tr onclick="window.location='{{ route('users-show', [$userId = $user->id]) }}'">
             <td>{{$user->id}} </td>
             <td>{{$user->name}} </td>
             <td>
@@ -100,19 +110,6 @@
             </td>
             <td>{{$user->email}} </td>
             <td>{{$user->cardId}} </td>
-            @if($current_user->isAdmin)
-            <td style="width: 100px"> <!--Egyenlőre így jó, de lehet hogy később változtatni kell rajta!-->
-                <div class="btn-group" role="group" >
-                    <form action="{{ route('users-delete') }}" method="post">
-                        @csrf
-                        <input type="hidden" value="{{$user->id}}" name="id">
-                        <button type="submit" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></button>
-                    </form>
-                    <a type="button" class="btn btn-primary" href="{{ route('users-edit', [$userId = $user->id]) }}" role="button"><i class="bi bi-pencil-square"></i></a>
-                    <a type="button" class="btn btn-primary" href="{{ route('users-show', [$userId = $user->id]) }}" role="button"><i class="bi bi-eye-fill"></i></a>
-                </div>
-            </td>
-            @endif
         </tr>
     @endforeach
         </tbody>

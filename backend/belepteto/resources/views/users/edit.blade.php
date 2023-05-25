@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <!--Ebben a fájlban található a logok nézet sablonja.-->
 <head>
-@include('head') <!--Be includoljuk a bootstrap hivatkozásokat és más könyvtárakat behivatkozó blade templstet-->
+@include('head') <!--Be includoljuk a bootstrap hivatkozásokat és más könyvtárakat behivatkozó blade templatet-->
 </head>
 <body>
 @include('header') <!--Be include-oljuk a menüt tartalmazó blade templatet -->

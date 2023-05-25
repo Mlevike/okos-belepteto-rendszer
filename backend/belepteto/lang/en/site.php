@@ -14,12 +14,13 @@ return [
     */
 
     'dashboard' => "Dashboard",
+    'delete' => "Delete",
     'entry_system' => "Entry System",
     'users' => "Users",
     'logs' => "Logs",
     'name' => "Name",
-    'picture' => "Kép",
-    'code' => "Kód",
+    'picture' => "Picture",
+    'code' => "Code",
     'fingerprint' => "Fingerprint",
     'language' => "Language",
     'profile' => "Profile",
