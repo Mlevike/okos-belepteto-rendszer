@@ -13,10 +13,12 @@ return [
     |
     */
 
+    'back' => 'Back',
     'dashboard' => "Dashboard",
     'delete' => "Delete",
     'entry_system' => "Entry System",
     'users' => "Users",
+    'edit' => "Edit",
     'logs' => "Logs",
     'name' => "Name",
     'picture' => "Picture",

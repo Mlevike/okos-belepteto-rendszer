@@ -120,7 +120,7 @@ class UsersViewController extends Controller
         $current_user = Auth::user();
         if($current_user->isAdmin) {
         //Felhasználó törlése, ezt majd lehet hogy rövidebben kéne megvalósítani!
-        $user = User::findOrFail($request->id);
+        $user = User::findOrFail($request->userId);
         $user->name = "deleted_user_" . (string)$user->id;
         $user->email = "deleted_user_" . (string)$user->id;
         $user->password = 0;
@@ -135,7 +135,7 @@ class UsersViewController extends Controller
         $user->isEmployee = 0;
         $user->cardId = 0;
         $user->save();
-        User::find($request->id)->delete();
+        User::find($request->userId)->delete();
         return redirect(route('users'))->with('status', 'Felhasználó törölve!');
         }else{
             return view('error', [ 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users'), 'current_user'=>$current_user]);

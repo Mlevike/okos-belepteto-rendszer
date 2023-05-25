@@ -13,10 +13,12 @@ return [
     |
     */
 
+    'back' => 'Vissza',
     'dashboard' => "Vezérlőpult",
     'delete' => "Törlés",
     'entry_system' => "Beléptetőrendszer",
     'users' => "Felhasználók",
+    'edit' => "Szerkesztés",
     'logs' => "Logok",
     'name' => "Név",
     'picture' => "Kép",
@@ -42,5 +44,5 @@ return [
     'out' => "Ki",
     'isHere' => "Itt van?",
     'hasCode' => "Van kódja?",
-    'hasFingerprint' => "Van rögzített ujjlenyomata?",
+    'hasFingerprint' => "Van rögzített ujjlenyomata?"
 ];

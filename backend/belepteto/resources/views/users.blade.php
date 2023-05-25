@@ -12,7 +12,7 @@
     @if($current_user->isAdmin)
             <div class="btn-group" role="group" >
                 <p>{{ __('site.options') }}:</p>
-                <form action="{{ route('users-delete') }}" method="post">
+                <form action="{{ route('users-delete', [$userId = 1]) }}" method="post">
                     @csrf
                     <input type="hidden" value="1" name="id"> (A felhasználók kijelölése még nem megoldot)
                     <button type="submit" class="btn btn-danger"><i class="bi bi-trash3-fill">{{ __('site.delete') }}</i></button>
@@ -42,7 +42,7 @@
     <tbody>
 
     @foreach($users as $user)
-        <tr onclick="window.location='{{ route('users-show', [$userId = $user->id]) }}'">
+        <tr onclick="window.location='{{ route('users-show', [$userId = $user->id]) }}'" style="cursor: pointer;">
             <td>{{$user->id}} </td>
             <td>{{$user->name}} </td>
             <td>

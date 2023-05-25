@@ -60,6 +60,9 @@ Route::post('users/edit/{userId}', 'App\Http\Controllers\UsersViewController@edi
 
 Route::get('users/show/{userId}', 'App\Http\Controllers\UsersViewController@show')->middleware('auth')->name('users-show'); //Az adott felhasználó adatainak megtekintésére szolgáló útvonal
 
+Route::get('users/delete/{userId}', 'App\Http\Controllers\UsersViewController@delete')->middleware('auth')->name('users-delete'); //A felhasználók törléséhez vezető útvonal linkje
+
+
 Route::get('current', function(){
     $history = History::latest()->first();
     if($history->user_id != null){
@@ -70,7 +73,6 @@ Route::get('current', function(){
     return view('current', ['user'=>$user, 'history'=>$history]);
 })->middleware('auth')->name('current'); //Az adott felhasználó adatainak megtekintésére szolgáló útvonal
 
-Route::match(['get', 'post'],'users/delete/', 'App\Http\Controllers\UsersViewController@delete')->middleware('auth')->name('users-delete'); //A felhasználók törléséhez vezető útvonal linkje
 
 
 //A kártya validációhoz tartozó útvonalm ennek egyenéőre nem adunk nevet!

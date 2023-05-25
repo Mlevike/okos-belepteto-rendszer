@@ -83,7 +83,9 @@
 </div>
 </div>
 </div>
-<a type="button" class="btn btn-danger" href="{{ route('users') }}" role="button">{{ __('site.cancel') }}</a>
+    <a type="button" class="btn btn-danger" href="{{ route('users-delete', [$userId = $user->id]) }}" role="button"><i class="bi bi-eye-fill"> {{ __('site.delete') }}</i></a>
+    <a type="button" class="btn btn-primary" href="{{ route('users-edit', [$userId = $user->id]) }}" role="button"><i class="bi bi-pencil-square"> {{ __('site.edit') }}</i></a>
+    <a type="button" class="btn btn-primary" href="{{ route('users') }}" role="button"><i class="bi bi-arrow-left-circle-fill"> {{ __('site.back') }}</i></a>
 </main>
 </body>
 </html>
