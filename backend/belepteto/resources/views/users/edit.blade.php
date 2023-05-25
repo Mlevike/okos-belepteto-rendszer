@@ -8,7 +8,7 @@
 @include('header') <!--Be include-oljuk a menüt tartalmazó blade templatet -->
 <main class="p-2">
     <h1>{{$user != null ?  __('site.editUser')  :  __('site.addUser') }}</h1>
-        <p>{{ $errors }}</p> <!--Az esetleges hibaüzenetek kijelzése-->
+        <p>{{ session('status') }}</p>
         <!--A felhasználó szerkeztésére szolgáló form-->
         <form action="" method="post" enctype=multipart/form-data> <!-- Létrehozunk egy formot a felhasználük adatainak szerkesztéséhez-->
             @csrf

@@ -34,14 +34,58 @@ class UsersViewController extends Controller
          {
 
                  if (($request->filled('name')) and ($request->filled('email')) and ($request->filled('password'))) {
-                     User::create(['name' => $request->name, 'email' => $request->email, 'email_verified_at' => now(), 'password' => Hash::make($request->password, ['memory' => 1024, 'time' => 2, 'threads' => 2,]), 'picture' => '', 'code' => Hash::make($request->code, ['memory' => 1024, 'time' => 2, 'threads' => 2,]), 'fingerprint' => '', 'language' => 'en', 'profile' => 'Kártya2', 'isAdmin' => false, 'isWebEnabled' => false, 'isEntryEnabled' => true, 'isEmployee' => false, 'isHere' => false, 'cardId' => $request->cardId,]);
+
+                     /*if($request->hasFile('picture')){ //A profilkép feltöltésének kezelése
+                         $filename = $user->id.'.'.$request->picture->extension(); //Ez adja a fájl nevét
+                         //$img = Image::make($request->picture);
+                         /*$img->resize(1024, null, function ($constraint){ //Majd valahogy a képek méretét jó lenne ha tudnánk állítani!!
+                             $constraint->aspectRatio();
+                         })->save(public_path('/pictures/profile/').$filename);
+                         $request->picture->storeAs('pictures/profile',$filename,'public'); //Ennek a segítségével tároljuk el
+                         $user->picture = $filename; //És végül ezzel frissítjük az adatbázist
+                     }*/
+                     if (User::where('email', '=', $request->email)->exists()) { //Ellenőrizzük azt, hogy ilyen email címmel létezik-e már felhasználó
+                         return back()->withInput()->with('status', 'Ezzel az email címmel már létezik felhasználó!');
+                     }
+                     if($request->filled('isAdmin')) {
+                         $request->isAdmin = true;
+                     }else{
+                         $request->isAdmin = false;
+                     }
+                     if($request->filled('isWebEnabled')) {
+                         $request->isWebEnabled = true;
+                     }else{
+                         $request->isWebEnabled = false;
+                     }
+                     if($request->filled('isEntryEnabled')) {
+                         $request->isEntryEnabled = true;
+                     }else{
+                         $request->isEntryEnabled = false;
+                     }
+                     if($request->filled('isEmployee')) {
+                         $request->isEmployee = true;
+                     }else{
+                         $request->isEmployee = false;
+                     }
+                     $user = User::create(['name' => $request->name, 'email' => $request->email, 'email_verified_at' => now(), 'password' => Hash::make($request->password, ['memory' => 1024, 'time' => 2, 'threads' => 2,]), 'picture' => '', 'code' => ($request->code != null ? Hash::make($request->code, ['memory' => 1024, 'time' => 2, 'threads' => 2,]): ''), 'fingerprint' => $request->fingerprint != null ? $request->fingerprint : '', 'language' => $request->language != null ? $request->language : '', 'profile' => $request->profile != null ? $request->profile : '', 'isAdmin' => $request->isAdmin, 'isWebEnabled' => $request->isWebEnabled, 'isEntryEnabled' => $request->isEntryEnabled, 'isEmployee' => $request->isEmployee, 'isHere' => false, 'cardId' => $request->cardId != null ? $request->cardId : '',]);
+                     //A profilkép beállítása
+                     if($request->hasFile('picture')){ //A profilkép feltöltésének kezelése
+                         $filename = $user->id.'.'.$request->picture->extension(); //Ez adja a fájl nevét
+                         //$img = Image::make($request->picture);
+                         /*$img->resize(1024, null, function ($constraint){ //Majd valahogy a képek méretét jó lenne ha tudnánk állítani!!
+                             $constraint->aspectRatio();
+                         })->save(public_path('/pictures/profile/').$filename);*/
+                         $request->picture->storeAs('pictures/profile',$filename,'public'); //Ennek a segítségével tároljuk el
+                         $user->picture = $filename; //És végül ezzel frissítjük az adatbázist
+                         $user->save();
+                     }
                      return redirect(route('users'))->with('status', 'Felhasználó törölve!');
                  } else {
-                     return view('users.edit', [ 'user' => null, 'errors' => "A csillagal jelölt mezők kitöltése kötelező!", 'current_user'=>$current_user]);
+                     return back()->withInput()->with('status', 'A csillaggal jelölt mezők kitöltése kötelező!'); //A withInput nem elképzeléseim szerint működik valami miatt
                  }
              }
          }else{
-             return view('error', [ 'user' => null, 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users'), 'current_user'=>$current_user]);
+             return view('error', [ 'user' => null, 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users'), 'current_user'=>$current_user]); //Ehhez miért kell külön view?
          }
      }
 

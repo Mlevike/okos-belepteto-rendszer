@@ -119,7 +119,7 @@
     {{$users->links()}}
 </div>
 @if($current_user->isAdmin)
-    <a type="button" class="btn btn-primary mt-2 mb-2" href="{{ route('users-add') }}" role="button">{{ __('site.addUser') }}</a>
+    <a type="button" class="btn btn-primary mt-2 mb-2" href="{{ route('users-add') }}" role="button"><i class="bi bi-plus"></i> {{ __('site.addUser') }}</a>
 @endif
 </main>
 </body>
