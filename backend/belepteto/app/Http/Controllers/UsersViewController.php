@@ -76,8 +76,8 @@ class UsersViewController extends Controller
                              $constraint->aspectRatio();
                          })->save(public_path('/pictures/profile/').$filename);*/
                          $request->picture->storeAs('pictures/profile',$filename,'public'); //Ennek a segítségével tároljuk el
-                         $user->picture = $filename; //És végül ezzel frissítjük az adatbázist
-                         $user->save();
+                         $user->picture = $filename;
+                         $user->save(); //És végül ezzel frissítjük az adatbázist
                      }
                      return redirect(route('users'))->with('status', 'Felhasználó törölve!');
                  } else {

@@ -33,7 +33,7 @@ A projekt céja egy hálózaton keresztül elérhető beléptető rendszer megva
 
 # Felhasznált software eszközök
 
-- A Raspberry Pi-n található vezérlő szoftvert Python programozási nyelv segítségével fejlestettük le, ez a szoftver kommunikál a Laravel alapú PHP backenddel REST API segítségével.
+- A Raspberry Pi-n található vezérlő szoftvert Python programozási nyelv segítségével fejlesztettük le, ez a szoftver kommunikál a Laravel alapú PHP backenddel REST API segítségével.
 - pip
 - gpio
 - phpmyadmin
