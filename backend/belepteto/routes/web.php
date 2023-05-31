@@ -24,8 +24,8 @@ use App\Http\Resources\ValidateResource;
 
 //A felhasználó nyelvi beállításának alkalmazása
 //Ellenőrizzük azt, hogy a felhasználó authentikálva, van-e? Ezt is majd lehet, hogy egyszerűbben is meg lehet oldani!
-$user = User::findOrFail(1); //Ez egyenlőre nem teljesen működőlépes
-App::setLocale($user->language);
+//$user = User::findOrFail(1); //Ez egyenlőre nem teljesen működőlépes
+//App::setLocale($user->language); //Teszt mistt megjegyzésbe téve
 
 
 //Itt találhatóak a különböző nézetekhez tartozó útvonal definiciók
