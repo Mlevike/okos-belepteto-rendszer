@@ -116,7 +116,7 @@ Route::get('log', function (Request $request){
             }
             $user->save();
         }
-    }});
+    }}});
 
 //A telepítésnél történő kártyabeolvasáshoz használt útvonal
 
