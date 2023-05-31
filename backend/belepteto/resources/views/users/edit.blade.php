@@ -20,13 +20,13 @@
             <input type="password" class="form-control" id="code" name="code" placeholder="****" pattern="[0-9]{4}"> <!--A pattern arra szplgál, hogy csak numerikus négy számjegyű kód legyen megadható, az számok mennyiségét lehet, hogy majd később át kell gondolni -->
             <label for="fingerprint">{{ __('site.fingerprint') }}: </label>
             <input type="text" class="form-control" id="fingerprint" name="fingerprint" value="{{ $user != null ? $user->fingerprint : '' }}">
-            <label for="languages">{{ __('site.language') }}: </label>
+            <label for="languages">{{ __('site.language') }}:* </label>
             <br>
-            <select id="languages" value="{{ $user != null ? $user->language : '' }}">
+            <select name="language" id="languages" value="{{ $user != null ? $user->language : '' }}" required="required">
                 <option value="en">
                     <p>English</p>
                 </option>
-                <option value="en">
+                <option value="hu">
                     <p>Magyar</p>
                 </option>
             </select>
