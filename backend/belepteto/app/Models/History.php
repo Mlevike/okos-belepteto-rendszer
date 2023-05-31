@@ -18,7 +18,6 @@ class History extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'history_id';
     //A modell további mezői
     protected $fillable = [
         'arriveTime',
@@ -26,7 +25,7 @@ class History extends Model
         'leaveTime',
         'workTime',
         'direction',
-        'user_id',
-        'card_id'
+        'userId',
+        'cardId'
     ];
 }

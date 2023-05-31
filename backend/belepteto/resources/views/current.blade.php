@@ -28,7 +28,7 @@
     <div class="col">
         @if($user != null)
         <h2>{{ __('site.name') }}: {{$user != null ? $user->name : ''}}</h2>
-        <h2>{{ __('site.cardId') }}: {{$history->card_id}}</h2>
+        <h2>{{ __('site.cardId') }}: {{$history->cardId}}</h2>
         <h2 class="{{$history->successful ? 'text-success' : 'text-danger'}}"><b>{{$history->successful ?  __('site.successful') :  __('site.fail') }}</b></h2>
         <h2 class="{{$history->direction == 'in' ? 'text-success' : 'text-danger'}}"><b>{{$history->direction == 'in' ?  __('site.in') :  __('site.out') }}</b></h2>
         @else

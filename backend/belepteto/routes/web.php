@@ -68,8 +68,8 @@ Route::get('users/delete/{userId}', 'App\Http\Controllers\UsersViewController@de
 
 Route::get('current', function(){
     $history = History::latest()->first();
-    if($history != null and $history->user_id != null){
-    $user = User::where('id', $history->user_id)->first();
+    if($history != null and $history->userId != null){
+    $user = User::where('id', $history->userId)->first();
     }else{
         $user = null;
     }
@@ -102,16 +102,17 @@ Route::get('log', function (Request $request){
     if($request->has('successful') and $request->has('uid') and $request->has('entry')) {
         $user = User::where('cardId', $request->uid)->first(); //Lekérjük a felhasználó azonosítóját kártya azonosító alapján
         if($user != null){
-            if($request->entry and $request->successful){
-                $user->isHere = true;
-                History::create(['card_id' => $request->uid, 'user_id' => $user === null ? null : $user->id, 'direction' => $request->entry ? 'in' : 'out', 'successful' => $request->successful, 'arriveTime' => $request->entry ? now() : null, 'leaveTime' => $request->entry ? null : now(), 'workTime' => null]);
+            log::info($user);
+            if($request->entry ){
+                if($request->successful) {
+                    $user->isHere = true;
+                }
+                History::create(['cardId' => $request->uid, 'userId' => $user === null ? null : $user->id, 'direction' => $request->entry ? 'in' : 'out', 'successful' => $request->successful, 'arriveTime' => $request->entry ? now() : null,  'workTime' => null]);
             }
-            if(!($request->entry) and $request->successful){
-                $history = History::where('card_id', $request->uid)->latest()->first();
-                $history->leaveTime = now();
-                $history->save();
-                Log::info($history);
-                $user->isHere = false;
+            if(!($request->entry)){
+                if($request->successful) {
+                    History::where('cardId', $request->uid)->latest()->first()->update(['leaveTime' => now()]); //Elmentjük a távozás idejét
+                    $user->isHere = false; //Majd ki kell találni azt, hogy a sikertelen kilépéssel mi legyen??
             }
             $user->save();
         }

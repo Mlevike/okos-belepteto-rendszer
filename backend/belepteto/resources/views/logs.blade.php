@@ -26,10 +26,10 @@
     @foreach($history as $current)
             <tr>
                 <td>{{$current->id}}</td>
-                <td>{{$current->card_id}}</td>
+                <td>{{$current->cardId}}</td>
                 <td>
                     @foreach($users as $user)
-                        @if($user->id == $current->user_id) <!--Ez lehet, hogy nem a legoptimálisabb megoldás,de egyenlőre nem találtam jobbat!-->
+                        @if($user->id == $current->userId) <!--Ez lehet, hogy nem a legoptimálisabb megoldás,de egyenlőre nem találtam jobbat!-->
                             {{$user->name}}
                         @endif
                     @endforeach
