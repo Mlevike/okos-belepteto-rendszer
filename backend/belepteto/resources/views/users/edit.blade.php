@@ -12,17 +12,26 @@
         <!--A felhasználó szerkeztésére szolgáló form-->
         <form action="" method="post" enctype=multipart/form-data> <!-- Létrehozunk egy formot a felhasználük adatainak szerkesztéséhez-->
             @csrf
-            <p>{{ __('site.name') }}:* </p>
-            <input type="text" class="form-control" id="name" placeholder="Kis Géza" name="name" value="{{ $user != null ? $user->name : '' }}" required>
-            <p>{{ __('site.picture') }}: </p>
+            <label for="name">{{ __('site.name') }}:* </label>
+            <input type="text" class="form-control" id="name" placeholder="Kis Géza" name="name" value="{{ $user != null ? $user->name : '' }}" required autofocus>
+            <label for="picture">{{ __('site.picture') }}: </label>
             <input type="file" class="form-control" id="picture" name="picture">
-            <p>{{ __('site.code') }}: </p>
-            <input type="password" class="form-control" id="code" name="code" placeholder="****">
-            <p>{{ __('site.fingerprint') }}: </p>
+            <label for="code">{{ __('site.code') }}: </label>
+            <input type="password" class="form-control" id="code" name="code" placeholder="****" pattern="[0-9]{4}"> <!--A pattern arra szplgál, hogy csak numerikus négy számjegyű kód legyen megadható, az számok mennyiségét lehet, hogy majd később át kell gondolni -->
+            <label for="fingerprint">{{ __('site.fingerprint') }}: </label>
             <input type="text" class="form-control" id="fingerprint" name="fingerprint" value="{{ $user != null ? $user->fingerprint : '' }}">
-            <p>{{ __('site.language') }}: </p>
-            <input type="text" class="form-control" id="language" name="language" value="{{ $user != null ? $user->language : '' }}">
-            <p>{{ __('site.profile') }}: </p>
+            <label for="languages">{{ __('site.language') }}: </label>
+            <br>
+            <select id="languages" value="{{ $user != null ? $user->language : '' }}">
+                <option value="en">
+                    <p>English</p>
+                </option>
+                <option value="en">
+                    <p>Magyar</p>
+                </option>
+            </select>
+            <br> <!--Ez azért kell, hogy a nyelvválasztó elkülönüljön-->
+            <label for="profile">{{ __('site.profile') }}: </label>
             <input type="text" class="form-control" id="profile" name="profile" value="{{$user != null ? $user->profile : ''}}">
             <!--A felhasználó jogosultságait szabályozó kapcsolók-->
             <div class="form-check form-switch">
@@ -41,11 +50,11 @@
                 <input class="form-check-input" type="checkbox" role="switch" id="isEmployeeSwitch" name="isEmployee" {{$user != null ? $user->isEmployee  ? 'checked' : '' : ''}}>
                 <label class="form-check-label" for="isEmployeeSwitch">{{ __('site.isEmployee') }}</label>
             </div>
-            <p>{{ __('auth.email') }}:* </p>
+            <label for="email">{{ __('auth.email') }}:* </label>
             <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" value="{{$user != null ? $user->email : ''}}" required>
-            <p>{{ __('auth.password') }}:* </p>
+            <label for="password">{{ __('auth.password') }}:* </label>
             <input type="password" class="form-control" id="password" name="password" placeholder="********" {{$user == null ? 'reguired' : ''}}>
-            <p>{{ __('site.cardId') }}: </p>
+            <label for="cardId">{{ __('site.cardId') }}: </label>
             <input type="text" class="form-control" id="cardId" name="cardId" value="{{$user != null ? $user->cardId : ''}}">
             <button type="submit" class="btn btn-primary mt-2 mb-2"  >{{$user != null ?  __('site.editUser')  :  __('site.addUser') }}</button>
             <a type="button" class="btn btn-danger mt-2 mb-2" href="{{ route('users') }}" role="button">{{ __('site.cancel') }}</a>
