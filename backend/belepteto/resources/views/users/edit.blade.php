@@ -22,8 +22,9 @@
             <input type="text" class="form-control" id="fingerprint" name="fingerprint" value="{{ $user != null ? $user->fingerprint : '' }}">
             <label for="languages">{{ __('site.language') }}:* </label>
             <br>
-            <select name="language" id="languages" value="{{ $user != null ? $user->language : '' }}" required="required">
-                <option value="en">
+            <select name="language" id="languages" {{$user == null ? 'reguired' : ''}}>
+                <option value="" selected disabled hidden>Choose here</option> <!--Arra az estre ha nem akarunk nyelvet választani -->
+                <option value="en"> <!--Egenlőre az angol lesz az alapértelmezett nyelv-->
                     <p>English</p>
                 </option>
                 <option value="hu">
