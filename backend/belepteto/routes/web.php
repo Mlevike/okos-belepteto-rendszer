@@ -37,7 +37,7 @@ Route::get('dashboard', function () {
 })->middleware('auth')->name('dashboard'); //Ideiglenesen elrejtve
 
 //Ideiglenes elsődleges útvonal
-Route::get('', 'App\Http\Controllers\UsersViewController@index');
+Route::get('', 'App\Http\Controllers\UsersViewController@index')->middleware('auth');
 
 //A logok oldalhoz tartozó útvonal
 Route::get('logs', function () {
@@ -104,13 +104,17 @@ Route::get('log', function (Request $request){
         if($user != null){
             if($request->entry and $request->successful){
                 $user->isHere = true;
+                History::create(['card_id' => $request->uid, 'user_id' => $user === null ? null : $user->id, 'direction' => $request->entry ? 'in' : 'out', 'successful' => $request->successful, 'arriveTime' => $request->entry ? now() : null, 'leaveTime' => $request->entry ? null : now(), 'workTime' => null]);
             }
             if(!($request->entry) and $request->successful){
+                $history = History::where('card_id', $request->uid)->latest()->first();
+                $history->leaveTime = now();
+                //$history->save();
+                Log::info($history);
                 $user->isHere = false;
             }
             $user->save();
         }
-        History::create(['card_id' => $request->uid, 'user_id' => $user === null ? null : $user->id, 'direction' => $request->entry ? 'in' : 'out', 'successful' => $request->successful, 'arriveTime' => $request->entry ? now() : null, 'leaveTime' => $request->entry ? null : now(), 'workTime' => null]);
     }});
 
 //A telepítésnél történő kártyabeolvasáshoz használt útvonal
