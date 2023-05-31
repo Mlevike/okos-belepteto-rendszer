@@ -109,7 +109,7 @@ Route::get('log', function (Request $request){
             if(!($request->entry) and $request->successful){
                 $history = History::where('card_id', $request->uid)->latest()->first();
                 $history->leaveTime = now();
-                $history->save();
+                //$history->save();
                 Log::info($history);
                 $user->isHere = false;
             }
