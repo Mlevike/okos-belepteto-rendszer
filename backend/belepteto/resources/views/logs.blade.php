@@ -14,13 +14,13 @@
     <table class="table table-hover">
         <thead>
             <th>#</th>
-            <th>Kártya azonosító</th>
-            <th>Név</th>
-            <th>Direction</th>
-            <th>Successful?</th>
-            <th>arriveTime</th>
-            <th>leaveTime</th>
-            <th>workTime</th>
+            <th>{{ __('site.cardId') }}</th>
+            <th>{{ __('site.name') }}</th>
+            <th>{{ __('site.direction') }}</th>
+            <th>{{ __('site.successful') }}?</th>
+            <th>{{ __('site.arriveTime') }}</th>
+            <th>{{ __('site.leaveTime') }}</th>
+            <!--<th>{{ __('site.workTime') }}</th>
         </thead>
         <tbody>
     @foreach($history as $current)
@@ -34,15 +34,23 @@
                         @endif
                     @endforeach
                 </td>
-                <td>{{$current->direction}}</td>
-                <td> @if($current->successful)
+                <td>
+                    @if($current->direction == 'in')
+                        {{ __('site.in') }}
+                    @elseif($current->direction == 'out')
+                        {{ __('site.out') }}
+                    @endif
+                </td>
+                <td>
+                    @if($current->successful)
                         <i class="bi bi-check-square-fill" style="color: green"></i>
                     @else
                         <i class="bi bi-x-square-fill" style="color: red"></i>
-                    @endif</td>
+                    @endif
+                </td>
                 <td>{{$current->arriveTime}}</td>
                 <td>{{$current->leaveTime}}</td>
-                <td>{{$current->workTime}}</td>
+                <!-- <td>{{$current->workTime}}</td> --> <!--Ideiglenesen elrejtve -->
             </tr>
     @endforeach
         </tbody>

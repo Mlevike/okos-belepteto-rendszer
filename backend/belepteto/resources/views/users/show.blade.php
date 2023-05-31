@@ -23,7 +23,11 @@
     <div class="col">
     <p>{{ __('site.language') }}:
         <td>
-            <span class="fi fi-{{$user->language}}"></span>
+            @if($user->language == 'en')
+                <span class="fi fi-gb"></span>
+            @elseif($user->language == 'hu')
+            <span class="fi fi-hu"></span>
+            @endif
         </td>
     </p>
     <p>{{ __('site.profile') }}: {{$user->profile}}</p>

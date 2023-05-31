@@ -56,7 +56,11 @@
                 @endif
             </td>
             <td>
-                <span class="fi fi-{{$user->language}}"></span>
+                @if($user->language == 'en')
+                    <span class="fi fi-gb"></span>
+                @elseif($user->language == 'hu')
+                <span class="fi fi-hu"></span>
+                @endif
             </td>
             <td>{{$user->profile}}</td>
             <td>

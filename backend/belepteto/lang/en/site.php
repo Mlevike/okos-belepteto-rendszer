@@ -13,9 +13,11 @@ return [
     |
     */
 
-    'back' => 'Back',
+    'arriveTime' => "Arrive Time",
+    'back' => "Back",
     'dashboard' => "Dashboard",
     'delete' => "Delete",
+    'direction' => "Direction",
     'entry_system' => "Entry System",
     'users' => "Users",
     'edit' => "Edit",
@@ -30,6 +32,7 @@ return [
     'isWebEnabled' => "Has web access?",
     'isEntryEnabled' => "Has entry permission?",
     'isEmployee' => "Employee?",
+    'leaveTime' => "Leave Time",
     'cardId' => "Card ID",
     'options' => "Options",
     'addUser' => "Add new user",
@@ -45,4 +48,5 @@ return [
     'isHere' => "Is here?",
     'hasCode' => "Has Code?",
     'hasFingerprint' => "Has Fingerprint?",
+    'workTime' => "Working Hours"
 ];

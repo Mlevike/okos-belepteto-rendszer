@@ -13,9 +13,11 @@ return [
     |
     */
 
-    'back' => 'Vissza',
+    'arriveTime' => "Érkezési idő",
+    'back' => "Vissza",
     'dashboard' => "Vezérlőpult",
     'delete' => "Törlés",
+    'direction' => "Irány",
     'entry_system' => "Beléptetőrendszer",
     'users' => "Felhasználók",
     'edit' => "Szerkesztés",
@@ -30,6 +32,7 @@ return [
     'isWebEnabled' => "Van webes hozzáférése?",
     'isEntryEnabled' => "Van belépési jogosultsága?",
     'isEmployee' => "Alkalmazott?",
+    'leaveTime' => "Távozás ideje",
     'cardId' => "Kártya azosítója",
     'options' => "Opciók",
     'addUser' => "Felhasználó hozzáadása",
@@ -44,5 +47,6 @@ return [
     'out' => "Ki",
     'isHere' => "Itt van?",
     'hasCode' => "Van kódja?",
-    'hasFingerprint' => "Van rögzített ujjlenyomata?"
+    'hasFingerprint' => "Van rögzített ujjlenyomata?",
+    'workTime' => "Munkaórák"
 ];

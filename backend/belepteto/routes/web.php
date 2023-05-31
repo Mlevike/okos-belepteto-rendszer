@@ -31,10 +31,13 @@ App::setLocale($user->language);
 //Itt találhatóak a különböző nézetekhez tartozó útvonal definiciók
 
 //Vezérlőpulthoz tartozó útvonal
-Route::get('', function () {
+Route::get('dashboard', function () {
     $current_user = Auth::user(); //Jelenleg bejelentkezett felhasználó adatainak lekérése
     return view('dashboard', ['current_user'=>$current_user]);
-})->middleware('auth')->name('dashboard');
+})->middleware('auth')->name('dashboard'); //Ideiglenesen elrejtve
+
+//Ideiglenes elsődleges útvonal
+Route::get('', 'App\Http\Controllers\UsersViewController@index');
 
 //A logok oldalhoz tartozó útvonal
 Route::get('logs', function () {
