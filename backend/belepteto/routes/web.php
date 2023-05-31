@@ -68,7 +68,7 @@ Route::get('users/delete/{userId}', 'App\Http\Controllers\UsersViewController@de
 
 Route::get('current', function(){
     $history = History::latest()->first();
-    if($history->user_id != null){
+    if($history != null and $history->user_id != null){
     $user = User::where('id', $history->user_id)->first();
     }else{
         $user = null;
@@ -109,7 +109,7 @@ Route::get('log', function (Request $request){
             if(!($request->entry) and $request->successful){
                 $history = History::where('card_id', $request->uid)->latest()->first();
                 $history->leaveTime = now();
-                //$history->save();
+                $history->save();
                 Log::info($history);
                 $user->isHere = false;
             }
