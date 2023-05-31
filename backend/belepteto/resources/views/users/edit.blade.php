@@ -58,7 +58,7 @@
             <label for="cardId">{{ __('site.cardId') }}: </label>
             <input type="text" class="form-control" id="cardId" name="cardId" value="{{$user != null ? $user->cardId : ''}}">
             <button type="submit" class="btn btn-primary mt-2 mb-2"  >{{$user != null ?  __('site.editUser')  :  __('site.addUser') }}</button>
-            <a type="button" class="btn btn-danger mt-2 mb-2" href="{{ route('users') }}" role="button">{{ __('site.cancel') }}</a>
+            <a type="button" class="btn btn-danger mt-2 mb-2" href="javascript:history.back()" role="button">{{ __('site.cancel') }}</a> <!--Erre majd kell Laraveles megoldás is-->
         </form>
 </main>
 </body>
