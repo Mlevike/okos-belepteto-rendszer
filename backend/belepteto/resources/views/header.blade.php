@@ -1,4 +1,5 @@
 <!--Ebben a fájlban a menü sablonja található.-->
+{{App::setLocale($current_user->language)}} <!--Beállítjuk a lokalizációt-->
 <header class="p-3 mb-3 border-bottom">
     <div>
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
