@@ -111,7 +111,7 @@ Route::get('log', function (Request $request){
             }
             if(!($request->entry)){
                 if($request->successful) {
-                    History::where('cardId', $request->uid)->latest()->first()->update(['leaveTime' => now()]); //Elmentjük a távozás idejét
+                    History::where('cardId', $request->uid)->where('successful', true)->latest()->first()->update(['leaveTime' => now()]); //Elmentjük a távozás idejét
                     $user->isHere = false; //Majd ki kell találni azt, hogy a sikertelen kilépéssel mi legyen??
             }
             $user->save();
