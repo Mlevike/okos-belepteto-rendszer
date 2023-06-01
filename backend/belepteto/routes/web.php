@@ -33,7 +33,20 @@ use App\Http\Resources\ValidateResource;
 //Vezérlőpulthoz tartozó útvonal
 Route::get('dashboard', function () {
     $current_user = Auth::user(); //Jelenleg bejelentkezett felhasználó adatainak lekérése
-    return view('dashboard', ['current_user'=>$current_user]);
+    $users = User::all(); //Lekérjük az összes felhasználót az adatbázisból
+    //Deklaráljuk az itt levő felhasználókat megszámláló változókat
+    $here = 0;
+    $notHere = 0;
+    foreach ($users as $user){ //Megszámoljuk az itt levő felhasználókat
+        if($user != null){
+            if($user->isHere){
+                $here++;
+            }else{
+                $notHere++;
+            }
+        }
+    }
+    return view('dashboard', ['current_user'=>$current_user, 'here' => $here, 'notHere' => $notHere]); //Ez lehet, hogy csak ideiglenes megooldás lesz
 })->middleware('auth')->name('dashboard'); //Ideiglenesen elrejtve
 
 //Ideiglenes elsődleges útvonal
@@ -102,19 +115,17 @@ Route::get('log', function (Request $request){
     if($request->has('successful') and $request->has('uid') and $request->has('entry')) {
         $user = User::where('cardId', $request->uid)->first(); //Lekérjük a felhasználó azonosítóját kártya azonosító alapján
         if($user != null){
-            log::info($user);
             if($request->entry ){
                 if($request->successful) {
-                    $user->isHere = true;
+                    User::where('cardId', $request->uid)->first()->update(['isHere' => true]);
                 }
                 History::create(['cardId' => $request->uid, 'userId' => $user === null ? null : $user->id, 'direction' => $request->entry ? 'in' : 'out', 'successful' => $request->successful, 'arriveTime' => $request->entry ? now() : null,  'workTime' => null]);
             }
             if(!($request->entry)){
                 if($request->successful) {
                     History::where('cardId', $request->uid)->where('successful', true)->latest()->first()->update(['leaveTime' => now()]); //Elmentjük a távozás idejét
-                    $user->isHere = false; //Majd ki kell találni azt, hogy a sikertelen kilépéssel mi legyen??
+                    User::where('cardId', $request->uid)->first()->update(['isHere' => false]); //Majd ki kell találni azt, hogy a sikertelen kilépéssel mi legyen??
             }
-            $user->save();
         }
     }}});
 
