@@ -119,7 +119,7 @@ Route::get('log', function (Request $request){
                 if($request->successful) {
                     User::where('cardId', $request->uid)->first()->update(['isHere' => true]);
                 }
-                History::create(['cardId' => $request->uid, 'userId' => $user === null ? null : $user->id, 'direction' => $request->entry ? 'in' : 'out', 'successful' => $request->successful, 'arriveTime' => $request->entry ? now() : null,  'workTime' => null]);
+                History::create(['cardId' => $request->uid, 'userId' => $user == null ? null : $user->id, 'direction' => $request->entry ? 'in' : 'out', 'successful' => $request->successful, 'arriveTime' => $request->entry ? now() : null,  'workTime' => null]);
             }
             if(!($request->entry)){
                 if($request->successful) {
@@ -127,7 +127,9 @@ Route::get('log', function (Request $request){
                     User::where('cardId', $request->uid)->first()->update(['isHere' => false]); //Majd ki kell találni azt, hogy a sikertelen kilépéssel mi legyen??
             }
         }
-    }}});
+    }else{ //Egy ág arra az esetre, ha a felhasználó nem lenne regisztrálva
+            History::create(['cardId' => $request->uid, 'userId' => null, 'direction' => $request->entry ? 'in' : 'out', 'successful' => $request->successful, 'arriveTime' => $request->entry ? now() : null,  'workTime' => null]);
+        }}});
 
 //A telepítésnél történő kártyabeolvasáshoz használt útvonal
 
