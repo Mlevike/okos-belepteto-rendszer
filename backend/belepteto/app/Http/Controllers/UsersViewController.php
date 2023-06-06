@@ -16,6 +16,7 @@ class UsersViewController extends Controller
     public function index()
     {
         Log::info("Teszt");
+        Log::channel('db')->info('Your message');
         $users = User::paginate(20); //Ez azért kell, hogy max. csak húsz találatot jelenítsünk meg egyszerre
         $users = $users;
         $current_user = Auth::user();
