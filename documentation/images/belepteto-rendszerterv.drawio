@@ -1,1 +1,49 @@
-<mxfile host="Electron" modified="2022-12-06T17:27:07.021Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/20.2.3 Chrome/102.0.5005.167 Electron/19.0.11 Safari/537.36" etag="GUQCDwxl7-C_y6jokTEz" version="20.2.3" type="device"><diagram id="vzMh8M_eVgVNIFF011hd" name="Page-1">1Vhdc6IwFP01PG4HgvjxqNZtd7addWpnun2MECHbSJgQFfbX70WCEKLWbrfafTI5SW6Sc+49IJY7XmY3AifRPQ8Is5AdZJZ7bSHkoF4ffgokL5FuZ1ACoaCBmlQDM/qbKNBW6IoGJNUmSs6ZpIkO+jyOiS81DAvBN/q0BWf6rgkOiQHMfMxM9IkGMirRPurV+C2hYVTt7HTV/Za4mqxukkY44JsG5E4sdyw4l2VrmY0JK8ireCnXfT0wujuYILE8ZcHoacIfHwa39vMQCzufPXT8H18ctwyzxmylbqxOK/OKAjh4UjQXjGTDglLLHZE4UM1rn+E0pT6AkVwyABxoCr6KA1LsbEPPPKo6PQk09tXBbwhfEilymLCpOfcUj1GD7goThGFJ17pmWEkf7sLtdphyCidBtkrTTkfFUUmKBrYeIuUr4RO1qslxK5DnvRJIYhESaQSCRuPaNbSV8A1ydl9XMwRpkoOCrImQJLP2VBaeVxHs/VKpVS5qUVBR0pDS2aflDtynm0bUW1kxc3x6OwVgjv0XSGSDojp5i1TeRFSSWYL9YnQDLqdnuknlUWXa/Jo85roBNmlDe2jrfhRrg8s4wzH2PoldeIMrT8vx3t/aRTuQ00VXPe+sluH0DZ0fJrNHQIbTb4bikLxS1zOVgr+QMWdcABLzGGaOFpSxFoQZDeMiKUBpAvioKAUKD9qhGljSICi22Vtw78maE2ou03XclaBZg/09aeV+VAk6pp/f8zkFlmCzBFzctsauNRyk0Hoic1L8LgQHgv+9qx16QBwk03gWdi/taMg1SCkcZaa6XMiIhzzGbFKjrcyr59xxniiyfhEpc/XqileS61SSjMqfxXKo9bL33Bi5zlTkbSevOjHct7Go6D43x+pl21617qBspSMd40aRXrrNsYmnvrqdbLLv07Tzv2h6Dm3Q59LGNuwrwiLYAAV3OCfiKomSi9tU+32143iXtinHoG1EWGqNPWsAQzZna9gTjH9k+tm52UOtf04eujh7yGDv+5as8SelsGOfj0Lo1h8cyjfI+rONO/kD</diagram></mxfile>
+<mxfile host="Electron" modified="2023-06-05T07:50:19.219Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.2.8 Chrome/112.0.5615.165 Electron/24.2.0 Safari/537.36" etag="N8eFOUhjUpHkJ9wYJAaM" version="21.2.8" type="device">
+  <diagram id="vzMh8M_eVgVNIFF011hd" name="Page-1">
+    <mxGraphModel dx="1050" dy="629" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="BWEoTR9H0YAar0ySR4cO-13" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="440" y="290" as="sourcePoint" />
+            <mxPoint x="550" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BWEoTR9H0YAar0ySR4cO-6" value="" style="group" parent="1" vertex="1" connectable="0">
+          <mxGeometry x="320" y="250" width="150" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="BWEoTR9H0YAar0ySR4cO-3" value="Laravel&lt;br&gt;PHP backend" style="rounded=1;whiteSpace=wrap;html=1;" parent="BWEoTR9H0YAar0ySR4cO-6" vertex="1">
+          <mxGeometry y="10" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BWEoTR9H0YAar0ySR4cO-9" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" parent="BWEoTR9H0YAar0ySR4cO-6" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="59.5" y="70" as="sourcePoint" />
+            <mxPoint x="59.5" y="162.75" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BWEoTR9H0YAar0ySR4cO-18" value="REST API" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="BWEoTR9H0YAar0ySR4cO-6" vertex="1">
+          <mxGeometry x="70" y="100" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BWEoTR9H0YAar0ySR4cO-16" value="Webes frontend" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="550" y="260" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BWEoTR9H0YAar0ySR4cO-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="BWEoTR9H0YAar0ySR4cO-20" target="BWEoTR9H0YAar0ySR4cO-21" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BWEoTR9H0YAar0ySR4cO-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="BWEoTR9H0YAar0ySR4cO-20" target="BWEoTR9H0YAar0ySR4cO-22" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BWEoTR9H0YAar0ySR4cO-20" value="hardwareLayer.php" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="320" y="415" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BWEoTR9H0YAar0ySR4cO-21" value="Belső olvasó" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="240" y="525" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BWEoTR9H0YAar0ySR4cO-22" value="Külső olvasó" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="400" y="525" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -60,7 +60,8 @@
     {{$history->links()}}
 </div>
 @if($current_user->isAdmin)
-<!--<h2>{{ __('site.system_logs') }}</h2>--> <!--Ideiglenes elrejtés-->
+<h2>{{ __('site.system_logs') }}</h2>
+
 @endif
 </main>
 </body>
