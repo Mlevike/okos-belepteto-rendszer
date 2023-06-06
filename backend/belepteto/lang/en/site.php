@@ -17,8 +17,10 @@ return [
     'back' => "Back",
     'dashboard' => "Dashboard",
     'delete' => "Delete",
+    'description' => "Description",
     'direction' => "Direction",
     'entry_system' => "Entry System",
+    'errorLevel' => "Level",
     'users' => "Users",
     'edit' => "Edit",
     'logs' => "Logs",
@@ -48,5 +50,6 @@ return [
     'isHere' => "Is here?",
     'hasCode' => "Has Code?",
     'hasFingerprint' => "Has Fingerprint?",
-    'workTime' => "Working Hours"
+    'workTime' => "Working Hours",
+    'time' => "Időpont"
 ];

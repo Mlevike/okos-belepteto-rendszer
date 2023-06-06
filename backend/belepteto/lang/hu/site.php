@@ -17,8 +17,10 @@ return [
     'back' => "Vissza",
     'dashboard' => "Vezérlőpult",
     'delete' => "Törlés",
+    'description' => "Leírás",
     'direction' => "Irány",
     'entry_system' => "Beléptetőrendszer",
+    'errorLevel' => "Szint",
     'users' => "Felhasználók",
     'edit' => "Szerkesztés",
     'logs' => "Logok",
@@ -48,5 +50,6 @@ return [
     'isHere' => "Itt van?",
     'hasCode' => "Van kódja?",
     'hasFingerprint' => "Van rögzített ujjlenyomata?",
-    'workTime' => "Munkaórák"
+    'workTime' => "Munkaórák",
+    'time' => "Time"
 ];

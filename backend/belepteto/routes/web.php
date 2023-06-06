@@ -54,11 +54,12 @@ Route::get('', 'App\Http\Controllers\UsersViewController@index')->middleware('au
 
 //A logok oldalhoz tartozó útvonal
 Route::get('logs', function () {
-    $history = History::paginate(20); //15 elem látszódjon egyszerre
+    $history = History::paginate(20, ['*'], 'history_page'); //20 elem látszódjon egyszerre
     $users = User::all();
+    $logs = DB::table('log_messages')->paginate(20, ['*'], 'log_page'); //20 elem látszódjon egyszerre a rendszer szintő logokból
     $current_user = Auth::user(); //Jelenleg bejelentkezett felhasználó adatainak lekérése
     if($current_user->isAdmin or $current_user->isEmployee) {
-        return view('logs', ["history" => $history, "users" => $users, "current_user" => $current_user]);
+        return view('logs', ["history" => $history, 'logs' => $logs, "users" => $users, "current_user" => $current_user]);
     }else{
         return view('error', [ 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users')]); //Ez majd lehet, hogy máshová irányít át később
     }
