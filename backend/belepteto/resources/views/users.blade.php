@@ -9,7 +9,7 @@
 <main class="p-2">
 <h1>{{ __('site.users') }}</h1>
     <!--Opciók a csoportos művelet végzéshez (egyenlőre el vannak rejtve)
-    @if($current_user->isAdmin)
+    @if($current_user->role == 'admin')
             <div class="btn-group" role="group" >
                 <p>{{ __('site.options') }}:</p>
                 <form action="{{ route('users-delete', [$userId = 1]) }}" method="post">
@@ -64,7 +64,7 @@
             </td>
             <td>{{$user->profile}}</td>
             <td>
-                @if($user->isAdmin)
+                @if($user->role == 'admin')
                     <i class="bi bi-check-square-fill" style="color: green"></i>
                 @else
                     <i class="bi bi-x-square-fill" style="color: red"></i>
@@ -99,7 +99,7 @@
                 @endif
             </td>
             <td>
-                @if($user->isEmployee)
+                @if($user->role == 'employee')
                     <i class="bi bi-check-square-fill" style="color: green"></i>
                 @else
                     <i class="bi bi-x-square-fill" style="color: red"></i>
@@ -122,7 +122,7 @@
 <div>
     {{$users->links()}}
 </div>
-@if($current_user->isAdmin)
+@if($current_user->role == 'admin')
     <a type="button" class="btn btn-primary mt-2 mb-2" href="{{ route('users-add') }}" role="button"><i class="bi bi-plus"></i> {{ __('site.addUser') }}</a>
 @endif
 </main>

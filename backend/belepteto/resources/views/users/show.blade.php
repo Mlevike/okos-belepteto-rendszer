@@ -32,7 +32,7 @@
     </p>
     <p>{{ __('site.profile') }}: {{$user->profile}}</p>
     <p>{{ __('site.isAdmin') }}:
-        @if($user->isAdmin)
+        @if($user->role == 'admin')
             <i class="bi bi-check-square-fill" style="color: green"></i>
         @else
             <i class="bi bi-x-square-fill" style="color: red"></i>
@@ -69,7 +69,7 @@
             @endif
         </p>
     <p>{{ __('site.isEmployee') }}:
-        @if($user->isEmployee)
+        @if($user->role == 'employee')
             <i class="bi bi-check-square-fill" style="color: green"></i>
         @else
             <i class="bi bi-x-square-fill" style="color: red"></i>

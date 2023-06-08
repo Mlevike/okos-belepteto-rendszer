@@ -58,7 +58,7 @@ Route::get('logs', function () {
     $users = User::all();
     $logs = DB::table('log_messages')->paginate(20, ['*'], 'log_page'); //20 elem látszódjon egyszerre a rendszer szintő logokból
     $current_user = Auth::user(); //Jelenleg bejelentkezett felhasználó adatainak lekérése
-    if($current_user->isAdmin or $current_user->isEmployee) {
+    if($current_user->role == 'admin' or $current_user->role == 'employee') {
         return view('logs', ["history" => $history, 'logs' => $logs, "users" => $users, "current_user" => $current_user]);
     }else{
         return view('error', [ 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users')]); //Ez majd lehet, hogy máshová irányít át később
@@ -120,7 +120,7 @@ Route::post('validate/{uid}', function(Request $request) {
 //Ez csak ideiglenesen van itt token generáláshot
 Route::Get('token-generate', function(){
     $current_user = Auth::user(); //Jelenleg bejelentkezett felhasználó adatainak lekérése
-    if($current_user->isAdmin){
+    if($current_user->role == 'isAdmin'){
     $hash = hash('sha256', $plainTextToken = Str::random(40)); //Legeneráljunk a token-t
     if(Settings::all()->where('setting_name', 'access_token')->isEmpty()) {
         Settings::create(['setting_name' => 'access_token', 'setting_value' => '']);

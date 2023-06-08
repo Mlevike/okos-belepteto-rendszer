@@ -6,7 +6,7 @@
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                <!-- <li><a href="{{ route('dashboard') }}" class="nav-link px-2 link-secondary">{{ __('site.dashboard') }}</a></li>--> <!--Ideiglenesen elrejtve-->
                 <li><a href="{{ route('users') }}" class="nav-link px-2 link-body-emphasis">{{ __('site.users') }}</a></li>
-                @if($current_user->isAdmin or $current_user->isEmployee)
+                @if($current_user->role == 'admin' or $current_user->role == 'employee')
                 <li><a href="{{ route('logs') }}" class="nav-link px-2 link-body-emphasis">{{ __('site.logs') }}</a></li>
                 @endif
             </ul>

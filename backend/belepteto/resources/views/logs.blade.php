@@ -59,7 +59,7 @@
 <div>
     {{$history->links()}}
 </div>
-@if($current_user->isAdmin)
+@if($current_user->role == 'admin')
     <h2>{{ __('site.system_logs') }}</h2>
         <table class="table table-hover">
             <thead>

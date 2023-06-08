@@ -36,7 +36,7 @@
             <input type="text" class="form-control" id="profile" name="profile" value="{{$user != null ? $user->profile : ''}}">
             <!--A felhasználó jogosultságait szabályozó kapcsolók-->
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="isAdminSwitch" name="isAdmin" {{$user != null ? $user->isAdmin  ? 'checked' : '' : ''}}>
+                <input class="form-check-input" type="checkbox" role="switch" id="isAdminSwitch" name="isAdmin" {{$user != null ? $user->role == 'admin'  ? 'checked' : '' : ''}}>
                 <label class="form-check-label" for="isAdminSwitch">{{ __('site.isAdmin') }}</label>
             </div>
             <div class="form-check form-switch">

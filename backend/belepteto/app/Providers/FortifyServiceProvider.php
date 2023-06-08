@@ -47,7 +47,7 @@ class FortifyServiceProvider extends ServiceProvider
             $user = User::where('email', $request->email)->first();
 
             if ($user &&
-                Hash::check($request->password, $user->password) && $user->isWebEnabled) {
+                Hash::check($request->password, $user->password) && ($user->role == 'admin' || $user->role == 'employee')) {
                 return $user;
             }
         });
