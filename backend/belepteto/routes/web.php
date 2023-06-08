@@ -111,6 +111,21 @@ Route::get('validate/{uid}', function() {
 
 });
 
+//Ez csak ideiglenesen van itt token generáláshot
+Route::Get('token-generate', function(){
+    $current_user = Auth::user(); //Jelenleg bejelentkezett felhasználó adatainak lekérése
+    if($current_user->isAdmin){
+    $hash = hash('sha256', $plainTextToken = Str::random(40)); //Legeneráljunk a token-t
+    if(Settings::all()->where('setting_name', 'access_token')->isEmpty()) {
+        Settings::create(['setting_name' => 'access_token', 'setting_value' => '']);
+    }
+    $token = Settings::all()->where('setting_name', 'access_token')->first();
+    $token->setting_value = $hash;
+    $token->save(); //Elmentjük a token értékét az adatbázisba
+    return $hash; //Visszadjuk a hash-t a felhasználónak
+    }
+})->middleware('auth');
+
 //A belépési kísérletek logolására szolgáló útvonal, ezt majd lehet, hogy máshogy kell megcsinálni
 Route::get('log', function (Request $request){
     if($request->has('successful') and $request->has('uid') and $request->has('entry')) {
