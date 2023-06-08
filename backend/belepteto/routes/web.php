@@ -138,25 +138,25 @@ Route::post('log', function (Request $request){
         $token = Settings::all()->where('setting_name', 'access_token')->first(); //Lekérjük az access_token értékét
         if ($request->has('access_token')) {
             if($request->access_token == $token->setting_value) {
-    if($request->has('successful') and $request->has('uid') and $request->has('entry')) {
-        $user = User::where('cardId', $request->uid)->first(); //Lekérjük a felhasználó azonosítóját kártya azonosító alapján
-        if($user != null){
-            if($request->entry ){
-                if($request->successful) {
-                    User::where('cardId', $request->uid)->first()->update(['isHere' => true]);
-                }
-                History::create(['cardId' => $request->uid, 'userId' => $user == null ? null : $user->id, 'direction' => $request->entry ? 'in' : 'out', 'successful' => $request->successful, 'arriveTime' => $request->entry ? now() : null,  'workTime' => null]);
-            }
-            if(!($request->entry)){
-                if($request->successful) {
-                    History::where('cardId', $request->uid)->where('successful', true)->latest()->first()->update(['leaveTime' => now()]); //Elmentjük a távozás idejét
-                    User::where('cardId', $request->uid)->first()->update(['isHere' => false]); //Majd ki kell találni azt, hogy a sikertelen kilépéssel mi legyen??
+                if($request->has('successful') and $request->has('uid') and $request->has('entry')) {
+                    $user = User::where('cardId', $request->uid)->first(); //Lekérjük a felhasználó azonosítóját kártya azonosító alapján
+                    if($user != null){
+                        if($request->entry ){
+                            if($request->successful) {
+                                User::where('cardId', $request->uid)->first()->update(['isHere' => true]);
+                            }
+                            History::create(['cardId' => $request->uid, 'userId' => $user == null ? null : $user->id, 'direction' => $request->entry ? 'in' : 'out', 'successful' => $request->successful, 'arriveTime' => $request->entry ? now() : null,  'workTime' => null]);
+                        }
+                            if(!($request->entry)){
+                                if($request->successful) {
+                                    History::where('cardId', $request->uid)->where('successful', true)->latest()->first()->update(['leaveTime' => now()]); //Elmentjük a távozás idejét
+                                    User::where('cardId', $request->uid)->first()->update(['isHere' => false]); //Majd ki kell találni azt, hogy a sikertelen kilépéssel mi legyen??
             }
         }
-    }else{ //Egy ág arra az esetre, ha a felhasználó nem lenne regisztrálva
-            History::create(['cardId' => $request->uid, 'userId' => null, 'direction' => $request->entry ? 'in' : 'out', 'successful' => $request->successful, 'arriveTime' => $request->entry ? now() : null,  'workTime' => null]);
-        }
-    }
+                            }else{ //Egy ág arra az esetre, ha a felhasználó nem lenne regisztrálva
+                                History::create(['cardId' => $request->uid, 'userId' => null, 'direction' => $request->entry ? 'in' : 'out', 'successful' => $request->successful, 'arriveTime' => $request->entry ? now() : null,  'workTime' => null]);
+                            }
+                    }
             }
         }
     }

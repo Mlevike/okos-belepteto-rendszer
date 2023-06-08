@@ -97,7 +97,7 @@ def GetCode(uid): #UID alapján kódot lekérő metódus
     URL = validateUrl + uid
     print(URL)
     data = {'access_token' : os.getenv('ACCESS_TOKEN')}
-    r = requests.post(URL, json = data, auth=(os.getenv('SERVER_USERNAME'), os.getenv('SERVER_PW')))
+    r = requests.post(URL, json = data)
     #r = requests.get(URL, auth=(os.getenv('SERVER_USERNAME'), os.getenv('SERVER_PW')))
     print("GetCode(): " + str(r.status_code))
     j = json.loads(json.dumps(r.json()))
@@ -105,16 +105,18 @@ def GetCode(uid): #UID alapján kódot lekérő metódus
 
 def GetIsHere(uid): #UID alapján itt létet lekérő metódus
     URL = validateUrl + uid
-    r = requests.get(URL, auth=(os.getenv('SERVER_USERNAME'), os.getenv('SERVER_PW')))
+    data = {'access_token' : os.getenv('ACCESS_TOKEN')}
+    r = requests.get(URL, json = data)
     print("GetIsHere(): " + str(r.status_code))
     j = json.loads(json.dumps(r.json()))
     return j.get("isHere")
 
 
 def SendLog(uid, successful, entry): #Logot mentő metódus
-    URL = logUrl + "?uid=" + str(uid) + "&successful=" + str(successful) + "&entry=" + str(entry)
+    URL = logUrl
     print(URL) #Teszteléshez
-    r = requests.get(URL, auth=(os.getenv('SERVER_USERNAME'), os.getenv('SERVER_PW')))
+    data = {'access_token' : os.getenv('ACCESS_TOKEN'), 'uid' : str(uid), 'sucessful' : str(successful), 'entry' : str(entry)}
+    r = requests.get(URL, json = data)
     print("SendLog(): " + str(r.status_code))
     return r.status_code
 
