@@ -96,7 +96,9 @@ def TriggerRelay(): #Relét kapcsoló metódus
 def GetCode(uid): #UID alapján kódot lekérő metódus
     URL = validateUrl + uid
     print(URL)
-    r = requests.get(URL, auth=(os.getenv('SERVER_USERNAME'), os.getenv('SERVER_PW')))
+    data = {'access_token' : os.getenv('ACCESS_TOKEN')}
+    r = requests.post(URL, json = data, auth=(os.getenv('SERVER_USERNAME'), os.getenv('SERVER_PW')))
+    #r = requests.get(URL, auth=(os.getenv('SERVER_USERNAME'), os.getenv('SERVER_PW')))
     print("GetCode(): " + str(r.status_code))
     j = json.loads(json.dumps(r.json()))
     return j.get("code")
