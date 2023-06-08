@@ -133,7 +133,11 @@ Route::Get('token-generate', function(){
 })->middleware('auth');
 
 //A belépési kísérletek logolására szolgáló útvonal, ezt majd lehet, hogy máshogy kell megcsinálni
-Route::get('log', function (Request $request){
+Route::post('log', function (Request $request){
+    if(!(Settings::all()->where('setting_name', 'access_token')->isEmpty())) { //Ellenőrizzük az access_token meglétét
+        $token = Settings::all()->where('setting_name', 'access_token')->first(); //Lekérjük az access_token értékét
+        if ($request->has('access_token')) {
+            if($request->access_token == $token->setting_value) {
     if($request->has('successful') and $request->has('uid') and $request->has('entry')) {
         $user = User::where('cardId', $request->uid)->first(); //Lekérjük a felhasználó azonosítóját kártya azonosító alapján
         if($user != null){
@@ -151,7 +155,12 @@ Route::get('log', function (Request $request){
         }
     }else{ //Egy ág arra az esetre, ha a felhasználó nem lenne regisztrálva
             History::create(['cardId' => $request->uid, 'userId' => null, 'direction' => $request->entry ? 'in' : 'out', 'successful' => $request->successful, 'arriveTime' => $request->entry ? now() : null,  'workTime' => null]);
-        }}});
+        }
+    }
+            }
+        }
+    }
+});
 
 //A telepítésnél történő kártyabeolvasáshoz használt útvonal
 
