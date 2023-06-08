@@ -116,13 +116,8 @@ def GetIsHere(uid): #UID alapján itt létet lekérő metódus
 def SendLog(uid, successful, entry): #Logot mentő metódus
     URL = logUrl
     print(URL) #Teszteléshez
-<<<<<<< Updated upstream
     data = {'access_token' : os.getenv('ACCESS_TOKEN'), 'uid' : str(uid), 'sucessful' : str(successful), 'entry' : str(entry)}
     r = requests.post(URL, json = data)
-=======
-    data = {'access_token' : os.getenv('ACCESS_TOKEN'), 'uid' : str(uid), 'successful' : str(successful), 'entry' : str(entry)}
-    r = requests.get(URL, json = data)
->>>>>>> Stashed changes
     print("SendLog(): " + str(r.status_code))
     return r.status_code
 
