@@ -15,6 +15,7 @@ return [
 
     'arriveTime' => "Arrive Time",
     'back' => "Back",
+    'choseHere' => "Choose here",
     'dashboard' => "Dashboard",
     'delete' => "Delete",
     'description' => "Description",
@@ -51,5 +52,6 @@ return [
     'hasCode' => "Has Code?",
     'hasFingerprint' => "Has Fingerprint?",
     'workTime' => "Working Hours",
-    'time' => "Időpont"
+    'time' => "Time",
+    'role' => "Role"
 ];

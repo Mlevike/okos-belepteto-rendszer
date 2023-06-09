@@ -29,12 +29,10 @@
             <th>{{ __('site.picture') }}</th>
             <th>{{ __('site.language') }}</th>
             <th>{{ __('site.profile') }}</th>
-            <th>{{ __('site.isAdmin') }}</th>
-            <th>{{ __('site.isWebEnabled') }}</th>
             <th>{{ __('site.isEntryEnabled') }}</th>
             <th>{{ __('site.hasCode') }}</th>
             <th>{{ __('site.hasFingerprint') }}</th>
-            <th>{{ __('site.isEmployee') }}</th>
+            <th>{{ __('site.role') }}</th>
             <th>{{ __('site.isHere') }}</th>
             <th>{{ __('auth.email') }}</th>
             <th>{{ __('site.cardId') }}</th>
@@ -63,20 +61,8 @@
                 @endif
             </td>
             <td>{{$user->profile}}</td>
-            <td>
-                @if($user->role == 'admin')
-                    <i class="bi bi-check-square-fill" style="color: green"></i>
-                @else
-                    <i class="bi bi-x-square-fill" style="color: red"></i>
-                @endif
-            </td>
-            <td>
-                @if($user->isWebEnabled)
-                    <i class="bi bi-check-square-fill" style="color: green"></i>
-                @else
-                    <i class="bi bi-x-square-fill" style="color: red"></i>
-                @endif
-            </td>
+
+
             <td>
                 @if($user->isEntryEnabled)
                     <i class="bi bi-check-square-fill" style="color: green"></i>
@@ -99,11 +85,7 @@
                 @endif
             </td>
             <td>
-                @if($user->role == 'employee')
-                    <i class="bi bi-check-square-fill" style="color: green"></i>
-                @else
-                    <i class="bi bi-x-square-fill" style="color: red"></i>
-                @endif
+                {{$user->role}}
             </td>
             <td>
                 @if($user->isHere)

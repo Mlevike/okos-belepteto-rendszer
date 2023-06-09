@@ -9,7 +9,7 @@
 <main class="p-2">
     <h1>{{$user != null ?  __('site.editUser')  :  __('site.addUser') }}</h1>
         <p>{{ session('status') }}</p>
-        <!--A felhasználó szerkeztésére szolgáló form-->
+        <!--A felhasználó szerkesztésére szolgáló form-->
         <form action="" method="post" enctype=multipart/form-data> <!-- Létrehozunk egy formot a felhasználük adatainak szerkesztéséhez-->
             @csrf
             <label for="name">{{ __('site.name') }}:* </label>
@@ -20,10 +20,10 @@
             <input type="password" class="form-control" id="code" name="code" placeholder="****" pattern="[0-9]{4}"> <!--A pattern arra szplgál, hogy csak numerikus négy számjegyű kód legyen megadható, az számok mennyiségét lehet, hogy majd később át kell gondolni -->
             <label for="fingerprint">{{ __('site.fingerprint') }}: </label>
             <input type="text" class="form-control" id="fingerprint" name="fingerprint" value="{{ $user != null ? $user->fingerprint : '' }}">
-            <label for="languages">{{ __('site.language') }}:* </label>
+            <label for="language">{{ __('site.language') }}:* </label>
             <br>
-            <select name="language" id="languages" {{$user == null ? 'reguired' : ''}}>
-                <option value="" selected disabled hidden>Choose here</option> <!--Arra az estre ha nem akarunk nyelvet választani -->
+            <select name="language" id="language" {{$user == null ? 'reguired' : ''}}>
+                <option value="" selected disabled hidden>{{ __('site.choseHere') }}</option> <!--Arra az estre ha nem akarunk nyelvet választani -->
                 <option value="en"> <!--Egenlőre az angol lesz az alapértelmezett nyelv-->
                     <p>English</p>
                 </option>
@@ -32,25 +32,27 @@
                 </option>
             </select>
             <br> <!--Ez azért kell, hogy a nyelvválasztó elkülönüljön-->
-            <label for="profile">{{ __('site.profile') }}: </label>
-            <input type="text" class="form-control" id="profile" name="profile" value="{{$user != null ? $user->profile : ''}}">
-            <!--A felhasználó jogosultságait szabályozó kapcsolók-->
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="isAdminSwitch" name="isAdmin" {{$user != null ? $user->role == 'admin'  ? 'checked' : '' : ''}}>
-                <label class="form-check-label" for="isAdminSwitch">{{ __('site.isAdmin') }}</label>
-            </div>
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="isWebEnabledSwitch" name="isWebEnabled" {{$user != null ? $user->isWebEnabled  ? 'checked' : '' : ''}}>
-                <label class="form-check-label" for="isWebEnabledSwitch">{{ __('site.isWebEnabled') }}</label>
-            </div>
+            <label for="role">{{ __('site.role') }}:* </label>
+            <br>
+            <select name="role" id="role" {{$user == null ? 'reguired' : ''}}>
+                <option value="" selected disabled hidden>{{ __('site.choseHere') }}</option> <!--Arra az estre ha nem akarunk nyelvet választani -->
+                <option value="user"> <!--Egenlőre az angol lesz az alapértelmezett nyelv-->
+                    <p>User</p>
+                </option>
+                <option value="admin">
+                    <p>Admin</p>
+                </option>
+                <option value="employee">
+                    <p>Employee</p>
+                </option>
+            </select>
+            <br>
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" role="switch" id="isEntryEnabledSwitch" name="isEntryEnabled" {{$user != null ? $user->isEntryEnabled  ? 'checked' : '' : ''}}>
                 <label class="form-check-label" for="isEntryEnabledSwitch">{{ __('site.isEntryEnabled') }}</label>
             </div>
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="isEmployeeSwitch" name="isEmployee" {{$user != null ? $user->isEmployee  ? 'checked' : '' : ''}}>
-                <label class="form-check-label" for="isEmployeeSwitch">{{ __('site.isEmployee') }}</label>
-            </div>
+            <label for="profile">{{ __('site.profile') }}: </label>
+            <input type="text" class="form-control" id="profile" name="profile" value="{{$user != null ? $user->profile : ''}}">
             <label for="email">{{ __('auth.email') }}:* </label>
             <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" value="{{$user != null ? $user->email : ''}}" required>
             <label for="password">{{ __('auth.password') }}:* </label>

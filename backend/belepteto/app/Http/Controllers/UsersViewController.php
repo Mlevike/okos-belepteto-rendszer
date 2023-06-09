@@ -48,27 +48,22 @@ class UsersViewController extends Controller
                      if (User::where('email', '=', $request->email)->exists()) { //Ellenőrizzük azt, hogy ilyen email címmel létezik-e már felhasználó
                          return back()->withInput()->with('status', 'Ezzel az email címmel már létezik felhasználó!');
                      }
-                     if ($request->filled('isAdmin')) {
-                         $request->isAdmin = true;
-                     } else {
-                         $request->isAdmin = false;
-                     }
-                     if ($request->filled('isWebEnabled')) {
-                         $request->isWebEnabled = true;
-                     } else {
-                         $request->isWebEnabled = false;
-                     }
+
                      if ($request->filled('isEntryEnabled')) {
                          $request->isEntryEnabled = true;
                      } else {
                          $request->isEntryEnabled = false;
                      }
-                     if ($request->filled('isEmployee')) {
-                         $request->isEmployee = true;
-                     } else {
-                         $request->isEmployee = false;
+
+                     if (!($request->filled('role'))){
+                         $request->role = 'user'; //Alapértelmezett role beállítás megadása
                      }
-                     $user = User::create(['name' => $request->name, 'email' => $request->email, 'email_verified_at' => now(), 'password' => Hash::make($request->password, ['memory' => 1024, 'time' => 2, 'threads' => 2,]), 'picture' => '', 'code' => ($request->code != null ? Hash::make($request->code, ['memory' => 1024, 'time' => 2, 'threads' => 2,]) : ''), 'fingerprint' => $request->fingerprint != null ? $request->fingerprint : '', 'language' => $request->language != null ? $request->language : '', 'profile' => $request->profile != null ? $request->profile : '', 'isAdmin' => $request->isAdmin, 'isWebEnabled' => $request->isWebEnabled, 'isEntryEnabled' => $request->isEntryEnabled, 'isEmployee' => $request->isEmployee, 'isHere' => false, 'cardId' => $request->cardId != null ? $request->cardId : '',]);
+
+                     if (!($request->filled('language'))){
+                         $request->language = 'en'; //Alapértelmezett nyelv beállítás megadása
+                     }
+
+                     $user = User::create(['name' => $request->name, 'email' => $request->email, 'email_verified_at' => now(), 'password' => Hash::make($request->password, ['memory' => 1024, 'time' => 2, 'threads' => 2,]), 'picture' => '', 'code' => ($request->code != null ? Hash::make($request->code, ['memory' => 1024, 'time' => 2, 'threads' => 2,]) : ''), 'fingerprint' => $request->fingerprint != null ? $request->fingerprint : '', 'language' => $request->language != null ? $request->language : '', 'profile' => $request->profile != null ? $request->profile : '', 'isEntryEnabled' => $request->isEntryEnabled, 'role' => $request->role, 'isHere' => false, 'cardId' => $request->cardId != null ? $request->cardId : '',]);
                      //A profilkép beállítása
                      if ($request->hasFile('picture')) { //A profilkép feltöltésének kezelése
                          $filename = $user->id . '.' . $request->picture->extension(); //Ez adja a fájl nevét
@@ -123,28 +118,23 @@ class UsersViewController extends Controller
                          $request->picture->storeAs('pictures/profile', $filename, 'public'); //Ennek a segítségével tároljuk el
                          $user->picture = $filename; //És végül ezzel frissítjük az adatbázist
                      }
-                     if ($request->filled('isAdmin')) {
-
-                         $user->role = 'admin'; //Ezt majd jobban át kell alakítani később (frontenden is)
+                     if ($request->filled('role')) { //A szerepkör mentéséért felelős rész
+                         $user->role = $request->role;
                      }
-
-
                      if ($request->filled('isEntryEnabled')) {
                          $user->isEntryEnabled = true;
                      } else {
                          $user->isEntryEnabled = false;
                      }
-                     if ($request->filled('isEmployee')) {
-                         $user->role = 'employee'; //Ezt is frontenden is majd módosítani kell!
 
-                         if ($request->filled('cardId')) {
+                     if ($request->filled('cardId')) {
                              $user->cardId = $request->cardId;
-                         }
-                         if ($request->filled('code')) {
+                     }
+                     if ($request->filled('code')) {
                              $user->code = Hash::make($request->code, ['memory' => 1024, 'time' => 2, 'threads' => 2,]);
-                         }
-                         $user->save();
-                         return redirect(route('users'))->with('status', 'Felhasználó módosítva!');
+                     }
+                     $user->save();
+                     return redirect(route('users'))->with('status', 'Felhasználó módosítva!');
                      } else {
                          return view('users.edit', ['user' => $user, 'errors' => "A csillagal jelölt mezők kitöltése kötelező!", 'current_user' => $current_user]);
                      }
@@ -154,7 +144,6 @@ class UsersViewController extends Controller
                  return view('error', ['errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users'), 'current_user' => $current_user]);
              }
          }
-     }
 
     public function delete(Request $request){
         $current_user = Auth::user();

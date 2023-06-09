@@ -15,6 +15,7 @@ return [
 
     'arriveTime' => "Érkezési idő",
     'back' => "Vissza",
+    'choseHere' => "Válassz",
     'dashboard' => "Vezérlőpult",
     'delete' => "Törlés",
     'description' => "Leírás",
@@ -51,5 +52,6 @@ return [
     'hasCode' => "Van kódja?",
     'hasFingerprint' => "Van rögzített ujjlenyomata?",
     'workTime' => "Munkaórák",
-    'time' => "Time"
+    'time' => "Időpont",
+    'role' => "Szerepkör"
 ];
