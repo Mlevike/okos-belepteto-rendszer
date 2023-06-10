@@ -12,10 +12,11 @@ return [
     |
     |
     */
-
+    'areYouSureToDelete' => "Biztosan törlöd?",
     'arriveTime' => "Érkezési idő",
     'back' => "Vissza",
     'choseHere' => "Válassz",
+    'confirmation' => "Megerősítés",
     'dashboard' => "Vezérlőpult",
     'delete' => "Törlés",
     'description' => "Leírás",

@@ -13,9 +13,11 @@ return [
     |
     */
 
+    'areYouSureToDelete' => "Are you sure to delete?",
     'arriveTime' => "Arrive Time",
     'back' => "Back",
     'choseHere' => "Choose here",
+    'confirmation' => "Confirmation",
     'dashboard' => "Dashboard",
     'delete' => "Delete",
     'description' => "Description",

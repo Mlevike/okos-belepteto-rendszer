@@ -3,6 +3,11 @@
 <!--Ebben a fájlban található a felhasználók nézet sablonja.-->
 <head>
 @include('head')
+    <script type="text/javascript">
+            function triggerDeleteDialog(){ //A törlés megerősítésére szolgáló dialog megjelenítése
+                $('.modal').modal('show')
+            };
+     </script>
 </head>
 <body>
 @include('header')
@@ -68,9 +73,26 @@
 </div>
 </div>
 </div>
-    <a type="button" class="btn btn-danger" href="{{ route('users-delete', [$userId = $user->id]) }}" role="button"><i class="bi bi-eye-fill"></i> {{ __('site.delete') }}</a>
+    <a type="button" class="btn btn-danger" onclick="triggerDeleteDialog()"  role="button"><i class="bi bi-trash"></i> {{ __('site.delete') }}</a>
     <a type="button" class="btn btn-primary" href="{{ route('users-edit', [$userId = $user->id]) }}" role="button"><i class="bi bi-pencil-square"></i> {{ __('site.edit') }}</a>
     <a type="button" class="btn btn-primary" href="{{ route('users') }}" role="button"><i class="bi bi-arrow-left-circle-fill"></i> {{ __('site.back') }}</a>
 </main>
+<!-- Delete Dialog -->
+<div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="idDeleteDialogTitle">{{ __('site.confirmation') }}</h5>
+            </div>
+            <div class="modal-body">
+                <p>{{ __('site.areYouSureToDelete') }}</p>
+            </div>
+            <div class="modal-footer">
+                <a type="button" class="btn btn-danger" href="{{ route('users-delete', [$userId = $user->id]) }}" role="button"><i class="bi bi-trash"></i> {{ __('site.delete') }}</a>
+                <a type="button" class="btn btn-primary" onclick="$('.modal').modal('hide')"><i class="bi bi-arrow-left-circle-fill"></i> {{ __('site.back') }}</a>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
