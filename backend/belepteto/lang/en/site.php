@@ -54,6 +54,7 @@ return [
     'hasCode' => "Has Code?",
     'hasFingerprint' => "Has Fingerprint?",
     'workTime' => "Working Hours",
+    'theLastEntryAttempt' => "The last entry attempt",
     'time' => "Time",
     'role' => "Role"
 ];

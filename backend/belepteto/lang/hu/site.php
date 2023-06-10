@@ -53,6 +53,7 @@ return [
     'hasCode' => "Van kódja?",
     'hasFingerprint' => "Van rögzített ujjlenyomata?",
     'workTime' => "Munkaórák",
+    'theLastEntryAttempt' => "A legutóbbi belépési kísérlet",
     'time' => "Időpont",
     'role' => "Szerepkör"
 ];
