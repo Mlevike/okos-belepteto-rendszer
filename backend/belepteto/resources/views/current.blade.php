@@ -3,7 +3,7 @@
 <!--Ebben a fájlban található a felhasználók nézet sablonja.-->
 <head>
     @include('head')
-    <meta http-equiv="refresh" content="1">
+    <meta http-equiv="refresh" content="5">
 </head>
 <body>
 <div class="container mt-4">
