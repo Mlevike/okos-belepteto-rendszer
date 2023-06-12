@@ -16,7 +16,7 @@
 <main class="container m-1 w-100">
     <h1>{{ __('site.dashboard') }}</h1>
     <div class="row">
-        <div class="col">
+        <div class="col-12 col-md-6">
             <h2>Jelenleg bent levő felhasználók</h2>
             <div class="position-relative">
                 <canvas id="isHereChart" class="position-absolute top-0 start-50 translate-middle-x"></canvas> <!--Ez azért kell, hogy a helyén középre legyen rendezve a diagram -->
@@ -47,7 +47,7 @@
             });
             </script>
         </div>
-        <div class="col">
+        <div class="col-12 col-md-6">
             <h2>{{__('site.options')}}</h2>
             <a type="button" class="btn btn-primary w-100" href="{{ route('current') }}" role="button" target="_blank">{{ __('site.showCurrentUser') }}</a>
             <div class="bg-danger rounded mt-2 p-2">
