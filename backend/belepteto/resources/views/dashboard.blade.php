@@ -67,10 +67,7 @@
                         </p>
                         <a type="button" class="btn btn-warning d-inline-block" href="{{ route('set-exit-enabled') }}" role="button"><i class="bi bi-pencil-fill"></i></a>
                 </div>
-                <a type="button" class="btn btn-warning w-100" href="{{ route('dashboard', ['action' => 'generateToken']) }}" role="button" target="_blank">{{ __('site.generateNewAccessToken') }}</a>
-                @if($hash != '' && $hash != null)
-                    <p>Az új token: {{$hash}} <br> Ezt fel kell írni, mert csak most látható</p>
-                @endif
+                <a type="button" class="btn btn-warning w-100" href="{{ route('generate-token')}}" role="button">{{ __('site.generateNewAccessToken') }}</a>
             </div>
         </div>
         </div>
