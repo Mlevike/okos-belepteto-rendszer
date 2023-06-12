@@ -11,6 +11,9 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
+
+    //Létrehozzuk a kiinduló beállításokat
+
     public function run(): void
     {
         //Kezdeti beállítások megadása

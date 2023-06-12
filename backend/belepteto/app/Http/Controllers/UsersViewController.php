@@ -11,40 +11,32 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Image;
 
+//Ez a kontroller felel a felhasználók kezeléséért
+
 class UsersViewController extends Controller
 {
-    public function index()
+    public function index() //A felhasználók kilistázásáért felelős metódus
     {
         $users = User::paginate(20); //Ez azért kell, hogy max. csak húsz találatot jelenítsünk meg egyszerre
-        $users = $users;
-        $current_user = Auth::user();
+        $current_user = Auth::user(); //Lekérjük a jelenleg bejelentkezett felhasználó adatait
 
-        return view('users')->with([
+        return view('users')->with([ //Visszaadjuk a felhasználók kilistázására szolgáló nézetet
             'users' => $users,
             'current_user' => $current_user
         ]);
     }
 
-     public function add(Request $request)
+     public function add(Request $request) //A felhasználó hozzáadásáért felelős metódus
      {
-         $current_user = Auth::user();
-         if ($current_user->role == 'admin') {
-             if ($request->isMethod('GET')) {
+         $current_user = Auth::user(); //Lekérjük a jelenleg bejelentkezett felhasználó adatait
+         if ($current_user->role == 'admin') { //Ha a jelenlegi felhasználó admin
+             if ($request->isMethod('GET')) { //GET request esetén csak a formot küldjük vissza válaszként
                  return view('users.edit', ['errors' => "", 'user' => null, 'current_user' => $current_user]);
              }
-             if ($request->isMethod('POST')) {
+             if ($request->isMethod('POST')) { //POST reguest esetén megpróbáljuk a felhasználó által adott információkat feldolgozni és hiba esetén értesítjük a felhasználót
 
                  if (($request->filled('name')) and ($request->filled('email')) and ($request->filled('password'))) {
 
-                     /*if($request->hasFile('picture')){ //A profilkép feltöltésének kezelése
-                         $filename = $user->id.'.'.$request->picture->extension(); //Ez adja a fájl nevét
-                         //$img = Image::make($request->picture);
-                         /*$img->resize(1024, null, function ($constraint){ //Majd valahogy a képek méretét jó lenne ha tudnánk állítani!!
-                             $constraint->aspectRatio();
-                         })->save(public_path('/pictures/profile/').$filename);
-                         $request->picture->storeAs('pictures/profile',$filename,'public'); //Ennek a segítségével tároljuk el
-                         $user->picture = $filename; //És végül ezzel frissítjük az adatbázist
-                     }*/
                      if (User::where('email', '=', $request->email)->exists()) { //Ellenőrizzük azt, hogy ilyen email címmel létezik-e már felhasználó
                          return back()->withInput()->with('status', 'Ezzel az email címmel már létezik felhasználó!');
                      }
@@ -55,11 +47,11 @@ class UsersViewController extends Controller
                          $request->isEntryEnabled = false;
                      }
 
-                     if (!($request->filled('role'))){
+                     if (!($request->filled('role'))) {
                          $request->role = 'user'; //Alapértelmezett role beállítás megadása
                      }
 
-                     if (!($request->filled('language'))){
+                     if (!($request->filled('language'))) {
                          $request->language = 'en'; //Alapértelmezett nyelv beállítás megadása
                      }
 
@@ -67,34 +59,29 @@ class UsersViewController extends Controller
                      //A profilkép beállítása
                      if ($request->hasFile('picture')) { //A profilkép feltöltésének kezelése
                          $filename = $user->id . '.' . $request->picture->extension(); //Ez adja a fájl nevét
-                         //$img = Image::make($request->picture);
-                         /*$img->resize(1024, null, function ($constraint){ //Majd valahogy a képek méretét jó lenne ha tudnánk állítani!!
-                             $constraint->aspectRatio();
-                         })->save(public_path('/pictures/profile/').$filename);*/
                          $request->picture->storeAs('pictures/profile', $filename, 'public'); //Ennek a segítségével tároljuk el
                          $user->picture = $filename;
                          $user->save(); //És végül ezzel frissítjük az adatbázist
                      }
-                     return redirect(route('users'))->with('status', 'Felhasználó törölve!');
+                     return redirect(route('users'));
                  } else {
-                     return back()->withInput()->with('status', 'A csillaggal jelölt mezők kitöltése kötelező!'); //A withInput nem elképzeléseim szerint működik valami miatt
+                     return back()->withInput()->with('status', 'A csillaggal jelölt mezők kitöltése kötelező!');
                  }
+             } else {
+                 return view('error', ['user' => null, 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users'), 'current_user' => $current_user]);
              }
-         } else {
-             return view('error', ['user' => null, 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users'), 'current_user' => $current_user]); //Ehhez miért kell külön view?
          }
      }
 
-
-     public function edit(Request $request, string $userId)
+     public function edit(Request $request, string $userId) //A felhasználók szerkeztésére szolgáló metódus
      {
-         $current_user = Auth::user();
-         if ($current_user->role == 'admin') {
-             if ($request->isMethod('GET')) {
+         $current_user = Auth::user(); //Lekérjük a jelenleg bejelentkezett felhasználó adatait
+         if ($current_user->role == 'admin') { //Ha a jelenlegi felhasználó admin
+             if ($request->isMethod('GET')) { //GET request esetén csak betöltjük a formot, illetve a jelenlegi adatokat
                  $user = User::findOrFail($request->userId);
                  return view('users.edit', ['errors' => "", 'user' => $user, 'current_user' => $current_user]);
              }
-             if ($request->isMethod('POST')) {
+             if ($request->isMethod('POST')) { //POST reguest esetén fel is dolgozzuk a felhasználó által adott adatokat
                  $user = User::findOrFail($request->userId); //Felhasználó módosítás, ezt majd lehet, hogy egyszerűbben is mbeg lehet oldani! Illetve, most még hiányos is!
                  if (($request->filled('name')) and ($request->filled('email'))) {
                      if ($request->filled('name')) { //Az if-ek azért szükségesek, hogy meggyőződjunk affelől, hogy a lekérésben szerepel az általunk változtatni kívánt attribútum!
@@ -111,10 +98,6 @@ class UsersViewController extends Controller
                      }
                      if ($request->hasFile('picture')) { //A profilkép feltöltésének kezelése
                          $filename = $user->id . '.' . $request->picture->extension(); //Ez adja a fájl nevét
-                         //$img = Image::make($request->picture);
-                         /*$img->resize(1024, null, function ($constraint){ //Majd valahogy a képek méretét jó lenne ha tudnánk állítani!!
-                             $constraint->aspectRatio();
-                         })->save(public_path('/pictures/profile/').$filename);*/
                          $request->picture->storeAs('pictures/profile', $filename, 'public'); //Ennek a segítségével tároljuk el
                          $user->picture = $filename; //És végül ezzel frissítjük az adatbázist
                      }
@@ -133,7 +116,7 @@ class UsersViewController extends Controller
                      if ($request->filled('code')) {
                              $user->code = Hash::make($request->code, ['memory' => 1024, 'time' => 2, 'threads' => 2,]);
                      }
-                     $user->save();
+                     $user->save(); //Itt mentjük el az adatbázisban a módosításokat
                      return redirect(route('users'))->with('status', 'Felhasználó módosítva!');
                      } else {
                          return view('users.edit', ['user' => $user, 'errors' => "A csillagal jelölt mezők kitöltése kötelező!", 'current_user' => $current_user]);
@@ -145,10 +128,10 @@ class UsersViewController extends Controller
              }
          }
 
-    public function delete(Request $request){
+    public function delete(Request $request){ //A felhasználó törlésére szolgáló metódus
         $current_user = Auth::user();
-        if($current_user->role == 'admin') {
-        //Felhasználó törlése, ezt majd lehet hogy rövidebben kéne megvalósítani!
+        if($current_user->role == 'admin') { //Ha a jelenlegi felhasználó admin
+        //Felhasználó törlése, azért kell nullázni az adatokat, hogy ne akadhasson öszze egy másik későbbi felhasználóval
         $user = User::findOrFail($request->userId);
         $user->name = "deleted_user_" . (string)$user->id;
         $user->email = "deleted_user_" . (string)$user->id;
@@ -169,10 +152,10 @@ class UsersViewController extends Controller
             return view('error', [ 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users'), 'current_user'=>$current_user]);
         }
     }
-    public function show(Request $request)
+    public function show(Request $request) //Felhasználó megtekintéséért felelős metódus
     {
         $current_user = Auth::user();
-        if ($current_user->role == 'admin' or $current_user->role == 'employee' or $current_user->id == $request->userId) {
+        if ($current_user->role == 'admin' or $current_user->role == 'employee' or $current_user->id == $request->userId) { //Ha a jelenlegi felhasználó admin, employee vagy a saját adatlapját szeretné megnézni
             if ($request->isMethod('GET')) {
                 return view('users.show', ['user' => User::findOrFail($request->userId), 'current_user' => $current_user]);
             } else {

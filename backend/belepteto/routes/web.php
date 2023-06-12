@@ -20,14 +20,6 @@ use App\Http\Resources\ValidateResource;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-
-//A felhasználó nyelvi beállításának alkalmazása
-//Ellenőrizzük azt, hogy a felhasználó authentikálva, van-e? Ezt is majd lehet, hogy egyszerűbben is meg lehet oldani!
-//$user = User::findOrFail(1); //Ez egyenlőre nem teljesen működőlépes
-//App::setLocale($user->language); //Teszt mistt megjegyzésbe téve
-
-
 //Itt találhatóak a különböző nézetekhez tartozó útvonal definiciók
 
 //Vezérlőpulthoz tartozó útvonal
@@ -90,7 +82,7 @@ Route::get('dashboard/generate-token', function (){
 })->middleware('auth')->name('generate-token');
 
 
-//Ideiglenes elsődleges útvonal
+//Elsődleges útvonal
 Route::get('', 'App\Http\Controllers\UsersViewController@index')->middleware('auth');
 
 //A logok oldalhoz tartozó útvonal
@@ -120,7 +112,7 @@ Route::get('users/show/{userId}', 'App\Http\Controllers\UsersViewController@show
 
 Route::get('users/delete/{userId}', 'App\Http\Controllers\UsersViewController@delete')->middleware('auth')->name('users-delete'); //A felhasználók törléséhez vezető útvonal linkje
 
-
+//A legutóbbi bejelentkezési kísérlet megjelenítésére szolgáló weboldal
 Route::get('current', function(){
     $history = History::latest()->first();
     if($history != null and $history->userId != null){
@@ -131,9 +123,7 @@ Route::get('current', function(){
     return view('current', ['user'=>$user, 'history'=>$history]);
 })->middleware('auth')->name('current'); //Az adott felhasználó adatainak megtekintésére szolgáló útvonal
 
-
-
-//A kártya validációhoz tartozó útvonalm ennek egyenéőre nem adunk nevet!
+//A kártya validációhoz tartozó útvonal ennek egyenéőre nem adunk nevet!
 //Ez még csak ideiglenes, a végleges változatban majd az adatbázisból kéri le az információkat
 Route::post('validate/{uid}', function(Request $request) {
     if(!(Settings::all()->where('setting_name', 'access_token')->isEmpty())) { //Ellenőrizzük az access_token meglétét

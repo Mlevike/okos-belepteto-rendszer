@@ -36,7 +36,7 @@
             <br>
             <select name="role" id="role" {{$user == null ? 'reguired' : ''}}>
                 <option value="" selected disabled hidden>{{ __('site.choseHere') }}</option> <!--Arra az estre ha nem akarunk nyelvet választani -->
-                <option value="user"> <!--Egenlőre az angol lesz az alapértelmezett nyelv-->
+                <option value="user"> <!--Egyenlőre az angol lesz az alapértelmezett nyelv-->
                     <p>User</p>
                 </option>
                 <option value="admin">
