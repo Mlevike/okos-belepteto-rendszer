@@ -55,7 +55,7 @@
                             {{__('site.no')}}
                         @endif
                     </p>
-                    <a type="button" class="btn btn-warning d-inline-block" href="{{ route('dashboard', ['action' => 'setEntry']) }}" role="button" target="_blank"><i class="bi bi-pencil-fill"></i></a>
+                    <a type="button" class="btn btn-warning d-inline-block" href="{{ route('dashboard', ['action' => 'setEntry']) }}" role="button"><i class="bi bi-pencil-fill"></i></a>
                 </div>
                 <div class="mt-2 mb-2">
                         <p class="text-white d-inline-block">{{ __('site.isOutsideEntryEnabled') }}:
@@ -65,7 +65,7 @@
                                 {{__('site.no')}}
                             @endif
                         </p>
-                        <a type="button" class="btn btn-warning d-inline-block" href="{{ route('dashboard', ['action' => 'setExit']) }}" role="button" target="_blank"><i class="bi bi-pencil-fill"></i></a>
+                        <a type="button" class="btn btn-warning d-inline-block" href="{{ route('dashboard', ['action' => 'setExit']) }}" role="button"><i class="bi bi-pencil-fill"></i></a>
                 </div>
                 <a type="button" class="btn btn-warning w-100" href="{{ route('dashboard', ['action' => 'generateToken']) }}" role="button" target="_blank">{{ __('site.generateNewAccessToken') }}</a>
                 @if($hash != '' && $hash != null)
