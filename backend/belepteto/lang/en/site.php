@@ -14,6 +14,7 @@ return [
     */
 
     'areYouSureToDelete' => "Are you sure to delete?",
+    'areYouSureToGenerateNewToken' => "Are you sure to generate new token? THE SYSTEM WILL MAY UNUSABLE!",
     'arriveTime' => "Arrive Time",
     'back' => "Back",
     'choseHere' => "Choose here",

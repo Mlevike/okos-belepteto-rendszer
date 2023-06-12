@@ -5,6 +5,11 @@
 @include('head')
     <script src=" https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js ">
     </script>
+    <script type="text/javascript">
+        function triggerNewTokenDialog(){ //A törlés megerősítésére szolgáló dialog megjelenítése
+            $('.modal').modal('show')
+        };
+    </script>
 </head>
 <body>
 @include('header', ['current_user'=>$current_user])
@@ -67,10 +72,27 @@
                         </p>
                         <a type="button" class="btn btn-warning d-inline-block" href="{{ route('set-exit-enabled') }}" role="button"><i class="bi bi-pencil-fill"></i></a>
                 </div>
-                <a type="button" class="btn btn-warning w-100" href="{{ route('generate-token')}}" role="button">{{ __('site.generateNewAccessToken') }}</a>
+                <a type="button" class="btn btn-warning w-100" onclick="triggerNewTokenDialog()" role="button">{{ __('site.generateNewAccessToken') }}</a>
             </div>
         </div>
         </div>
 </main>
+<!-- New Token Dialog -->
+<div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="idDeleteDialogTitle">{{ __('site.confirmation') }}</h5>
+            </div>
+            <div class="modal-body">
+                <p>{{ __('site.areYouSureToGenerateNewToken') }}</p>
+            </div>
+            <div class="modal-footer">
+                <a type="button" class="btn btn-warning" href="{{ route('generate-token')}}" role="button">{{ __('site.generateNewAccessToken') }}</a>
+                <a type="button" class="btn btn-primary" onclick="$('.modal').modal('hide')">{{ __('site.back') }}</a>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -13,6 +13,7 @@ return [
     |
     */
     'areYouSureToDelete' => "Biztosan törlöd?",
+    'areYouSureToGenerateNewToken' => "Biztosan új tokent generálsz, ugyanis új token generálása esetén a beléptetőrendszer nem tudja hitelesíteni a felhasználókat egészen addig, amíg kézzel nem lesz beállítva az új token?",
     'arriveTime' => "Érkezési idő",
     'back' => "Vissza",
     'choseHere' => "Válassz",
