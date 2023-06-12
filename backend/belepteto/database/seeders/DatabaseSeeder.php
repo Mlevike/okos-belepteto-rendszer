@@ -13,10 +13,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        //Kezdeti beállítások megadása
         DB::table('settings')->insert([
-            'access_token' => '',
-            'isEntryEnabled' => true,
-            'isExitEnabled' => true
+            'setting_name' => 'access_token',
+            'setting_value' => ''
+        ]);
+        DB::table('settings')->insert([
+            'setting_name' => 'isEntryEnabled',
+            'setting_value' =>  true
+        ]);
+        DB::table('settings')->insert([
+            'setting_name' => 'isExitEnabled',
+            'setting_value' => true
         ]);
     }
 }
