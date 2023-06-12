@@ -49,9 +49,9 @@
                 <h3 class="text-center text-bold text-white">{{__('site.dangerZone')}}</h3>
                 <div class="mt-2 mb-2">
                     <p class="text-white d-inline-block">{{ __('site.isInsideEntryEnabled') }}:
-                        @if($isEntryEnabled)
+                        @if($isEntryEnabled = '1')
                             {{__('site.yes')}}
-                        @elseif(!$isEntryEnabled)
+                        @elseif($isEntryEnabled = '0')
                             {{__('site.no')}}
                         @endif
                     </p>
@@ -59,9 +59,9 @@
                 </div>
                 <div class="mt-2 mb-2">
                         <p class="text-white d-inline-block">{{ __('site.isOutsideEntryEnabled') }}:
-                            @if($isExitEnabled)
+                            @if($isExitEnabled = '1')
                                 {{__('site.yes')}}
-                            @elseif(!$isExitEnabled)
+                            @elseif($isExitEnabled = '0')
                                 {{__('site.no')}}
                             @endif
                         </p>

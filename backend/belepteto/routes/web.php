@@ -53,7 +53,8 @@ Route::get('dashboard', function (Request $request) {
     if($request->has('action')){ //Beállítások módosítása az action paraméter alapján
         if($request->action == 'setEntry'){
             $setting = Settings::all()->where('setting_name', 'isEntryEnabled')->first(); //Itt módosítjuk a isEntryEnabled beállítást!
-            $setting->isEntryEnabled = !($setting->isEntryEnabled);
+            $setting->setting_value = !($setting->setting_value);
+            $setting->save();
         }
         if($request->action == 'setExit'){
 
