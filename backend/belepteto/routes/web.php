@@ -31,7 +31,7 @@ use App\Http\Resources\ValidateResource;
 //Itt találhatóak a különböző nézetekhez tartozó útvonal definiciók
 
 //Vezérlőpulthoz tartozó útvonal
-Route::get('dashboard', function (Request $request) {
+Route::get('dashboard', function () {
     $current_user = Auth::user(); //Jelenleg bejelentkezett felhasználó adatainak lekérése
     $users = User::all(); //Lekérjük az összes felhasználót az adatbázisból
     //Deklaráljuk az itt levő felhasználókat megszámláló változókat
@@ -50,30 +50,24 @@ Route::get('dashboard', function (Request $request) {
             }
         }
     }
-    if($request->has('action')){ //Beállítások módosítása az action paraméter alapján
-        if($request->action == 'setEntry'){
-            $setting = Settings::all()->where('setting_name', 'isEntryEnabled')->first(); //Itt módosítjuk a isEntryEnabled beállítást!
-            $setting->setting_value = !($setting->setting_value);
-            $setting->save();
-        }
-        if($request->action == 'setExit'){
-
-        }
-        if($request->action == 'generateToken'){ //Új hozzáférési token generálása
-            $current_user = Auth::user(); //Jelenleg bejelentkezett felhasználó adatainak lekérése
-            if($current_user->role == 'isAdmin'){
-                $hash = hash('sha256', $plainTextToken = Str::random(40)); //Legeneráljunk a token-t
-                if(Settings::all()->where('setting_name', 'access_token')->isEmpty()) {
-                    Settings::create(['setting_name' => 'access_token', 'setting_value' => '']);
-                }
-                $token = Settings::all()->where('setting_name', 'access_token')->first();
-                $token->setting_value = $hash;
-                $token->save(); //Elmentjük a token értékét az adatbázisba
-            }
-        }
-    }
     return view('dashboard', ['current_user'=>$current_user, 'here' => $here, 'notHere' => $notHere , 'isEntryEnabled' => $isEntryEnabled, "isExitEnabled" => $isExitEnabled, "hash" => $hash]); //Ez lehet, hogy csak ideiglenes megooldás lesz
 })->middleware('auth')->name('dashboard'); //Ideiglenesen elrejtve
+
+//A bejárat engedélyezésére szolgáló útvonal
+Route::get('dashboard/setEntryEnabled', function () {
+    $setting = Settings::all()->where('setting_name', 'isEntryEnabled')->first(); //Itt módosítjuk a isEntryEnabled beállítást!
+    $setting->setting_value = !($setting->setting_value);
+    $setting->save();
+    return back();
+})->middleware('auth')->name('set-entry-enabled');
+
+//A kijárat engedélyezésére szolgáló útvonal
+Route::get('dashboard/setExitEnabled', function () {
+    $setting = Settings::all()->where('setting_name', 'isExitEnabled')->first(); //Itt módosítjuk a isExitEnabled beállítást!
+    $setting->setting_value = !($setting->setting_value);
+    $setting->save();
+    return back();
+})->middleware('auth')->name('set-exit-enabled');
 
 //Ideiglenes elsődleges útvonal
 Route::get('', 'App\Http\Controllers\UsersViewController@index')->middleware('auth');
