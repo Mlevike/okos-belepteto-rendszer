@@ -29,6 +29,7 @@ return [
     'edit' => "Edit",
     'logs' => "Logs",
     'name' => "Name",
+    'no' => "No",
     'picture' => "Picture",
     'code' => "Code",
     'fingerprint' => "Fingerprint",
@@ -59,5 +60,6 @@ return [
     'workTime' => "Working Hours",
     'theLastEntryAttempt' => "The last entry attempt",
     'time' => "Time",
-    'role' => "Role"
+    'role' => "Role",
+    'yes' => "Yes"
 ];

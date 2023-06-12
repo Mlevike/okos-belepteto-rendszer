@@ -28,6 +28,7 @@ return [
     'edit' => "Szerkesztés",
     'logs' => "Logok",
     'name' => "Név",
+    'no' => "Nem",
     'picture' => "Kép",
     'code' => "Kód",
     'fingerprint' => "Ujjlenyomat",
@@ -58,5 +59,6 @@ return [
     'workTime' => "Munkaórák",
     'theLastEntryAttempt' => "A legutóbbi belépési kísérlet",
     'time' => "Időpont",
-    'role' => "Szerepkör"
+    'role' => "Szerepkör",
+    'yes' => "Igen"
 ];

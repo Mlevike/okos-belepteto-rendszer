@@ -31,12 +31,16 @@ use App\Http\Resources\ValidateResource;
 //Itt találhatóak a különböző nézetekhez tartozó útvonal definiciók
 
 //Vezérlőpulthoz tartozó útvonal
-Route::get('dashboard', function () {
+Route::get('dashboard', function (Request $request) {
     $current_user = Auth::user(); //Jelenleg bejelentkezett felhasználó adatainak lekérése
     $users = User::all(); //Lekérjük az összes felhasználót az adatbázisból
     //Deklaráljuk az itt levő felhasználókat megszámláló változókat
     $here = 0;
     $notHere = 0;
+    $hash = '';
+    $isEntryEnabled = Settings::all()->where('setting_name', 'isEntryEnabled')->first(); //Engedélyezve van-e beléptetés
+    $isExitEnabled = Settings::all()->where('setting_name', 'isExitEnabled')->first(); //Engedélyezve van-e a kiléptetés
+
     foreach ($users as $user){ //Megszámoljuk az itt levő felhasználókat
         if($user != null){
             if($user->isHere){
@@ -46,7 +50,28 @@ Route::get('dashboard', function () {
             }
         }
     }
-    return view('dashboard', ['current_user'=>$current_user, 'here' => $here, 'notHere' => $notHere]); //Ez lehet, hogy csak ideiglenes megooldás lesz
+    if($request->has('action')){ //Beállítások módosítása az action paraméter alapján
+        if($request->action == 'setEntry'){
+            $setting = Settings::all()->where('setting_name', 'isEntryEnabled')->first(); //Itt módosítjuk a isEntryEnabled beállítást!
+            $setting->isEntryEnabled = !($setting->isEntryEnabled);
+        }
+        if($request->action == 'setExit'){
+
+        }
+        if($request->action == 'generateToken'){ //Új hozzáférési token generálása
+            $current_user = Auth::user(); //Jelenleg bejelentkezett felhasználó adatainak lekérése
+            if($current_user->role == 'isAdmin'){
+                $hash = hash('sha256', $plainTextToken = Str::random(40)); //Legeneráljunk a token-t
+                if(Settings::all()->where('setting_name', 'access_token')->isEmpty()) {
+                    Settings::create(['setting_name' => 'access_token', 'setting_value' => '']);
+                }
+                $token = Settings::all()->where('setting_name', 'access_token')->first();
+                $token->setting_value = $hash;
+                $token->save(); //Elmentjük a token értékét az adatbázisba
+            }
+        }
+    }
+    return view('dashboard', ['current_user'=>$current_user, 'here' => $here, 'notHere' => $notHere , 'isEntryEnabled' => $isEntryEnabled, "isExitEnabled" => $isExitEnabled, "hash" => $hash]); //Ez lehet, hogy csak ideiglenes megooldás lesz
 })->middleware('auth')->name('dashboard'); //Ideiglenesen elrejtve
 
 //Ideiglenes elsődleges útvonal
@@ -117,20 +142,6 @@ Route::post('validate/{uid}', function(Request $request) {
     }
 });
 
-//Ez csak ideiglenesen van itt token generáláshot
-Route::Get('token-generate', function(){
-    $current_user = Auth::user(); //Jelenleg bejelentkezett felhasználó adatainak lekérése
-    if($current_user->role == 'isAdmin'){
-    $hash = hash('sha256', $plainTextToken = Str::random(40)); //Legeneráljunk a token-t
-    if(Settings::all()->where('setting_name', 'access_token')->isEmpty()) {
-        Settings::create(['setting_name' => 'access_token', 'setting_value' => '']);
-    }
-    $token = Settings::all()->where('setting_name', 'access_token')->first();
-    $token->setting_value = $hash;
-    $token->save(); //Elmentjük a token értékét az adatbázisba
-    return $hash; //Visszadjuk a hash-t a felhasználónak
-    }
-})->middleware('auth');
 
 //A belépési kísérletek logolására szolgáló útvonal, ezt majd lehet, hogy máshogy kell megcsinálni
 Route::post('log', function (Request $request){

@@ -46,16 +46,31 @@
             <h2>{{__('site.options')}}</h2>
             <a type="button" class="btn btn-primary w-100" href="{{ route('current') }}" role="button" target="_blank">{{ __('site.showCurrentUser') }}</a>
             <div class="bg-danger rounded mt-2 p-2">
-                <h3 class="text-center text-bold text-white">Danger zone</h3>
+                <h3 class="text-center text-bold text-white">{{__('site.dangerZone')}}</h3>
                 <div class="mt-2 mb-2">
-                    <p class="text-white d-inline-block">{{ __('site.isInsideEntryEnabled') }}: YES</p>
-                    <a type="button" class="btn btn-warning d-inline-block" href="{{ route('current') }}" role="button" target="_blank"><i class="bi bi-pencil-fill"></i></a>
+                    <p class="text-white d-inline-block">{{ __('site.isInsideEntryEnabled') }}:
+                        @if($isEntryEnabled)
+                            {{__('site.yes')}}
+                        @elseif(!$isEntryEnabled)
+                            {{__('site.no')}}
+                        @endif
+                    </p>
+                    <a type="button" class="btn btn-warning d-inline-block" href="{{ route('dashboard', ['action' => 'setEntry']) }}" role="button" target="_blank"><i class="bi bi-pencil-fill"></i></a>
                 </div>
                 <div class="mt-2 mb-2">
-                        <p class="text-white d-inline-block">{{ __('site.isOutsideEntryEnabled') }}: NO</p>
-                        <a type="button" class="btn btn-warning d-inline-block" href="{{ route('current') }}" role="button" target="_blank"><i class="bi bi-pencil-fill"></i></a>
+                        <p class="text-white d-inline-block">{{ __('site.isOutsideEntryEnabled') }}:
+                            @if($isExitEnabled)
+                                {{__('site.yes')}}
+                            @elseif(!$isExitEnabled)
+                                {{__('site.no')}}
+                            @endif
+                        </p>
+                        <a type="button" class="btn btn-warning d-inline-block" href="{{ route('dashboard', ['action' => 'setExit']) }}" role="button" target="_blank"><i class="bi bi-pencil-fill"></i></a>
                 </div>
-                <a type="button" class="btn btn-warning w-100" href="{{ route('current') }}" role="button" target="_blank">{{ __('site.generateNewAccessToken') }}</a>
+                <a type="button" class="btn btn-warning w-100" href="{{ route('dashboard', ['action' => 'generateToken']) }}" role="button" target="_blank">{{ __('site.generateNewAccessToken') }}</a>
+                @if($hash != '' && $hash != null)
+                    <p>Az új token: {{$hash}} <br> Ezt fel kell írni, mert csak most látható</p>
+                @endif
             </div>
         </div>
         </div>
