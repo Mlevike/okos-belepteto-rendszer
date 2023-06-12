@@ -22,6 +22,9 @@ use App\Http\Resources\ValidateResource;
 */
 //Itt találhatóak a különböző nézetekhez tartozó útvonal definiciók
 
+//Elsődleges útvonal
+Route::get('', 'App\Http\Controllers\UsersViewController@index')->middleware('auth');
+
 //Vezérlőpulthoz tartozó útvonal
 Route::get('dashboard', function () {
     $current_user = Auth::user(); //Jelenleg bejelentkezett felhasználó adatainak lekérése
@@ -47,7 +50,7 @@ Route::get('dashboard', function () {
     }else{
         return view('error', [ 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users')]); //Ez majd lehet, hogy máshová irányít át később
     }
-})->middleware('auth')->name('dashboard'); //Ideiglenesen elrejtve
+})->middleware('auth')->name('dashboard');
 
 //A bejárat engedélyezésére szolgáló útvonal
 Route::get('dashboard/setEntryEnabled', function () {
@@ -80,10 +83,6 @@ Route::get('dashboard/generate-token', function (){
         }
     return redirect()->route('dashboard');//Átadjuk au új token-t a dashboardnak
 })->middleware('auth')->name('generate-token');
-
-
-//Elsődleges útvonal
-Route::get('', 'App\Http\Controllers\UsersViewController@index')->middleware('auth');
 
 //A logok oldalhoz tartozó útvonal
 Route::get('logs', function () {

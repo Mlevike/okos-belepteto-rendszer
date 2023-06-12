@@ -88,7 +88,7 @@
                 <p>{{ __('site.areYouSureToGenerateNewToken') }}</p>
             </div>
             <div class="modal-footer">
-                <a type="button" class="btn btn-warning" href="{{ route('generate-token')}}" role="button">{{ __('site.generateNewAccessToken') }}</a>
+                <a type="button" class="btn btn-warning" onclick="$('.modal').modal('hide')" href="{{ route('generate-token')}}" role="button">{{ __('site.generateNewAccessToken') }}</a>
                 <a type="button" class="btn btn-primary" onclick="$('.modal').modal('hide')">{{ __('site.back') }}</a>
             </div>
         </div>
