@@ -52,7 +52,7 @@
                     <a type="button" class="btn btn-warning d-inline-block" href="{{ route('current') }}" role="button" target="_blank"><i class="bi bi-pencil-fill"></i></a>
                 </div>
                 <div class="mt-2 mb-2">
-                        <p class="text-white d-inline-block">{{ __('site.isInsideEntryEnabled') }}: NO</p>
+                        <p class="text-white d-inline-block">{{ __('site.isOutsideEntryEnabled') }}: NO</p>
                         <a type="button" class="btn btn-warning d-inline-block" href="{{ route('current') }}" role="button" target="_blank"><i class="bi bi-pencil-fill"></i></a>
                 </div>
                 <a type="button" class="btn btn-warning w-100" href="{{ route('current') }}" role="button" target="_blank">{{ __('site.generateNewAccessToken') }}</a>
