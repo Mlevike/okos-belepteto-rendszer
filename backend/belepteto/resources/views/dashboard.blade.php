@@ -19,7 +19,7 @@
         <div class="col-12 col-md-6">
             <h2>Jelenleg bent levő felhasználók</h2>
             <div class="position-relative">
-                <canvas id="isHereChart" class="position-absolute top-0 start-50 translate-middle-x"></canvas> <!--Ez azért kell, hogy a helyén középre legyen rendezve a diagram -->
+                <canvas id="isHereChart" class=""></canvas> <!--Ez azért kell, hogy a helyén középre legyen rendezve a diagram -->
             </div>
             <script>
                 var xValues = ["Itt van", "Elment"];
