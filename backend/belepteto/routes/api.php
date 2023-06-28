@@ -17,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+//A kártya validációhoz tartozó útvonal ennek egyenéőre nem adunk nevet!
+//Ez még csak ideiglenes, a végleges változatban majd az adatbázisból kéri le az információkat
+Route::get('validate', 'App\Http\Controllers\ValidationController@validate')->name('validate');

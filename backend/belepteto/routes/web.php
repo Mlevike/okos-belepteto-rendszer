@@ -122,32 +122,6 @@ Route::get('current', function(){
     return view('current', ['user'=>$user, 'history'=>$history]);
 })->middleware('auth')->name('current'); //Az adott felhasználó adatainak megtekintésére szolgáló útvonal
 
-//A kártya validációhoz tartozó útvonal ennek egyenéőre nem adunk nevet!
-//Ez még csak ideiglenes, a végleges változatban majd az adatbázisból kéri le az információkat
-Route::post('validate/{uid}', function(Request $request) {
-    if(!(Settings::all()->where('setting_name', 'access_token')->isEmpty())) { //Ellenőrizzük az access_token meglétét
-        $token = Settings::all()->where('setting_name', 'access_token')->first(); //Lekérjük az access_token értékét
-        $isEntryEnabled = Settings::all()->where('setting_name', 'isEntryEnabled')->first(); //Lekérjük az isEntryEnabled értékét
-        if ($request->has('access_token')) {
-            if($request->access_token == $token->setting_value) {
-                //Az uid beolvasása a kérésből
-                $uid = Route::input('uid');
-                //A megfelelő cardID-val rendelkező user kiválasztása
-                $user = User::where('cardId', $uid)->first();
-                if ($user == '' or $user == null) {
-                    return response()->json(['code' => '', 'isHere' => '']);
-                } else {
-                    if ($user->isEntryEnabled && $isEntryEnabled->setting_value) { //Megnézzük, hogy a bejárat, illetve a felhasználó engedélyezve van-e?
-                        return response()->json(['code' => $user->code, 'isHere' => $user->isHere]);
-                    } else {
-                        return response()->json(['code' => '', 'isHere' => '']);
-                    }
-                }
-            }
-        }
-    }
-});
-
 
 //A belépési kísérletek logolására szolgáló útvonal, ezt majd lehet, hogy máshogy kell megcsinálni
 Route::post('log', function (Request $request){
