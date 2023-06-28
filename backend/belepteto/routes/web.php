@@ -48,7 +48,7 @@ Route::get('dashboard', function () {
         }
         return view('dashboard', ['current_user' => $current_user, 'here' => $here, 'notHere' => $notHere, 'isEntryEnabled' => $isEntryEnabled, "isExitEnabled" => $isExitEnabled, "hash" => $hash]); //Ez lehet, hogy csak ideiglenes megooldás lesz
     }else{
-        return view('error', [ 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users')]); //Ez majd lehet, hogy máshová irányít át később
+        return view('error', [ 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users'), 'current_user' => $current_user]); //Ez majd lehet, hogy máshová irányít át később
     }
 })->middleware('auth')->name('dashboard');
 
@@ -127,6 +127,7 @@ Route::get('current', function(){
 Route::post('validate/{uid}', function(Request $request) {
     if(!(Settings::all()->where('setting_name', 'access_token')->isEmpty())) { //Ellenőrizzük az access_token meglétét
         $token = Settings::all()->where('setting_name', 'access_token')->first(); //Lekérjük az access_token értékét
+        $isEntryEnabled = Settings::all()->where('setting_name', 'isEntryEnabled')->first(); //Lekérjük az isEntryEnabled értékét
         if ($request->has('access_token')) {
             if($request->access_token == $token->setting_value) {
                 //Az uid beolvasása a kérésből
@@ -136,7 +137,7 @@ Route::post('validate/{uid}', function(Request $request) {
                 if ($user == '' or $user == null) {
                     return response()->json(['code' => '', 'isHere' => '']);
                 } else {
-                    if ($user->isEntryEnabled) {
+                    if ($user->isEntryEnabled && $isEntryEnabled->setting_value) { //Megnézzük, hogy a bejárat, illetve a felhasználó engedélyezve van-e?
                         return response()->json(['code' => $user->code, 'isHere' => $user->isHere]);
                     } else {
                         return response()->json(['code' => '', 'isHere' => '']);

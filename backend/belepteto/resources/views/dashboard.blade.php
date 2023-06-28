@@ -62,7 +62,7 @@
                     </p>
                     <a type="button" class="btn btn-warning d-inline-block" href="{{ route('set-entry-enabled') }}" role="button"><i class="bi bi-pencil-fill"></i></a>
                 </div>
-                <div class="mt-2 mb-2">
+               <!-- <div class="mt-2 mb-2">
                         <p class="text-white d-inline-block">{{ __('site.isOutsideEntryEnabled') }}:
                             @if($isExitEnabled->setting_value)
                                 {{__('site.yes')}}
@@ -71,7 +71,7 @@
                             @endif
                         </p>
                         <a type="button" class="btn btn-warning d-inline-block" href="{{ route('set-exit-enabled') }}" role="button"><i class="bi bi-pencil-fill"></i></a>
-                </div>
+                </div>  --> <!--Ideiglenesen kiszedve-->
                 <a type="button" class="btn btn-warning w-100" onclick="triggerNewTokenDialog()" role="button">{{ __('site.generateNewAccessToken') }}</a>
             </div>
         </div>

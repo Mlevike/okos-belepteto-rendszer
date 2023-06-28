@@ -41,7 +41,7 @@ return [
     'isAdmin' => "Admin?",
     'isWebEnabled' => "Van webes hozzáférése?",
     'isEntryEnabled' => "Van belépési jogosultsága?",
-    'isInsideEntryEnabled' => "A belső kártyaolvasón keresztüli kiléptetés engedélyezve van",
+    'isInsideEntryEnabled' => "A beléptetés engedélyezve van",
     'isOutsideEntryEnabled' => "A külső kártyaolvasón keresztüli beléptetés engedélyezve van",
     'isEmployee' => "Alkalmazott?",
     'leaveTime' => "Távozás ideje",

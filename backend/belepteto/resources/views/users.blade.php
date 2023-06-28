@@ -8,19 +8,6 @@
 @include('header', ['current_user', $current_user])
 <main class="p-2">
 <h1>{{ __('site.users') }}</h1>
-    <!--Opciók a csoportos művelet végzéshez (egyenlőre el vannak rejtve)
-    @if($current_user->role == 'admin')
-            <div class="btn-group" role="group" >
-                <p>{{ __('site.options') }}:</p>
-                <form action="{{ route('users-delete', [$userId = 1]) }}" method="post">
-                    @csrf
-                    <input type="hidden" value="1" name="id"> (A felhasználók kijelölése még nem megoldot)
-                    <button type="submit" class="btn btn-danger"><i class="bi bi-trash3-fill">{{ __('site.delete') }}</i></button>
-                </form>
-                <a type="button" class="btn btn-primary" href="{{ route('users-edit', [$userId = 1]) }}" role="button"><i class="bi bi-pencil-square">{{ __('site.edit') }}</i></a>
-                <a type="button" class="btn btn-primary" href="{{ route('users-show', [$userId = 1]) }}" role="button"><i class="bi bi-eye-fill">{{ __('site.view') }}</i></a>
-            </div>-->
-    @endif
 <div class="table-responsive" style="margin: 0px 10px 0px 10px;">
     <table class="table table-hover">
         <thead>

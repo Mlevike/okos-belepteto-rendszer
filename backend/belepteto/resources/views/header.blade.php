@@ -7,7 +7,9 @@
                 <li><a href="{{ route('users') }}" class="nav-link px-2 link-body-emphasis">{{ __('site.users') }}</a></li>
                 @if($current_user->role == 'admin' or $current_user->role == 'employee')
                     <li><a href="{{ route('logs') }}" class="nav-link px-2 link-body-emphasis">{{ __('site.logs') }}</a></li>
-                    <li><a href="{{ route('dashboard') }}" class="nav-link px-2 link-body-emphasis">{{ __('site.dashboard') }}</a></li>
+                    @if($current_user->role == 'admin') <!--Ez azért van, hogy a dashboardot csak admin tudja megnyitni -->
+                        <li><a href="{{ route('dashboard') }}" class="nav-link px-2 link-body-emphasis">{{ __('site.dashboard') }}</a></li>
+                    @endif
                 @endif
             </ul>
 

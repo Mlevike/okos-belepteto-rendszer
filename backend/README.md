@@ -76,6 +76,8 @@ A Settings model a következő attribútumokat tartalmazza:
 
 ## A projekt során használt Laravel modulok
 - laravel/fortify a felhasználók webes felületen történő hitelesítéséhez.
+- yoeriboven/laravel-log-db az adatbázisban történő logoláshoz.
+
 
 ## A dokumentáció írása során felhasznált források
 - [https://hub.docker.com/r/bitnami/laravel](https://hub.docker.com/r/bitnami/laravel)

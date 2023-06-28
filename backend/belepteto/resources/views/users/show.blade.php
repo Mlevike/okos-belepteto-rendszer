@@ -73,10 +73,13 @@
 </div>
 </div>
 </div>
-    <a type="button" class="btn btn-danger" onclick="triggerDeleteDialog()"  role="button"><i class="bi bi-trash"></i> {{ __('site.delete') }}</a>
-    <a type="button" class="btn btn-primary" href="{{ route('users-edit', [$userId = $user->id]) }}" role="button"><i class="bi bi-pencil-square"></i> {{ __('site.edit') }}</a>
-    <a type="button" class="btn btn-primary" href="{{ route('users') }}" role="button"><i class="bi bi-arrow-left-circle-fill"></i> {{ __('site.back') }}</a>
+    @if($current_user->role == 'admin')
+        <a type="button" class="btn btn-danger" onclick="triggerDeleteDialog()"  role="button"><i class="bi bi-trash"></i> {{ __('site.delete') }}</a>
+        <a type="button" class="btn btn-primary" href="{{ route('users-edit', [$userId = $user->id]) }}" role="button"><i class="bi bi-pencil-square"></i> {{ __('site.edit') }}</a>
+        <a type="button" class="btn btn-primary" href="{{ route('users') }}" role="button"><i class="bi bi-arrow-left-circle-fill"></i> {{ __('site.back') }}</a>
+    @endif
 </main>
+@if($current_user->role == 'admin')
 <!-- Delete Dialog -->
 <div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -94,5 +97,6 @@
         </div>
     </div>
 </div>
+@endif
 </body>
 </html>
