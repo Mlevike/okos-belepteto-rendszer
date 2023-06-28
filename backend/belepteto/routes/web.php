@@ -2,7 +2,7 @@
 
 use App\Models\User;
 use App\Models\Settings;
-use \App\Models\History;
+use App\Models\History;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
@@ -26,76 +26,19 @@ use App\Http\Resources\ValidateResource;
 Route::get('', 'App\Http\Controllers\UsersViewController@index')->middleware('auth');
 
 //Vezérlőpulthoz tartozó útvonal
-Route::get('dashboard', function () {
-    $current_user = Auth::user(); //Jelenleg bejelentkezett felhasználó adatainak lekérése
-    if($current_user->role == 'admin') {
-        $users = User::all(); //Lekérjük az összes felhasználót az adatbázisból
-        //Deklaráljuk az itt levő felhasználókat megszámláló változókat
-        $here = 0;
-        $notHere = 0;
-        $hash = '';
-        $isEntryEnabled = Settings::all()->where('setting_name', 'isEntryEnabled')->first(); //Engedélyezve van-e beléptetés
-        $isExitEnabled = Settings::all()->where('setting_name', 'isExitEnabled')->first(); //Engedélyezve van-e a kiléptetés
-
-        foreach ($users as $user) { //Megszámoljuk az itt levő felhasználókat
-            if ($user != null) {
-                if ($user->isHere) {
-                    $here++;
-                } else {
-                    $notHere++;
-                }
-            }
-        }
-        return view('dashboard', ['current_user' => $current_user, 'here' => $here, 'notHere' => $notHere, 'isEntryEnabled' => $isEntryEnabled, "isExitEnabled" => $isExitEnabled, "hash" => $hash]); //Ez lehet, hogy csak ideiglenes megooldás lesz
-    }else{
-        return view('error', [ 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users'), 'current_user' => $current_user]); //Ez majd lehet, hogy máshová irányít át később
-    }
-})->middleware('auth')->name('dashboard');
+Route::get('dashboard', 'App\Http\Controllers\DashboardController@index')->middleware('auth')->name('dashboard');
 
 //A bejárat engedélyezésére szolgáló útvonal
-Route::get('dashboard/setEntryEnabled', function () {
-    $setting = Settings::all()->where('setting_name', 'isEntryEnabled')->first(); //Itt módosítjuk a isEntryEnabled beállítást!
-    $setting->setting_value = !($setting->setting_value);
-    $setting->save();
-    return back();
-})->middleware('auth')->name('set-entry-enabled');
+Route::get('dashboard/setEntryEnabled', 'App\Http\Controllers\DashboardController@setEntryEnabled')->middleware('auth')->name('set-entry-enabled');
 
 //A kijárat engedélyezésére szolgáló útvonal
-Route::get('dashboard/setExitEnabled', function () {
-    $setting = Settings::all()->where('setting_name', 'isExitEnabled')->first(); //Itt módosítjuk a isExitEnabled beállítást!
-    $setting->setting_value = !($setting->setting_value);
-    $setting->save();
-    return back();
-})->middleware('auth')->name('set-exit-enabled');
+Route::get('dashboard/setExitEnabled', 'App\Http\Controllers\DashboardController@setExitEnabled')->middleware('auth')->name('set-exit-enabled');
 
 //Az új token generálásához használható útvonal
-Route::get('dashboard/generate-token', function (){
-        $current_user = Auth::user(); //Jelenleg bejelentkezett felhasználó adatainak lekérése
-        if ($current_user->role == 'admin') {
-            $hash = hash('sha256', $plainTextToken = Str::random(40)); //Legeneráljunk a token-t
-            if (Settings::all()->where('setting_name', 'access_token')->isEmpty()) {
-                Settings::create(['setting_name' => 'access_token', 'setting_value' => '']);
-            }
-            $token = Settings::all()->where('setting_name', 'access_token')->first();
-            $token->setting_value = $hash;
-            $token->save(); //Elmentjük a token értékét az adatbázisba
-            return view('token', ['current_user' => $current_user, "hash" => $hash]); //Ez lehet, hogy csak ideiglenes megooldás lesz
-        }
-    return redirect()->route('dashboard');//Átadjuk au új token-t a dashboardnak
-})->middleware('auth')->name('generate-token');
+Route::get('dashboard/generate-token', 'App\Http\Controllers\DashboardController@generateToken')->middleware('auth')->name('generate-token');
 
 //A logok oldalhoz tartozó útvonal
-Route::get('logs', function () {
-    $history = History::paginate(20, ['*'], 'history_page'); //20 elem látszódjon egyszerre
-    $users = User::all();
-    $logs = DB::table('log_messages')->paginate(20, ['*'], 'log_page'); //20 elem látszódjon egyszerre a rendszer szintő logokból
-    $current_user = Auth::user(); //Jelenleg bejelentkezett felhasználó adatainak lekérése
-    if($current_user->role == 'admin' or $current_user->role == 'employee') {
-        return view('logs', ["history" => $history, 'logs' => $logs, "users" => $users, "current_user" => $current_user]);
-    }else{
-        return view('error', [ 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users')]); //Ez majd lehet, hogy máshová irányít át később
-    }
-})->middleware('auth')->name('logs');
+Route::get('logs', 'App\Http\Controllers\LogController@index')->middleware('auth')->name('logs');
 
 //A felhasználók oldalhoz tartozó útvonalak
 
