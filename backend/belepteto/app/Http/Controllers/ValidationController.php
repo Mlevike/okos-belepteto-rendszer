@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\Settings;
+use App\Models\User;
 
 class ValidationController extends Controller
 {
@@ -49,15 +51,10 @@ class ValidationController extends Controller
 
     public function validate(Request $request, array $rules, array $messages = [], array $attributes = [])
     {
-        if(!(Settings::all()->where('setting_name', 'access_token')->isEmpty())) { //Ellenőrizzük az access_token meglétét
-            $token = Settings::all()->where('setting_name', 'access_token')->first(); //Lekérjük az access_token értékét
-            $isEntryEnabled = Settings::all()->where('setting_name', 'isEntryEnabled')->first(); //Lekérjük az isEntryEnabled értékét
-            if ($request->has('access_token')) {
-                if($request->access_token == $token->setting_value) {
-                    //Az uid beolvasása a kérésből
-                    $uid = Route::input('uid');
+            Settings::where('setting_name', 'access_token')->where('setting_value', $request->access_token)->FindOrFail(1); //Ellenőrizzük az access_token-t
+            $isEntryEnabled = Settings::where('setting_name', 'isEntryEnabled')->first(); //Lekérjük az isEntryEnabled értékét
                     //A megfelelő cardID-val rendelkező user kiválasztása
-                    $user = User::where('cardId', $uid)->first();
+                    $user = User::where('cardId', $request->uid)->first();
                     if ($user == '' or $user == null) {
                         return response()->json(['code' => '', 'isHere' => '']);
                     } else {
@@ -67,8 +64,11 @@ class ValidationController extends Controller
                             return response()->json(['code' => '', 'isHere' => '']);
                         }
                     }
-                }
-            }
-        }
+    }
+
+    public function getMethods(Request $request, array $rules, array $messages = [], array $attributes = []){
+        Settings::where('setting_name', 'access_token')->where('setting_value', $request->access_token)->FindOrFail(1); //Ellenőrizzük az access_token-t
+        $user = User::where('cardId', $request->uid)->findOrFail(1);
+        return response()->json(['code' => !empty($user->code), 'fingerprint' => !empty($user->fingerprint), 'enabled' => !empty($user->isEntryEnabled)]);
     }
 }
