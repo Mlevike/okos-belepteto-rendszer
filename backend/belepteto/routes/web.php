@@ -66,7 +66,7 @@ Route::get('current', function(){
 })->middleware('auth')->name('current'); //Az adott felhasználó adatainak megtekintésére szolgáló útvonal
 
 
-//A belépési kísérletek logolására szolgáló útvonal, ezt majd lehet, hogy máshogy kell megcsinálni
+/*//A belépési kísérletek logolására szolgáló útvonal, ezt majd lehet, hogy máshogy kell megcsinálni
 Route::post('log', function (Request $request){
     if(!(Settings::all()->where('setting_name', 'access_token')->isEmpty())) { //Ellenőrizzük az access_token meglétét
         $token = Settings::all()->where('setting_name', 'access_token')->first(); //Lekérjük az access_token értékét
@@ -94,7 +94,7 @@ Route::post('log', function (Request $request){
             }
         }
     }
-});
+});*/ //Ezt majd ha az új működik akkor törölni kell!
 
 //A telepítésnél történő kártyabeolvasáshoz használt útvonal
 
