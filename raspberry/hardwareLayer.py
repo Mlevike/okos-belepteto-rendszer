@@ -120,8 +120,8 @@ def GetMethods(uid): #UID alapján megkapjuk az adott felhasználó hitelesíté
     data = {'access_token' : os.getenv('ACCESS_TOKEN'), 'uid' : uid}
     r = requests.post(URL, json = data)
     print("GetMethods(): " + str(r.status_code))
-    #j = json.loads(json.dumps(r.json()))
-    methods = r
+    j = json.loads(json.dumps(r.json()))
+    methods = j
     return methods
 
 def SendLog(uid, successful, entry): #Logot mentő metódus
@@ -243,7 +243,7 @@ def InternalAuthentication(): #Létrehozunk egy függvényt a belső kártyaolva
         time.sleep(1) #Egy másodperces szünet
         SetLedColor("red") #Beállítjuk a LED színét pirosra
 
-while True():  #Ez azért kell, hogy hiba esetén se álljon le
+while True:  #Ez azért kell, hogy hiba esetén se álljon le
     print(GetMethods("16722ba2")) #Csak tesztelésre
     GetMethods("16722ba2") #Csak tesztelésre
     SetLedColor("blue") #Csak tesztelésre
