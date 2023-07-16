@@ -126,7 +126,11 @@ def GetMethods(uid): #UID alapján megkapjuk az adott felhasználó hitelesíté
     print(r.text)
     try:
         j = json.loads(json.dumps(r.json()))
-        return j
+        for key in j: #Átiteráljuk, hogy halmazt adhassunk vissza
+            if j[key]:
+                methods.append(key)
+        return methods  
+        #return j
     except:
         return False
 
