@@ -246,7 +246,7 @@ def InternalAuthentication(): #Létrehozunk egy függvényt a belső kártyaolva
 print(GetMethods("16722ba2")) #Csak tesztelésre
 GetMethods("16722ba2") #Csak tesztelésre
 SetLedColor("blue") #Csak tesztelésre
-print(GetCode("16722ba2")) #Csak tesztelés miatt van itt!
+#print(GetCode("16722ba2")) #Csak tesztelés miatt van itt!
 ShortBeep() #Csak tesztelés miatt van itt!
 TriggerRelay() #Csak tesztelés miatt van itt!
 setupMode = True #Ez csak IDEIGLENES
