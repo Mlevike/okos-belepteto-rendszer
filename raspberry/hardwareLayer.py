@@ -114,11 +114,9 @@ def GetIsHere(uid): #UID alapján itt létet lekérő metódus
     return j.get("isHere")
 
 def GetMethods(uid): #UID alapján megkapjuk az adott felhasználó hitelesítési módjait
-    methods = []
     URL = getMethodsUrl
     print(URL)
     data = {'access_token': os.getenv('ACCESS_TOKEN'), 'uid' : uid}
-
     r = requests.post(URL, json = data)
     print("GetMethods(): " + str(r.status_code))
     #print the response text (the content of the requested file):
@@ -126,11 +124,7 @@ def GetMethods(uid): #UID alapján megkapjuk az adott felhasználó hitelesíté
     print(r.text)
     try:
         j = json.loads(json.dumps(r.json()))
-        for key in j: #Átiteráljuk, hogy halmazt adhassunk vissza
-            if j[key]:
-                methods.append(key)
-        return methods  
-        #return j
+        return j
     except:
         return False
 
