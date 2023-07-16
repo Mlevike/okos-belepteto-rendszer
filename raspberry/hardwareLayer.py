@@ -43,7 +43,8 @@ connection = serial.Serial(port=interface, baudrate=9600) #Létrehozunk egy soro
 connection.reset_input_buffer() #Töröljük a soros buffert a tiszta indulás érdekében
 
 #Beállítjuk a kártya validálás linkjét
-validateUrl = "https://mlevente.hu/belepteto/public/validate/"
+getMethodsUrl = "https://mlevente.hu/belepteto/public/api/validatation/get-methods"
+validateUrl = "https://mlevente.hu/belepteto/public/api/validatation/validate"
 logUrl = "https://mlevente.hu/belepteto/public/log"
 setupUrl = "https://mlevente.hu/belepteto/public/setup"
 
@@ -112,6 +113,16 @@ def GetIsHere(uid): #UID alapján itt létet lekérő metódus
     j = json.loads(json.dumps(r.json()))
     return j.get("isHere")
 
+def GetMethods(uid) #UID alapján megkapjuk az adott felhasználó hitelesítési módjait
+    methods = []
+    URL = getMethodsUrl
+    print(URL)
+    data = {'access_token' : os.getenv('ACCESS_TOKEN'), 'uid' : uid}
+    r = requests.post(URL, json = data)
+    print("GetIsHere(): " + str(r.status_code))
+    j = json.loads(json.dumps(r.json()))
+    methods = j
+    return methods
 
 def SendLog(uid, successful, entry): #Logot mentő metódus
     URL = logUrl
@@ -232,6 +243,7 @@ def InternalAuthentication(): #Létrehozunk egy függvényt a belső kártyaolva
         time.sleep(1) #Egy másodperces szünet
         SetLedColor("red") #Beállítjuk a LED színét pirosra
 
+print(GetMethods("16722ba2")) #Csak tesztelésre
 SetLedColor("blue") #Csak tesztelésre
 print(GetCode("16722ba2")) #Csak tesztelés miatt van itt!
 ShortBeep() #Csak tesztelés miatt van itt!
