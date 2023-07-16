@@ -120,8 +120,8 @@ def GetMethods(uid): #UID alapján megkapjuk az adott felhasználó hitelesíté
     data = {'access_token' : os.getenv('ACCESS_TOKEN'), 'uid' : uid}
     r = requests.post(URL, json = data)
     print("GetMethods(): " + str(r.status_code))
-    j = json.loads(json.dumps(r.json()))
-    methods = j
+    #j = json.loads(json.dumps(r.json()))
+    methods = r
     return methods
 
 def SendLog(uid, successful, entry): #Logot mentő metódus
@@ -298,6 +298,10 @@ except requests.exceptions.ConnectionError:
     LcdClearScreen() #Töröljük az LCD kijelző tartalmát
     LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
     LcdSendString("HALOZATI HIBA!") #LCD-re írunk
+except ValueError:
+    LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+    LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+    LcdSendString("ROSSZ VALASZ!") #LCD-re írunk, ez a JSON felbontás sikertelenségére utal
 except:
     LcdClearScreen() #Töröljük az LCD kijelző tartalmát
     LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
