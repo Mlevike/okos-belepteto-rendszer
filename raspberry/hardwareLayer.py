@@ -243,72 +243,75 @@ def InternalAuthentication(): #Létrehozunk egy függvényt a belső kártyaolva
         time.sleep(1) #Egy másodperces szünet
         SetLedColor("red") #Beállítjuk a LED színét pirosra
 
-print(GetMethods("16722ba2")) #Csak tesztelésre
-GetMethods("16722ba2") #Csak tesztelésre
-SetLedColor("blue") #Csak tesztelésre
-#print(GetCode("16722ba2")) #Csak tesztelés miatt van itt!
-ShortBeep() #Csak tesztelés miatt van itt!
-TriggerRelay() #Csak tesztelés miatt van itt!
-setupMode = True #Ez csak IDEIGLENES
+while True():  #Ez azért kell, hogy hiba esetén se álljon le
+    print(GetMethods("16722ba2")) #Csak tesztelésre
+    GetMethods("16722ba2") #Csak tesztelésre
+    SetLedColor("blue") #Csak tesztelésre
+    #print(GetCode("16722ba2")) #Csak tesztelés miatt van itt!
+    ShortBeep() #Csak tesztelés miatt van itt!
+    TriggerRelay() #Csak tesztelés miatt van itt!
+    setupMode = True #Ez csak IDEIGLENES
 
-try:
-    if not(setupMode):
-        internalReadThread = threading.Thread(target=InternalAuthentication) #Létrehozunk egy háttér folyamatot a belső olvasó kártyadetektálásához
-        internalReadThread.start() #Elindítjuk a belső olvasó háttérfolyamatát
-        while True:
-            ExternalAuthentication() #Elindítjuk az Authentikáció
-    else:
-        print("Telepítési mód:")
-        print("--------------")
+    try:
+        if not(setupMode):
+             internalReadThread = threading.Thread(target=InternalAuthentication) #Létrehozunk egy háttér folyamatot a belső olvasó kártyadetektálásához
+             internalReadThread.start() #Elindítjuk a belső olvasó háttérfolyamatát
+             while True:
+                ExternalAuthentication() #Elindítjuk az Authentikáció
+        else:
+            print("Telepítési mód:")
+            print("--------------")
+            LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+            LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+            LcdSendString("TELEPITESI MOD") #LCD-re írunk
+            LcdGoto(1, 0) #A kurzort a második sor első pontjára állítjuk
+            LcdSendString("Kerem a kartyat!") #LCD-re írunk
+            while True:
+                if connection.inWaiting() != 0: #Ha van bejövő üzenet a soros porton, akkor azt beolvassuk
+                    data = connection.readline().decode("utf-8") #Pontosabban itt olvassuk be
+                    rx = json.loads(data) #Json belvasása
+                    if rx.get("type") == "event": #Ha történik valamilyen esemény a külső olvasón
+                        if rx.get("event") == "card_detected": #Ha kártyát érintenek az olvasóhoz
+                            uid = rx.get("uid") #Kiolvassuk az uid-t
+                            LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+                            LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+                            LcdSendString("TELEPITESI MOD") #LCD-re írunk
+                            LcdGoto(1, 0) #A kurzort a második sor első pontjára állítjuk
+                            LcdSendString("Kommunikacio...") #LCD-re írunk
+                            URL = setupUrl + "?cardId=" + uid
+                            r = requests.get(URL, auth=(os.getenv('SERVER_USERNAME'), os.getenv('SERVER_PW'))) #Végrehajtjuk a lekérdezést
+                            print("Kommunikáció a szerverrel", end=' ') #Kommunikálunk a felhasználóval
+                            if r.status_code == 200:
+                                print("[OK] (" + str(r.status_code) + ")") #Siker esetén
+                                LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+                                LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+                                LcdSendString("TELEPITESI MOD") #LCD-re írunk
+                                LcdGoto(1, 0) #A kurzort a második sor első pontjára állítjuk
+                                LcdSendString("OK (" + str(r.status_code) + ")" ) #LCD-re írunk
+                            else:
+                                print("[HIBA] (" + str(r.status_code) + ")") #Sikertelenség esetén
+                                LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+                                LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+                                LcdSendString("TELEPITESI MOD") #LCD-re írunk
+                                LcdGoto(1, 0) #A kurzort a második sor első pontjára állítjuk
+                                LcdSendString("HIBA (" + str(r.status_code) + ")") #LCD-re írunk
+    except requests.exceptions.ConnectionError:
         LcdClearScreen() #Töröljük az LCD kijelző tartalmát
         LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
-        LcdSendString("TELEPITESI MOD") #LCD-re írunk
-        LcdGoto(1, 0) #A kurzort a második sor első pontjára állítjuk
-        LcdSendString("Kerem a kartyat!") #LCD-re írunk
-        while True:
-            if connection.inWaiting() != 0: #Ha van bejövő üzenet a soros porton, akkor azt beolvassuk
-                data = connection.readline().decode("utf-8") #Pontosabban itt olvassuk be
-                rx = json.loads(data) #Json belvasása
-                if rx.get("type") == "event": #Ha történik valamilyen esemény a külső olvasón
-                    if rx.get("event") == "card_detected": #Ha kártyát érintenek az olvasóhoz
-                        uid = rx.get("uid") #Kiolvassuk az uid-t
-                        LcdClearScreen() #Töröljük az LCD kijelző tartalmát
-                        LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
-                        LcdSendString("TELEPITESI MOD") #LCD-re írunk
-                        LcdGoto(1, 0) #A kurzort a második sor első pontjára állítjuk
-                        LcdSendString("Kommunikacio...") #LCD-re írunk
-                        URL = setupUrl + "?cardId=" + uid
-                        r = requests.get(URL, auth=(os.getenv('SERVER_USERNAME'), os.getenv('SERVER_PW'))) #Végrehajtjuk a lekérdezést
-                        print("Kommunikáció a szerverrel", end=' ') #Kommunikálunk a felhasználóval
-                        if r.status_code == 200:
-                            print("[OK] (" + str(r.status_code) + ")") #Siker esetén
-                            LcdClearScreen() #Töröljük az LCD kijelző tartalmát
-                            LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
-                            LcdSendString("TELEPITESI MOD") #LCD-re írunk
-                            LcdGoto(1, 0) #A kurzort a második sor első pontjára állítjuk
-                            LcdSendString("OK (" + str(r.status_code) + ")" ) #LCD-re írunk
-                        else:
-                            print("[HIBA] (" + str(r.status_code) + ")") #Sikertelenség esetén
-                            LcdClearScreen() #Töröljük az LCD kijelző tartalmát
-                            LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
-                            LcdSendString("TELEPITESI MOD") #LCD-re írunk
-                            LcdGoto(1, 0) #A kurzort a második sor első pontjára állítjuk
-                            LcdSendString("HIBA (" + str(r.status_code) + ")") #LCD-re írunk
-except requests.exceptions.ConnectionError:
-    LcdClearScreen() #Töröljük az LCD kijelző tartalmát
-    LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
-    LcdSendString("HALOZATI HIBA!") #LCD-re írunk
-except ValueError:
-    LcdClearScreen() #Töröljük az LCD kijelző tartalmát
-    LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
-    LcdSendString("ROSSZ VALASZ!") #LCD-re írunk, ez a JSON felbontás sikertelenségére utal
-except:
-    LcdClearScreen() #Töröljük az LCD kijelző tartalmát
-    LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
-    LcdSendString("NEM KEZELT") #LCD-re írunk
-    LcdGoto(1, 0) #A kurzort visszaállítjuk a nulla pontra
-    LcdSendString("KIVETEL!") #LCD-re írunk
-    #Egyenlőre a kivételek nem működnek!
-finally:
-    #LcdClearScreen()
-    GPIO.cleanup() #Visszaállítjuk kiinduló állapotba a kimeneteket
+        LcdSendString("HALOZATI HIBA!") #LCD-re írunk
+    except ValueError:
+        LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+        LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+        LcdSendString("ROSSZ VALASZ!") #LCD-re írunk, ez a JSON felbontás sikertelenségére utal
+        time.sleep(5) #5 másodperc múlva megpróbáljuk újraindítani
+    except:
+        LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+        LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+        LcdSendString("NEM KEZELT") #LCD-re írunk
+        LcdGoto(1, 0) #A kurzort visszaállítjuk a nulla pontra
+        LcdSendString("KIVETEL!") #LCD-re írunk
+        #Egyenlőre a kivételek nem működnek!
+    finally:
+        #LcdClearScreen()
+        GPIO.cleanup() #Visszaállítjuk kiinduló állapotba a kimeneteket
+
