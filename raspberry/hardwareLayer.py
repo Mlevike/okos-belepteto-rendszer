@@ -114,7 +114,7 @@ def GetIsHere(uid): #UID alapján itt létet lekérő metódus
     return j.get("isHere")
 
 def GetMethods(uid): #UID alapján megkapjuk az adott felhasználó hitelesítési módjait
-    methods = []
+    '''methods = []
     URL = getMethodsUrl
     print(URL)
     print(uid)
@@ -124,7 +124,16 @@ def GetMethods(uid): #UID alapján megkapjuk az adott felhasználó hitelesíté
     print("GetMethods(): " + str(r.status_code))
     #j = json.loads(json.dumps(r.json()))
     methods = r
-    return methods
+    return methods'''
+    url = 'https://mlevente.hu/belepteto/public/api/validation/get-methods'
+    data = {'access_token': 'fc62279923af9f6f0bd19fb2a2f55f71706b49f3d7a450a67ff4ae0a3f850583', 'uid' : '16722ba2'}
+
+    x = requests.post(url, json = data)
+
+    #print the response text (the content of the requested file):
+    print(x.status_code)
+    print(x.text)
+    return x
 
 def SendLog(uid, successful, entry): #Logot mentő metódus
     URL = logUrl
