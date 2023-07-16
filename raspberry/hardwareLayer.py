@@ -126,14 +126,14 @@ def GetMethods(uid): #UID alapján megkapjuk az adott felhasználó hitelesíté
     methods = r
     return methods'''
     url = 'https://mlevente.hu/belepteto/public/api/validation/get-methods'
-    data = {'access_token': 'fc62279923af9f6f0bd19fb2a2f55f71706b49f3d7a450a67ff4ae0a3f850583', 'uid' : '16722ba2'}
+    data = {'access_token': os.getenv('ACCESS_TOKEN'), 'uid' : uid}
 
-    x = requests.post(url, json = data)
+    r = requests.post(url, json = data)
 
     #print the response text (the content of the requested file):
-    print(x.status_code)
-    print(x.text)
-    return x
+    print(r.status_code)
+    print(r.text)
+    return r
 
 def SendLog(uid, successful, entry): #Logot mentő metódus
     URL = logUrl
