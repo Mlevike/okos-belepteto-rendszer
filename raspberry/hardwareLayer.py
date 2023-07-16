@@ -299,7 +299,7 @@ while True:  #Ez azért kell, hogy hiba esetén se álljon le
         LcdClearScreen() #Töröljük az LCD kijelző tartalmát
         LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
         LcdSendString("HALOZATI HIBA!") #LCD-re írunk
-    except ValueError:
+    except json.decoder.JSONDecodeError:
         LcdClearScreen() #Töröljük az LCD kijelző tartalmát
         LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
         LcdSendString("ROSSZ VALASZ!") #LCD-re írunk, ez a JSON felbontás sikertelenségére utal
