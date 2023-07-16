@@ -113,7 +113,7 @@ def GetIsHere(uid): #UID alapján itt létet lekérő metódus
     j = json.loads(json.dumps(r.json()))
     return j.get("isHere")
 
-def GetMethods(uid) #UID alapján megkapjuk az adott felhasználó hitelesítési módjait
+def GetMethods(uid): #UID alapján megkapjuk az adott felhasználó hitelesítési módjait
     methods = []
     URL = getMethodsUrl
     print(URL)
