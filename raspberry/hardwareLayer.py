@@ -43,7 +43,7 @@ connection = serial.Serial(port=interface, baudrate=9600) #Létrehozunk egy soro
 connection.reset_input_buffer() #Töröljük a soros buffert a tiszta indulás érdekében
 
 #Beállítjuk a kártya validálás linkjét
-getMethodsUrl = "https://mlevente.hu/belepteto/public/api/validatation/get-methods"
+getMethodsUrl = 'https://mlevente.hu/belepteto/public/api/validation/get-methods'
 validateUrl = "https://mlevente.hu/belepteto/public/api/validatation/validate"
 logUrl = "https://mlevente.hu/belepteto/public/log"
 setupUrl = "https://mlevente.hu/belepteto/public/setup"
@@ -114,26 +114,21 @@ def GetIsHere(uid): #UID alapján itt létet lekérő metódus
     return j.get("isHere")
 
 def GetMethods(uid): #UID alapján megkapjuk az adott felhasználó hitelesítési módjait
-    '''methods = []
+    methods = []
     URL = getMethodsUrl
     print(URL)
-    print(uid)
-    print(os.getenv('ACCESS_TOKEN'))
-    data = {'access_token' : os.getenv('ACCESS_TOKEN'), 'uid' : uid}
-    r = requests.post(URL, json = data)
-    print("GetMethods(): " + str(r.status_code))
-    #j = json.loads(json.dumps(r.json()))
-    methods = r
-    return methods'''
-    url = 'https://mlevente.hu/belepteto/public/api/validation/get-methods'
     data = {'access_token': os.getenv('ACCESS_TOKEN'), 'uid' : uid}
 
-    r = requests.post(url, json = data)
-
+    r = requests.post(URL, json = data)
+    print("GetMethods(): " + str(r.status_code))
     #print the response text (the content of the requested file):
     print(r.status_code)
     print(r.text)
-    return r
+    try:
+        j = json.loads(json.dumps(r.json()))
+        return j
+    except:
+        return False
 
 def SendLog(uid, successful, entry): #Logot mentő metódus
     URL = logUrl
