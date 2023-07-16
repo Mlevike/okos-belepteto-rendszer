@@ -87,7 +87,7 @@ class ValidationController extends Controller
 
     public function getMethods(Request $request, array $rules, array $messages = [], array $attributes = []){
         Settings::where('setting_name', 'access_token')->where('setting_value', $request->access_token)->FindOrFail(1); //Ellenőrizzük az access_token-t
-        $user = User::where('cardId', $request->uid)->findOrFail(1);
+        $user = User::where('cardId', $request->uid)->firstOrFail;
         return response()->json(['code' => !empty($user->code), 'fingerprint' => !empty($user->fingerprint), 'enabled' => !empty($user->isEntryEnabled)]);
     }
 }

@@ -119,7 +119,7 @@ def GetMethods(uid): #UID alapján megkapjuk az adott felhasználó hitelesíté
     print(URL)
     data = {'access_token' : os.getenv('ACCESS_TOKEN'), 'uid' : uid}
     r = requests.post(URL, json = data)
-    print("GetIsHere(): " + str(r.status_code))
+    print("GetMethods(): " + str(r.status_code))
     j = json.loads(json.dumps(r.json()))
     methods = j
     return methods
