@@ -36,10 +36,8 @@ A User model a következő attribútumokat tartalmazza:
 - fingerprint: Az érintett felhasználó ujjlenyomata.
 - language: Az érintett felhasználó nyelvi beállítása.
 - profile: Az adott felhasználó profilja.
-- isAdmin: Az adott felhasználó rendelkezik-e admin jogosultsággal?
-- isWebEnabled: Az adott felhasználó rendelkezik-e webes belépési jogosultsággal?
+- role: Az adott felhasználó jogosultásgi szintje, szerepköre.
 - isEntryEnabled: Az adott felhasználó rendelkezik-e az objektumba történő belépés jogosultsággával?
-- isEmployee: Az adott felhasználó rendelkezik-e alkalmazotti jogosultságokkal?
 - email: Az érintett felhasználó email címe.
 - password: Az érintett felhasználó jelszava titkosítva.
 - remember_token: A felhasználó megjegyzéséért felelős token a Laravel keretrendszerben.
