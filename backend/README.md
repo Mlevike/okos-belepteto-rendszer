@@ -61,13 +61,15 @@ A Settings model a következő attribútumokat tartalmazza:
 - `/users/edit/{userId}`: Az oldal felhasználók módosítását biztosító oldala, az UsersViewController edit() metódusát hívja meg.
 - `/users/delete/{userId}`: Az oldal felhasználók hozzáadását biztosító oldala, az UsersViewController delete() metódusát hívja meg.
 - `/current`: A legutóbbi belépési kísérletet mutató nézet elérési útja.
-- `/validate/{uid}`: A egy adott kártyához tartozó kód, illetve ujjlenyomat lekérésére és ezáltal authentikációra szolgáló útvonal.
+- `/api/validation/validate`: Az authentikációra szolgáló útvonal, a ValidationController validate() metódusát hívja meg.
+- `/api/validation/get-methods`: Az authentikációs metódusokat lekérdezó útvonal, a ValidationController getMethods() metódusát hívja meg.
 - `/log`: Egy adott belépési kísérlet sikerességének mentésére szolgló útvonal.
 - `/setup`: Majd az eszköz beállításra fog szolgálni, de még fejlesztés alatt..
 
 
 ## A projektben használt Laravel Controllerek
 - UsersViewController: A felhasználókkal kapcsolatos műveletekért felelős vezérlő.
+- ValidationController: Az authentikációért felelős vezérlő.
 
 ## A projekt frontetndjének kialakítására használt külső könyvtárak
 - https://github.com/lipis/flag-icons
