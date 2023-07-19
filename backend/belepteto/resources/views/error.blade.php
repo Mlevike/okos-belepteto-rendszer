@@ -4,7 +4,7 @@
 <head>
 @include('head')
 </head>
-<body>
+<body data-bs-theme="dark">
 @include('header')
 <h1>{{ __('Hiba') }}</h1>
 <p>{{$errors}}</p>

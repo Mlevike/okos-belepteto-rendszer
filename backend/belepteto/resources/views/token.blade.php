@@ -4,7 +4,7 @@
 <head>
     @include('head')
 </head>
-<body>
+<body data-bs-theme="dark">
 @include('header', ['$current_user'=>$current_user])
 <main class="p-2">
     <h1>{{__('site.newToken')}}</h1>

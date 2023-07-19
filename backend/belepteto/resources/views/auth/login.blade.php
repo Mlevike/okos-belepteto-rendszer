@@ -44,7 +44,7 @@
 
     </style>
 </head>
-<body class="text-center">
+<body class="text-center" data-bs-theme="dark">
 <main class="form-signin w-50 m-auto">
     <form action="" method="post">
         @csrf

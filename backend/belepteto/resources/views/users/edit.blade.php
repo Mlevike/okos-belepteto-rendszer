@@ -4,7 +4,7 @@
 <head>
 @include('head') <!--Be includoljuk a bootstrap hivatkozásokat és más könyvtárakat behivatkozó blade templatet-->
 </head>
-<body>
+<body data-bs-theme="dark">
 @include('header') <!--Be include-oljuk a menüt tartalmazó blade templatet -->
 <main class="p-2">
     <h1>{{$user != null ?  __('site.editUser')  :  __('site.addUser') }}</h1>
