@@ -36,10 +36,8 @@ A User model a következő attribútumokat tartalmazza:
 - fingerprint: Az érintett felhasználó ujjlenyomata.
 - language: Az érintett felhasználó nyelvi beállítása.
 - profile: Az adott felhasználó profilja.
-- isAdmin: Az adott felhasználó rendelkezik-e admin jogosultsággal?
-- isWebEnabled: Az adott felhasználó rendelkezik-e webes belépési jogosultsággal?
+- role: Az adott felhasználó jogosultásgi szintje, szerepköre.
 - isEntryEnabled: Az adott felhasználó rendelkezik-e az objektumba történő belépés jogosultsággával?
-- isEmployee: Az adott felhasználó rendelkezik-e alkalmazotti jogosultságokkal?
 - email: Az érintett felhasználó email címe.
 - password: Az érintett felhasználó jelszava titkosítva.
 - remember_token: A felhasználó megjegyzéséért felelős token a Laravel keretrendszerben.
@@ -61,13 +59,15 @@ A Settings model a következő attribútumokat tartalmazza:
 - `/users/edit/{userId}`: Az oldal felhasználók módosítását biztosító oldala, az UsersViewController edit() metódusát hívja meg.
 - `/users/delete/{userId}`: Az oldal felhasználók hozzáadását biztosító oldala, az UsersViewController delete() metódusát hívja meg.
 - `/current`: A legutóbbi belépési kísérletet mutató nézet elérési útja.
-- `/validate/{uid}`: A egy adott kártyához tartozó kód, illetve ujjlenyomat lekérésére és ezáltal authentikációra szolgáló útvonal.
+- `/api/validation/validate`: Az authentikációra szolgáló útvonal, a ValidationController validate() metódusát hívja meg.
+- `/api/validation/get-methods`: Az authentikációs metódusokat lekérdezó útvonal, a ValidationController getMethods() metódusát hívja meg.
 - `/log`: Egy adott belépési kísérlet sikerességének mentésére szolgló útvonal.
 - `/setup`: Majd az eszköz beállításra fog szolgálni, de még fejlesztés alatt..
 
 
 ## A projektben használt Laravel Controllerek
 - UsersViewController: A felhasználókkal kapcsolatos műveletekért felelős vezérlő.
+- ValidationController: Az authentikációért felelős vezérlő.
 
 ## A projekt frontetndjének kialakítására használt külső könyvtárak
 - https://github.com/lipis/flag-icons
