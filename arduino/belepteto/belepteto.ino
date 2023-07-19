@@ -13,7 +13,7 @@
 #define BUZZER_PIN A0 //Megadjuk a kimeneti pin-t
 #define SHORT_TIME 500 //Megadjuk a rövid csippanás idejét (ms)
 #define LONG_TIME 1000 //Megadjuk a hosszú csippanás idejét (ms)
-#define MUTED true //Megadjuk, hogy le van-e némítva az eszköz?
+#define MUTED false //Megadjuk, hogy le van-e némítva az eszköz?
 
 //Definiáljuk a billentyűzet kiosztását
 const int ROW_NUM = 4; //Sorok száma
