@@ -7,6 +7,7 @@
 #include <MFRC522DriverSPI.h>
 #include <MFRC522DriverPinSimple.h>
 #include <MFRC522Debug.h>
+#include <Adafruit_Fingerprint.h> //Ez majd lehet, hogy később eltávolításra kerül
 
 //Definiáljuk a hangszóró beállításait
 #define BUZZER_FREQUENCY 2400 //Megadjuk a frekvenciát Hz-ben
@@ -50,6 +51,8 @@ String GetCode(char mask){ //Kód kérő függvény
   }
   return(code); //Visszaadjuk a kódot sztringként
 }
+
+String GetFingerprint
 
 void LcdClearScreen(){ //Az LCD tartaémának törléséért felelős metódus
   myLCD.PCF8574_LCDClearScreen(); //LCD letörlése

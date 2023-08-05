@@ -28,11 +28,7 @@
                 <td>{{$current->id}}</td>
                 <td>{{$current->cardId}}</td>
                 <td>
-                    @foreach($users as $user)
-                        @if($user->id == $current->userId) <!--Ez lehet, hogy nem a legoptimálisabb megoldás,de egyenlőre nem találtam jobbat!-->
-                            {{$user->name}}
-                        @endif
-                    @endforeach
+                            {{$current->usersName}}
                 </td>
                 <td>
                     @if($current->direction == 'in')
