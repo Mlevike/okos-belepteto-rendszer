@@ -20,6 +20,7 @@
         .form-signin {
             max-width: 330px;
             padding: 15px;
+            border-radius: 10px;
         }
 
         .form-signin .form-floating:focus-within {
@@ -44,8 +45,9 @@
 
     </style>
 </head>
-<body class="text-center" data-bs-theme="dark">
-<main class="form-signin w-50 m-auto">
+<body class="text-center bg-image" style="background-image: url({{asset('background.jpeg')}});
+            height: 100vh">>
+<main class="form-signin bg-light w-50 m-auto">
     <form action="" method="post">
         @csrf
         <h1 class="h3 mb-3 fw-normal">{{ __('auth.please_login') }}</h1>
