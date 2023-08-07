@@ -14,7 +14,7 @@
             </ul>
 
             <div class="dropdown text-end">
-                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <a href="#" class="d-block {{$current_user->darkMode ? 'link-light' : 'link-dark'}} text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     @if($current_user->picture == "")
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
@@ -27,12 +27,16 @@
                 <ul class="dropdown-menu text-small">
                     <li><p class="dropdown-header">Hello, {{$current_user->name}}</p></li>
                     <div class="dropdown-divider"></div>
+                        <li>
+                            <a href="{{route('set-dark-mode')}}" class="dropdown-item"> {{ __('site.darkMode') }}: {{$current_user->darkMode ? __('site.on') : __('site.off')}}</a>
+                        </li>
+                        <div class="dropdown-divider"></div>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                            @csrf
+                        </form>
                     <li><a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{__('auth.logout')}}</a></li>
                 </ul>
             </div>
         </div>
     </div>
-    <form id="logout-form" action="{{ route('logout') }}" method="POST">
-        @csrf
-    </form>
 </header>

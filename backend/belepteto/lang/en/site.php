@@ -21,6 +21,7 @@ return [
     'confirmation' => "Confirmation",
     'dashboard' => "Dashboard",
     'dangerZone' => "Danger Zone",
+    'darkMode' => "Dark Mode",
     'delete' => "Delete",
     'description' => "Description",
     'direction' => "Direction",
@@ -65,5 +66,7 @@ return [
     'theLastEntryAttempt' => "The last entry attempt",
     'time' => "Time",
     'role' => "Role",
-    'yes' => "Yes"
+    'yes' => "Yes",
+    'on' => "On",
+    'off' => "Off"
 ];

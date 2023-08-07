@@ -54,6 +54,8 @@ Route::get('users/show/{userId}', 'App\Http\Controllers\UsersViewController@show
 
 Route::get('users/delete/{userId}', 'App\Http\Controllers\UsersViewController@delete')->middleware('auth')->name('users-delete'); //A felhasználók törléséhez vezető útvonal linkje
 
+Route::get('users/set-dark-mode', 'App\Http\Controllers\UsersViewController@setDarkMode')->middleware('auth')->name('set-dark-mode'); //A sötét mód beállításához vezető útvonal linkje
+
 //A legutóbbi bejelentkezési kísérlet megjelenítésére szolgáló weboldal
 Route::get('current', function(){
     $history = History::latest()->first();

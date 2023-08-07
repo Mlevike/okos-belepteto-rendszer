@@ -4,7 +4,7 @@
 <head>
 @include('head') <!--Be includoljuk a bootstrap hivatkozásokat és más könyvtárakat behivatkozó blade templatet-->
 </head>
-<body data-bs-theme="dark">
+<body {{$current_user->darkMode ? 'data-bs-theme=dark' : ''}}>
 @include('header') <!--Be include-oljuk a menüt tartalmazó blade templatet -->
 <main class="p-2">
     <h1>{{$user != null ?  __('site.editUser')  :  __('site.addUser') }}</h1>
@@ -50,6 +50,10 @@
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" role="switch" id="isEntryEnabledSwitch" name="isEntryEnabled" {{$user != null ? $user->isEntryEnabled  ? 'checked' : '' : ''}}>
                 <label class="form-check-label" for="isEntryEnabledSwitch">{{ __('site.isEntryEnabled') }}</label>
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="darkMode" name="darkMode" {{$user != null ? $user->darkMode  ? 'checked' : '' : ''}}>
+                <label class="form-check-label" for="darkModeSwitch">{{ __('site.darkMode') }}</label>
             </div>
             <label for="profile">{{ __('site.profile') }}: </label>
             <input type="text" class="form-control" id="profile" name="profile" value="{{$user != null ? $user->profile : ''}}">

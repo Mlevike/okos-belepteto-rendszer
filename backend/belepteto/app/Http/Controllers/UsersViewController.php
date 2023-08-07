@@ -47,6 +47,12 @@ class UsersViewController extends Controller
                          $request->isEntryEnabled = false;
                      }
 
+                     if ($request->filled('darkMode')) { //Sötét mód beállítása
+                         $request->darkMode = true;
+                     } else {
+                         $request->darkMode = false;
+                     }
+
                      if (!($request->filled('role'))) {
                          $request->role = 'user'; //Alapértelmezett role beállítás megadása
                      }
@@ -110,6 +116,12 @@ class UsersViewController extends Controller
                          $user->isEntryEnabled = false;
                      }
 
+                     if ($request->filled('darkMode')) { //Sötét mód beállítása
+                         $user->darkMode = true;
+                     } else {
+                         $user->darkMode = false;
+                     }
+
                      if ($request->filled('cardId')) {
                              $user->cardId = $request->cardId;
                      }
@@ -162,5 +174,12 @@ class UsersViewController extends Controller
                 return view('error', ['errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users'), 'current_user' => $current_user]);
             }
         }
+    }
+
+    public function setDarkMode(){ //A sötét mód állításáért felelős metódus
+        $current_user = Auth::user();
+        $current_user->darkMode = !($current_user->darkMode); //Dark mód beállítás átállítása a jelenlegi felhasználón
+        $current_user->save(); //Elmentjük a változtatást
+        return back();
     }
 }

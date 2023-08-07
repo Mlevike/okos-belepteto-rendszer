@@ -20,6 +20,7 @@ return [
     'confirmation' => "Megerősítés",
     'dashboard' => "Vezérlőpult",
     'dangerZone' => "Veszélyes terület",
+    'darkMode' => "Sötét Mód",
     'delete' => "Törlés",
     'description' => "Leírás",
     'direction' => "Irány",
@@ -64,5 +65,7 @@ return [
     'theLastEntryAttempt' => "A legutóbbi belépési kísérlet",
     'time' => "Időpont",
     'role' => "Szerepkör",
-    'yes' => "Igen"
+    'yes' => "Igen",
+    'on' => "Be",
+    'off' => "Ki"
 ];

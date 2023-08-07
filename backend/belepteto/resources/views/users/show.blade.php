@@ -9,7 +9,7 @@
             };
      </script>
 </head>
-<body data-bs-theme="dark">
+<body {{$current_user->darkMode ? 'data-bs-theme=dark' : ''}}>
 @include('header')
 <main class="p-2">
 <h1>{{ $user->name }}</h1>
