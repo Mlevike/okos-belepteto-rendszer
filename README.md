@@ -31,6 +31,33 @@ A projekt céja egy hálózaton keresztül elérhető beléptető rendszer megva
 - Sikertelen belépésről az LCD tájékoztat minket a következő felirattal.
 - A sikeres, illetve a sikertelen kilépési kísérletről egy LED, illetve hangjelzés segítségével tájékoztat a rendszer.
 
+# A rendszer telepítése
+
+## A web backend telepítése
+
+### Docker segítségével
+
+1. Lépj a projekt `/backend/.docker` mappájába!
+2. A megfelelő docker konténerek telepítéséhez add ki a következő parancsot:
+```
+docker-compose up
+```
+3. A `/backend` mappában a Docker Desktop segítségével futtasd a következő parancsot az adatbázis migrációk alkalmazásához:
+```
+php artisan migrate
+```
+4. Hozzuk létre a kezdeti beállításokat a következő paranccsal:
+```
+php artisan app:generate-default-settings
+```
+4. Hozzuk létre a kezdeti felhasználót a következő paranccsal:
+```
+php artisan app:create-first-user
+```
+**Megjegyzés:** Amennyiben paraméterként mást nem adunk meg, úgy az alapértelmezett belépési adatok a következők lesznek:
+  - email: admin@admin.com
+  - jelszó: jelszo
+
 # Felhasznált software eszközök
 
 - A Raspberry Pi-n található vezérlő szoftvert Python programozási nyelv segítségével fejlesztettük le, ez a szoftver kommunikál a Laravel alapú PHP backenddel REST API segítségével.
