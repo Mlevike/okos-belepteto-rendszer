@@ -58,13 +58,14 @@ Route::get('users/set-dark-mode', 'App\Http\Controllers\UsersViewController@setD
 
 //A legutóbbi bejelentkezési kísérlet megjelenítésére szolgáló weboldal
 Route::get('current', function(){
+    $current_user = Auth::user();
     $history = History::latest()->first();
     if($history != null and $history->userId != null){
     $user = User::where('id', $history->userId)->first();
     }else{
         $user = null;
     }
-    return view('current', ['user'=>$user, 'history'=>$history]);
+    return view('current', ['user'=>$user, 'history'=>$history, 'current_user' => $current_user]);
 })->middleware('auth')->name('current'); //Az adott felhasználó adatainak megtekintésére szolgáló útvonal
 
 
