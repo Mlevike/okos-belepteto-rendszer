@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MessDetectorOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PHPCSFixerOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PHPCodeSnifferOptionsConfiguration">
+    <option name="highlightLevel" value="WARNING" />
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/belepteto/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/nunomaduro/termwind" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/nunomaduro/collision" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/tijsverkoyen/css-to-inline-styles" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/league/config" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/league/commonmark" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/league/mime-type-detection" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/league/flysystem" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/dragonmantank/cron-expression" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/phpstan/phpdoc-parser" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/phpdocumentor/type-resolver" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/phpdocumentor/reflection-common" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/laravel/sail" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/laravel/framework" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/laravel/sanctum" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/laravel/tinker" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/laravel/serializable-closure" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/laravel/pint" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/laravel/fortify" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/theseer/tokenizer" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/filp/whoops" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/spatie/temporary-directory" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/bacon/bacon-qr-code" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/spatie/laravel-ignition" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/spatie/laravel-package-tools" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/spatie/backtrace" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/spatie/ignition" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/spatie/flare-client-php" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/spatie/laravel-settings" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/psy/psysh" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/fakerphp/faker" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/doctrine/lexer" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/doctrine/deprecations" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/doctrine/event-manager" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/doctrine/cache" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/doctrine/dbal" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/pragmarx/google2fa" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/yoeriboven/laravel-log-db" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/vlucas/phpdotenv" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/mockery/mockery" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/voku/portable-ascii" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/fruitcake/php-cors" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/graham-campbell/result-type" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/intervention/image" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/phpunit/php-code-coverage" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/phpunit/php-file-iterator" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/phpunit/php-invoker" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/phpunit/php-text-template" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/phpunit/phpunit" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/phpunit/php-timer" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/paragonie/constant_time_encoding" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/webmozart/assert" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/guzzlehttp/uri-template" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/ramsey/collection" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/ramsey/uuid" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/phpoption/phpoption" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/myclabs/deep-copy" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/ralouphie/getallheaders" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/sebastian/type" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/sebastian/diff" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/sebastian/lines-of-code" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/sebastian/object-enumerator" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/brick/math" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/sebastian/comparator" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/sebastian/code-unit" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/sebastian/exporter" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/dasprid/enum" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/sebastian/cli-parser" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/sebastian/version" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/sebastian/complexity" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/sebastian/recursion-context" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/sebastian/environment" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/sebastian/global-state" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/sebastian/code-unit-reverse-lookup" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/sebastian/object-reflector" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/hamcrest/hamcrest-php" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/nette/schema" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/nette/utils" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/dflydev/dot-access-data" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/phar-io/version" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/phar-io/manifest" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/egulias/email-validator" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/composer" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/nesbot/carbon" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/deprecation-contracts" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/finder" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/routing" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/polyfill-intl-grapheme" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/css-selector" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/polyfill-intl-normalizer" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/mailer" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/mime" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/polyfill-php72" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/error-handler" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/event-dispatcher-contracts" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/polyfill-intl-idn" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/console" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/event-dispatcher" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/var-dumper" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/http-foundation" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/uid" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/http-kernel" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/translation-contracts" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/psr/simple-cache" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/service-contracts" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/string" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/psr/http-client" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/translation" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/process" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/psr/event-dispatcher" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/symfony/polyfill-uuid" />
+      <path value="$PROJECT_DIR$/belepteto/vendor/psr/cache" />
+    </include_path>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />
+  <component name="PhpStanOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PhpUnit">
+    <phpunit_settings>
+      <PhpUnitSettings configuration_file_path="$PROJECT_DIR$/belepteto/phpunit.xml" custom_loader_path="$PROJECT_DIR$/belepteto/vendor/autoload.php" use_configuration_file="true" />
+    </phpunit_settings>
+  </component>
+  <component name="PsalmOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+</project>
