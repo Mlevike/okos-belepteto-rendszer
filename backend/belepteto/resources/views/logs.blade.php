@@ -88,5 +88,6 @@
         </div>
 @endif
 </main>
+@include('footer')
 </body>
 </html>
