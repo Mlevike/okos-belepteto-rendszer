@@ -5,7 +5,7 @@
     @include('head')
     <meta http-equiv="refresh" content="5">
 </head>
-<body data-bs-theme="dark">
+<body {{$current_user->darkMode ? 'data-bs-theme=dark' : ''}}>
 <h1 style="margin-left: 10px">{{__('site.theLastEntryAttempt')}}</h1>
 <div class="container mt-4">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -41,4 +41,5 @@
 </div>
 </div>
 </body>
+@include('footer')
 </html>

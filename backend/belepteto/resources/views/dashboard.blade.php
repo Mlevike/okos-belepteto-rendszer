@@ -11,7 +11,7 @@
         };
     </script>
 </head>
-<body data-bs-theme="dark">
+<body {{$current_user->darkMode ? 'data-bs-theme=dark' : ''}}>
 @include('header', ['current_user'=>$current_user])
 <main class="container m-1 w-100">
     <h1>{{ __('site.dashboard') }}</h1>
@@ -95,4 +95,5 @@
     </div>
 </div>
 </body>
+@include('footer')
 </html>

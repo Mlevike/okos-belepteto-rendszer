@@ -68,4 +68,5 @@
         </form>
 </main>
 </body>
+@include('footer')
 </html>

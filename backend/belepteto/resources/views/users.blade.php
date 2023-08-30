@@ -95,5 +95,6 @@
     <a type="button" class="btn btn-primary mt-2 mb-2" href="{{ route('users-add') }}" role="button"><i class="bi bi-plus"></i> {{ __('site.addUser') }}</a>
 @endif
 </main>
+@include('footer')
 </body>
 </html>

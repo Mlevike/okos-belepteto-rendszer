@@ -99,4 +99,5 @@
 </div>
 @endif
 </body>
+@include('footer')
 </html>
