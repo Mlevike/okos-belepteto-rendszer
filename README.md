@@ -70,6 +70,7 @@ php artisan app:create-first-user
   - HD44780_LCD_PCF8574 i2c LCD controller library - https://github.com/gavinlyonsrepo/HD44780_LCD_PCF8574
   - MFRC522v2 library - https://github.com/OSSLibraries/Arduino_MFRC522v2
   - ArdunioJSON - https://arduinojson.org/
+  - Adafruit fingerprint libary - https://github.com/adafruit/Adafruit-Fingerprint-Sensor-Library
 
   A Python-hoz használt külső könyvtárak:
 
