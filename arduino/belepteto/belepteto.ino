@@ -1,4 +1,5 @@
 
+
 //Beimportáljuk a szükséges külső könyvtárakat
 #include <ArduinoJson.h>
 #include <Keypad.h>
@@ -14,7 +15,7 @@
 #define BUZZER_PIN A0 //Megadjuk a kimeneti pin-t
 #define SHORT_TIME 500 //Megadjuk a rövid csippanás idejét (ms)
 #define LONG_TIME 1000 //Megadjuk a hosszú csippanás idejét (ms)
-#define MUTED false //Megadjuk, hogy le van-e némítva az eszköz?
+#define MUTED true //Megadjuk, hogy le van-e némítva az eszköz?
 
 //Definiáljuk a billentyűzet kiosztását
 const int ROW_NUM = 4; //Sorok száma
@@ -33,8 +34,13 @@ byte pin_column[COLUMN_NUM] = {5, 4, 3, 2}; //Oszlopok
 MFRC522DriverPinSimple ss_pin(10); //Definiáljuk a SPI SS lábát
 MFRC522DriverSPI driver{ss_pin}; //Inicializáljuk az SPI meghajtót
 
+SoftwareSerial mySerial(2, 3); //Inicializáljuk a szoftveres soros portot
+Adafruit_Fingerprint finger = Adafruit_Fingerprint(&mySerial); //Inicializáljuk az ujjlenyomat olvasó könyvtárat
+uint8_t id;
+bool fingerprintOK = false; //Létrehozunk egy változót az ujjlenyomat olvasó állaőptának reprezentálásához
+
 Keypad keypad = Keypad( makeKeymap(keys), pin_rows, pin_column, ROW_NUM, COLUMN_NUM ); //Inicializáljuk a Keypad-et
-HD44780LCD myLCD( 2, 16, 0x27); //Iniciálizáljuk az LCD kijelzőt
+HD44780LCD myLCD(2, 16, 0x27, &Wire); //Iniciálizáljuk az LCD kijelzőt
 MFRC522 mfrc522{driver};  //Inicializáljuk az RFID olvasót
 StaticJsonDocument<200> rx; //Definiáljuk a bemenő JSON adatszerkezetet
 StaticJsonDocument<200> tx; //Definiáljuk a kimenő JSON adatszerkezetet
@@ -52,7 +58,6 @@ String GetCode(char mask){ //Kód kérő függvény
   return(code); //Visszaadjuk a kódot sztringként
 }
 
-String GetFingerprint
 
 void LcdClearScreen(){ //Az LCD tartaémának törléséért felelős metódus
   myLCD.PCF8574_LCDClearScreen(); //LCD letörlése
@@ -87,10 +92,10 @@ void CustomBeep(int freq, int delayedTime){
 
 void LcdGoto(int row, int column){ //Az LCD-n adott pozicióra ugrásért felelő metódus
   if(row == 0){
-    myLCD.PCF8574_LCDGOTO(LCDLineNumberOne, column); //Pozicióra ugrás, ha row == 0
+    myLCD.PCF8574_LCDGOTO(myLCD.LCDLineNumberOne, column); //Pozicióra ugrás, ha row == 0
   }
   if(row == 1){
-    myLCD.PCF8574_LCDGOTO(LCDLineNumberTwo, column); //Pozicióra ugrás, ha row == 1
+    myLCD.PCF8574_LCDGOTO(myLCD.LCDLineNumberTwo, column); //Pozicióra ugrás, ha row == 1
   }
            
 }
@@ -105,14 +110,158 @@ void SoftwareReset(){ //Az eszköz szoftverből való újraindítására szolgá
   asm volatile ("jmp 0");
 }
 
+int EnrollFingerprint(){
+   int p = -1;
+  Serial.print("Waiting for valid finger to enroll as #"); Serial.println(id);
+  while (p != FINGERPRINT_OK) {
+    p = finger.getImage();
+    switch (p) {
+    case FINGERPRINT_OK:
+      Serial.println("Image taken");
+      break;
+    case FINGERPRINT_NOFINGER:
+      Serial.println(".");
+      break;
+    case FINGERPRINT_PACKETRECIEVEERR:
+      Serial.println("Communication error");
+      break;
+    case FINGERPRINT_IMAGEFAIL:
+      Serial.println("Imaging error");
+      break;
+    default:
+      Serial.println("Unknown error");
+      break;
+    }
+  }
+
+  // OK success!
+
+  p = finger.image2Tz(1);
+  switch (p) {
+    case FINGERPRINT_OK:
+      Serial.println("Image converted");
+      break;
+    case FINGERPRINT_IMAGEMESS:
+      Serial.println("Image too messy");
+      return p;
+    case FINGERPRINT_PACKETRECIEVEERR:
+      Serial.println("Communication error");
+      return p;
+    case FINGERPRINT_FEATUREFAIL:
+      Serial.println("Could not find fingerprint features");
+      return p;
+    case FINGERPRINT_INVALIDIMAGE:
+      Serial.println("Could not find fingerprint features");
+      return p;
+    default:
+      Serial.println("Unknown error");
+      return p;
+  }
+
+  Serial.println("Remove finger");
+  delay(2000);
+  p = 0;
+  while (p != FINGERPRINT_NOFINGER) {
+    p = finger.getImage();
+  }
+  Serial.print("ID "); Serial.println(id);
+  p = -1;
+  Serial.println("Place same finger again");
+  while (p != FINGERPRINT_OK) {
+    p = finger.getImage();
+    switch (p) {
+    case FINGERPRINT_OK:
+      Serial.println("Image taken");
+      break;
+    case FINGERPRINT_NOFINGER:
+      Serial.print(".");
+      break;
+    case FINGERPRINT_PACKETRECIEVEERR:
+      Serial.println("Communication error");
+      break;
+    case FINGERPRINT_IMAGEFAIL:
+      Serial.println("Imaging error");
+      break;
+    default:
+      Serial.println("Unknown error");
+      break;
+    }
+  }
+
+  // OK success!
+
+  p = finger.image2Tz(2);
+  switch (p) {
+    case FINGERPRINT_OK:
+      Serial.println("Image converted");
+      break;
+    case FINGERPRINT_IMAGEMESS:
+      Serial.println("Image too messy");
+      return p;
+    case FINGERPRINT_PACKETRECIEVEERR:
+      Serial.println("Communication error");
+      return p;
+    case FINGERPRINT_FEATUREFAIL:
+      Serial.println("Could not find fingerprint features");
+      return p;
+    case FINGERPRINT_INVALIDIMAGE:
+      Serial.println("Could not find fingerprint features");
+      return p;
+    default:
+      Serial.println("Unknown error");
+      return p;
+  }
+
+  // OK converted!
+  Serial.print("Creating model for #");  Serial.println(id);
+
+  p = finger.createModel();
+  if (p == FINGERPRINT_OK) {
+    Serial.println("Prints matched!");
+  } else if (p == FINGERPRINT_PACKETRECIEVEERR) {
+    Serial.println("Communication error");
+    return p;
+  } else if (p == FINGERPRINT_ENROLLMISMATCH) {
+    Serial.println("Fingerprints did not match");
+    return p;
+  } else {
+    Serial.println("Unknown error");
+    return p;
+  }
+
+  Serial.print("ID "); Serial.println(id);
+  p = finger.storeModel(id);
+  if (p == FINGERPRINT_OK) {
+    Serial.println("Stored!");
+  } else if (p == FINGERPRINT_PACKETRECIEVEERR) {
+    Serial.println("Communication error");
+    return p;
+  } else if (p == FINGERPRINT_BADLOCATION) {
+    Serial.println("Could not store in that location");
+    return p;
+  } else if (p == FINGERPRINT_FLASHERR) {
+    Serial.println("Error writing to flash");
+    return p;
+  } else {
+    Serial.println("Unknown error");
+    return p;
+  }
+
+  return true;
+}
+
 void setup(){
   ShortBeep(); //Csak teszteléshez
   delay(50);
   //Beállítjuk az LCD kijelzőt
   myLCD.PCF8574_LCDBackLightSet(true); //Engedélyezzük az LCD háttérvilágítását
-  myLCD.PCF8574_LCDInit(LCDCursorTypeOff); //Ne jelenítsük meg a kurzort az LCD kijelzőn
+  myLCD.PCF8574_LCDInit(myLCD.LCDCursorTypeOff); //Ne jelenítsük meg a kurzort az LCD kijelzőn
   Serial.begin(9600); //Elindítjuk a soros kommunikációt
   mfrc522.PCD_Init();  //Inicializáljuk az RFID olvasót
+  finger.begin(115200); //Beállítjuk az ujjlenyomat olvasó kapcsolatának sebességét
+  if (finger.verifyPassword()) {
+    fingerprintOK = true;
+  }
 }
 
 void loop(){
