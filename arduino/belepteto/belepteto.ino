@@ -226,6 +226,15 @@ void loop(){
         LcdGoto(rx["row"], rx["column"]);
       }
 
+      if(rx["action"] == "get_status"){
+        tx["type"] = "event"; //Megadjuk az adat típusát (event)
+        tx["event"] = "status"; //Megadjuk az eseményt
+        tx["status"] = 0; 
+        serializeJson(tx, Serial); //Szerializáljuk és továbbítjuk soros kommunikáción keresztül a JSON adatszerkezetünket
+        Serial.println(); //Küldjünk egy sor végét is a soros kommunikáción keresztül
+        tx.clear(); //Töröljük a json adatszerkezet tartalmát, mert már nincs szükségünk rá!
+      }
+
       if(rx["action"] == "lcd_clear_screen"){
         LcdClearScreen();
       }
