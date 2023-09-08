@@ -9,15 +9,19 @@ A kommunikáció a központi egység és a külső olvasó között soros interf
 
 ## Az olvasó felépítése (Csatlakozók nélkül)
 
-![Beléptető külső olvasó felépítése](images/belepteto_bb.jpg)
+![Beléptető külső olvasó felépítése](../documentation/images/belepteto_bb.jpg)
 
 ## Az olvasó kapcsolási rajza (Csatlakozók nélkül)
 
-![Beléptető külső olvasó kapcsolási rajza](images/belepteto_schem.jpg)
+![Beléptető külső olvasó kapcsolási rajza](../documentation/images/belepteto_schem.jpg)
 
 ## Az olvasó nyomtatott áramköri lap terve
 
 ![Az olvasó nyomtatott áramköri lap terve](../arduino/pcb/belepteto_cropped.jpg)
+
+## Az új ujjlenyomat felvételének folyamata
+
+![Az olvasó nyomtatott áramköri lap terve](../documentation/images/fp_enroll_process.jpg)
 
 ## A külső olvasó kommunikációja a központi egységgel
 
@@ -66,7 +70,7 @@ Az ujjlenyomatolvasással kapcsolatos akciók válasz eseménye az ujjlenyomat k
         "status": [a művelet sikerességét kifejező numerikus érték]
     }
 
-**Az ujjlenyomat keresés esetén pedig a "status" helyett "finger" mezőt kapunk, amennyiben a keresés művelet sikeres, akkor megkapjuk az adott ujjlenyomat azonosítóját, egyébként "-1" értéket kapunk vissza.
+**Az ujjlenyomat keresés esetén pedig a "status" helyett "finger" mezőt kapunk, amennyiben a keresés művelet sikeres, akkor megkapjuk az adott ujjlenyomat azonosítóját, egyébként "-1" értéket kapunk vissza.**
 
 #### Kód bekérése
 
@@ -155,7 +159,6 @@ Ezen akció meghívásával, egy ujjlenyomat modelt tudunk készíteni.
     {     
         "type": "action",
         "action": "fp_create_model",
-        
     }
 
 #### Model tárolása ujjlenyomatolvasó használatával
@@ -175,5 +178,4 @@ Ezen akció meghívásával, egy ujjlenyomat modelt tudunk tárolni.
     {     
         "type": "action",
         "action": "fp_search",
-        
     }
