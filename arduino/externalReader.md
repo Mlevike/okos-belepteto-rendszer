@@ -9,11 +9,11 @@ A kommunikáció a központi egység és a külső olvasó között soros interf
 
 ## Az olvasó felépítése (Csatlakozók nélkül)
 
-![Beléptető külső olvasó felépítése](documentation/images/belepteto_bb.jpg)
+![Beléptető külső olvasó felépítése](../documentation/images/belepteto_bb.jpg)
 
 ## Az olvasó kapcsolási rajza (Csatlakozók nélkül)
 
-![Beléptető külső olvasó kapcsolási rajza](documentation/images/belepteto_schem.jpg)
+![Beléptető külső olvasó kapcsolási rajza](../documentation/images/belepteto_schem.jpg)
 
 ## Az olvasó nyomtatott áramköri lap terve
 
