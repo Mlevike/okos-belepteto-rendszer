@@ -56,6 +56,18 @@ Ez az esemény akkor érkezik az olvasó felől, ha előzőleg kértük az olvas
         "code":1234
     }
 
+#### Az ujjlenyomatolvasással kapcsolatos akciók válasz eseménye
+
+Az ujjlenyomatolvasással kapcsolatos akciók válasz eseménye az ujjlenyomat keresés kivételével a következőképp néz ki:
+
+    {
+        "type":"event",
+        "event":"fp_done",
+        "status": [a művelet sikerességét kifejező numerikus érték]
+    }
+
+**Az ujjlenyomat keresés esetén pedig a "status" helyett "finger" mezőt kapunk, amennyiben a keresés művelet sikeres, akkor megkapjuk az adott ujjlenyomat azonosítóját, egyébként "-1" értéket kapunk vissza.
+
 #### Kód bekérése
 
 Ha ennek az akciónak küldjük az adatszerkezetét az olvasó felé, akkor az bekéri a felhasználótól a kódot, és válaszként visszaküldi egy "Kód megadva esemény" formájában. Az akció adatszerkezete a következőképp néz ki:
@@ -126,21 +138,42 @@ Ezen akció meghívásával, egy ujjlenyomatképet tudunk rögzíteni.
         "action": "fp_get_image",
     }
 
-#### Sablonkészítés ujjlenyomatolvasó használatával
+#### Sablon generálás ujjlenyomatolvasó használatával
 
-Ezen akció meghívásával, egy ujjlenyomatképet tudunk rögzíteni.
-
-    {     
-        "type": "action",
-        "action": "fp_gen_template",
-    }
-
-#### Sablonkészítés ujjlenyomatolvasó használatával
-
-Ezen akció meghívásával, egy ujjlenyomatképet tudunk rögzíteni.
+Ezen akció meghívásával, egy ujjlenyomat sablont tudunk generálni.
 
     {     
         "type": "action",
         "action": "fp_gen_template",
         "nr": [a sablont tároló buffer azonosítója],
+    }
+
+#### Model készítés ujjlenyomatolvasó használatával
+
+Ezen akció meghívásával, egy ujjlenyomat modelt tudunk készíteni.
+
+    {     
+        "type": "action",
+        "action": "fp_create_model",
+        
+    }
+
+#### Model tárolása ujjlenyomatolvasó használatával
+
+Ezen akció meghívásával, egy ujjlenyomat modelt tudunk tárolni.
+
+    {     
+        "type": "action",
+        "action": "fp_store_model",
+        "id": [az ujjlenyomat bejegyzés azonosítója],
+    }
+
+#### Ujjlenyomat azonosító keresése az ujjlenyomat olvasó használatával
+
+Ezen akció meghívásával, egy ujjlenyomat modelt tudunk tárolni.
+
+    {     
+        "type": "action",
+        "action": "fp_search",
+        
     }
