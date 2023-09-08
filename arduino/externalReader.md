@@ -19,6 +19,10 @@ A kommunikáció a központi egység és a külső olvasó között soros interf
 
 ![Az olvasó nyomtatott áramköri lap terve](../arduino/pcb/belepteto_cropped.jpg)
 
+## Az új ujjlenyomat felvételének folyamata
+
+![Az olvasó nyomtatott áramköri lap terve](../arduino/pcb/fp_enroll_process.jpg)
+
 ## A külső olvasó kommunikációja a központi egységgel
 
 A központi egységgel történő kommunikáláshoz [JSON](https://www.w3schools.com/js/js_json_intro.asp) adatszerkezetet használunk, ami így néz ki (ez az adatszerkezet csak minta, a program már nem tartalmazza):
