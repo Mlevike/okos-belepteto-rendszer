@@ -9,11 +9,11 @@ A kommunikáció a központi egység és a külső olvasó között soros interf
 
 ## Az olvasó felépítése (Csatlakozók nélkül)
 
-![Beléptető külső olvasó felépítése](images/belepteto_bb.jpg)
+![Beléptető külső olvasó felépítése](documentation/images/belepteto_bb.jpg)
 
 ## Az olvasó kapcsolási rajza (Csatlakozók nélkül)
 
-![Beléptető külső olvasó kapcsolási rajza](images/belepteto_schem.jpg)
+![Beléptető külső olvasó kapcsolási rajza](documentation/images/belepteto_schem.jpg)
 
 ## Az olvasó nyomtatott áramköri lap terve
 
@@ -155,7 +155,6 @@ Ezen akció meghívásával, egy ujjlenyomat modelt tudunk készíteni.
     {     
         "type": "action",
         "action": "fp_create_model",
-        
     }
 
 #### Model tárolása ujjlenyomatolvasó használatával
@@ -175,5 +174,4 @@ Ezen akció meghívásával, egy ujjlenyomat modelt tudunk tárolni.
     {     
         "type": "action",
         "action": "fp_search",
-        
     }
