@@ -1,5 +1,4 @@
 
-
 //Beimportáljuk a szükséges külső könyvtárakat
 #include <ArduinoJson.h>
 #include <Keypad.h>
@@ -8,7 +7,7 @@
 #include <MFRC522DriverSPI.h>
 #include <MFRC522DriverPinSimple.h>
 #include <MFRC522Debug.h>
-#include <Adafruit_Fingerprint.h> //Ez majd lehet, hogy később eltávolításra kerül
+#include <Adafruit_Fingerprint.h> 
 
 //Definiáljuk a hangszóró beállításait
 #define BUZZER_FREQUENCY 2400 //Megadjuk a frekvenciát Hz-ben
@@ -20,7 +19,7 @@
 //Definiáljuk a billentyűzet kiosztását
 const int ROW_NUM = 4; //Sorok száma
 const int COLUMN_NUM = 4; //Oszlopok száma
-char keys[ROW_NUM][COLUMN_NUM] = {
+char keys[ROW_NUM][COLUMN_NUM] = { //A billentyűk elrendezése
   {'1','2','3', 'A'},
   {'4','5','6', 'B'},
   {'7','8','9', 'C'},
@@ -36,8 +35,8 @@ MFRC522DriverSPI driver{ss_pin}; //Inicializáljuk az SPI meghajtót
 
 SoftwareSerial mySerial(2, 3); //Inicializáljuk a szoftveres soros portot
 Adafruit_Fingerprint finger = Adafruit_Fingerprint(&mySerial); //Inicializáljuk az ujjlenyomat olvasó könyvtárat
-uint8_t id;
-bool fingerprintOK = false; //Létrehozunk egy változót az ujjlenyomat olvasó állaőptának reprezentálásához
+uint8_t id; //Lérehozunk egy változót az felvevendő ujjlenyomat azonosítójának tárolására
+bool fingerprintOK = false; //Létrehozunk egy változót az ujjlenyomat olvasó állapotának reprezentálásához
 
 Keypad keypad = Keypad( makeKeymap(keys), pin_rows, pin_column, ROW_NUM, COLUMN_NUM ); //Inicializáljuk a Keypad-et
 HD44780LCD myLCD(2, 16, 0x27, &Wire); //Iniciálizáljuk az LCD kijelzőt
@@ -63,25 +62,25 @@ void LcdClearScreen(){ //Az LCD tartaémának törléséért felelős metódus
   myLCD.PCF8574_LCDClearScreen(); //LCD letörlése
 }
 
-void ShortBeep(){
-  if(!MUTED){
-  pinMode(BUZZER_PIN, OUTPUT);
-  tone(BUZZER_PIN, BUZZER_FREQUENCY);
-  delay(SHORT_TIME);
-  noTone(BUZZER_PIN);
+void ShortBeep(){ //A rövid csippanásért felelős metódus
+  if(!MUTED){ //Akkor működjön csak, ha a MUTED értéke false
+  pinMode(BUZZER_PIN, OUTPUT); //Kimeneti pin beálltása
+  tone(BUZZER_PIN, BUZZER_FREQUENCY); //Hang generálása
+  delay(SHORT_TIME); //Várakozás SHORT_TIME időtartamnyit
+  noTone(BUZZER_PIN); //Hang generálásának befejezése
   }
 }
 
-void LongBeep(){
-  if(!MUTED){
-  pinMode(BUZZER_PIN, OUTPUT);
-  tone(BUZZER_PIN, BUZZER_FREQUENCY);
-  delay(LONG_TIME);
-  noTone(BUZZER_PIN);
+void LongBeep(){ //A hosszú csippanásért felelős metódus
+  if(!MUTED){ //Akkor működjön csak, ha a MUTED értéke false
+  pinMode(BUZZER_PIN, OUTPUT); //Kimeneti pin beálltása
+  tone(BUZZER_PIN, BUZZER_FREQUENCY); //Hang generálása
+  delay(LONG_TIME); //Várakozás SHORT_TIME időtartamnyit
+  noTone(BUZZER_PIN); //Hang generálásának befejezése
   }
 }
 
-/*void CustomBeep(int freq, int delayedTime){
+/*void CustomBeep(int freq, int delayedTime){ //Egyenlőre memóriatakarékosság miatt megjegyzésbe téve
   if(!MUTED){
   pinMode(BUZZER_PIN, OUTPUT);
   tone(BUZZER_PIN, freq);
@@ -107,33 +106,32 @@ void LcdSendString(String text){ //Az string LCD-re történő kiíratásáért 
 }
 
 void SoftwareReset(){ //Az eszköz szoftverből való újraindítására szolgáló metódus
-  asm volatile ("jmp 0");
+  asm volatile ("jmp 0"); //Assembly jmp 0 parancs 
 }
 
-int FingerprintGetImage(){
-  int p = -1;
+int FingerprintGetImage(){ //Az ujjlenyomatolvasó általi lépkészítésért felelős metódus
+  int p = -1; //Ennek a változónak az értéket adjuk vissza, hiba esetén marad -1
    while (p != FINGERPRINT_OK) { //Megróbálkozunk az ujjlenyomat felvétellel
     p = finger.getImage(); //Itt nincs hibakijelzés
    }
    return p;
 }
 
-int FingerprintGenerateTemplate(int nr){
-  return finger.image2Tz(nr);
-  
+int FingerprintGenerateTemplate(int nr){ //Az ujjenyomat olvasó általi sablongenerálásért felelős metódus
+  return finger.image2Tz(nr); //Az ujjlenyomat olvasó által visszaadott értéket adjuk vissza
 }
 
-int FingerprintCreateModel(){
-  return finger.createModel();
+int FingerprintCreateModel(){ //Az ujjenyomat olvasó általi modelkészítésért felelős metódus
+  return finger.createModel(); //Az ujjlenyomat olvasó által visszaadott értéket adjuk vissza
 }
 
-int FingerprintStoreModel(int id){
-  return finger.storeModel(id);
+int FingerprintStoreModel(int id){ //Az ujjenyomat olvasó általi tárolásért felelős metódus
+  return finger.storeModel(id); //Az ujjlenyomat olvasó által visszaadott értéket adjuk vissza
 }
 
-int FingerprintSearch(){ //Ez nem az állapotot adja vissza, hanem az azonosítót
+int FingerprintSearch(){ //Az ujjlenyomat alapján történő azonosító keresésért felelős metódus. Ez nem az állapotot adja vissza, hanem az azonosítót.
   int p = finger.fingerSearch();
-  if (p == FINGERPRINT_OK) {
+  if (p == FINGERPRINT_OK) { //Hiba esetén -1-et adunk vissza
     return finger.fingerID;
   }else{
     return -1;  

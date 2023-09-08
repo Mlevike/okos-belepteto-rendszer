@@ -116,3 +116,31 @@ Ezen akció meghívásával, egy tetszőleges frekvenciájú és idejű hangot t
         "frequency": [frekvencia (Hz)],
         "delay": [időbeli hosszúság (ms)]
     }
+
+#### Képalkotás ujjlenyomatolvasó használatával
+
+Ezen akció meghívásával, egy ujjlenyomatképet tudunk rögzíteni.
+
+    {     
+        "type": "action",
+        "action": "fp_get_image",
+    }
+
+#### Sablonkészítés ujjlenyomatolvasó használatával
+
+Ezen akció meghívásával, egy ujjlenyomatképet tudunk rögzíteni.
+
+    {     
+        "type": "action",
+        "action": "fp_gen_template",
+    }
+
+#### Sablonkészítés ujjlenyomatolvasó használatával
+
+Ezen akció meghívásával, egy ujjlenyomatképet tudunk rögzíteni.
+
+    {     
+        "type": "action",
+        "action": "fp_gen_template",
+        "nr": [a sablont tároló buffer azonosítója],
+    }
