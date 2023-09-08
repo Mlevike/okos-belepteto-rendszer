@@ -66,7 +66,7 @@ Az ujjlenyomatolvasással kapcsolatos akciók válasz eseménye az ujjlenyomat k
         "status": [a művelet sikerességét kifejező numerikus érték]
     }
 
-**Az ujjlenyomat keresés esetén pedig a "status" helyett "finger" mezőt kapunk, amennyiben a keresés művelet sikeres, akkor megkapjuk az adott ujjlenyomat azonosítóját, egyébként "-1" értéket kapunk vissza.
+**Az ujjlenyomat keresés esetén pedig a "status" helyett "finger" mezőt kapunk, amennyiben a keresés művelet sikeres, akkor megkapjuk az adott ujjlenyomat azonosítóját, egyébként "-1" értéket kapunk vissza.**
 
 #### Kód bekérése
 
