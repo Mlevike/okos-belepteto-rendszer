@@ -21,7 +21,7 @@ A kommunikáció a központi egység és a külső olvasó között soros interf
 
 ## Az új ujjlenyomat felvételének folyamata
 
-![Az olvasó nyomtatott áramköri lap terve](../arduino/pcb/fp_enroll_process.jpg)
+![Az olvasó nyomtatott áramköri lap terve](../documentation/images/fp_enroll_process.jpg)
 
 ## A külső olvasó kommunikációja a központi egységgel
 
