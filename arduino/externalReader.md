@@ -21,7 +21,11 @@ A kommunikáció a központi egység és a külső olvasó között soros interf
 
 ## Az új ujjlenyomat felvételének folyamata
 
-![Az olvasó nyomtatott áramköri lap terve](../documentation/images/fp_enroll_process.jpg)
+![Az új ujjlenyomat felvételének folyamata](../documentation/images/fp_enroll_process.jpg)
+
+## Az ujjlenyomat keresésének folyamata
+
+![Az ujjlenyomat keresésének folyamata](../documentation/images/fp_search_process.jpg)
 
 ## A külső olvasó kommunikációja a központi egységgel
 
