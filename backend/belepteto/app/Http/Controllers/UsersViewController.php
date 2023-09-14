@@ -188,7 +188,7 @@ class UsersViewController extends Controller
     {
         $history = History::latest()->first();
         if ($history != null and $history->userId != null) {
-            return response()->json(['name' => $history->userId, 'cardID' => $history->cardId, ($history->successful == 1 ? __('site.success') : __('site.fail')), ($history->direction == "in" ? __('site.success') : __('site.fail')), 'successfulValue' => $history->successful, "directionValue" => $history->direction]);
+            return response()->json(['name' => $history->userId, 'cardID' => $history->cardId, ($history->successful == 1 ? __('site.successful') : __('site.fail')), ($history->direction == 'in' ? __('site.in') : __('site.out')), 'successfulValue' => $history->successful, "directionValue" => $history->direction]);
         } else {
             return response()->json(['name' => "", 'cardID' => "", 'successful' => "", 'direction' => "", 'successfulValue' => null, "directionValue" => null]);
         }
