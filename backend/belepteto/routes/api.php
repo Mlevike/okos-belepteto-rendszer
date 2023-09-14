@@ -24,3 +24,6 @@ Route::post('validation/get-methods', 'App\Http\Controllers\ValidationController
 //A kártya validációhoz tartozó útvonal ennek egyenéőre nem adunk nevet!
 //Ez még csak ideiglenes, a végleges változatban majd az adatbázisból kéri le az információkat
 Route::post('validation/validate', 'App\Http\Controllers\ValidationController@validate')->name('validate');
+
+//A legutóbb bejelentkezett felhasználó pollingolására szolgáló útvonal
+Route::get('poll/current', 'App\Http\Controllers\UsersViewController@currentAccess')->name('current-poll');

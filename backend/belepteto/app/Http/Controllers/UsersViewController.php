@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\History;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\View\View;
@@ -181,5 +182,15 @@ class UsersViewController extends Controller
         $current_user->darkMode = !($current_user->darkMode); //Dark mód beállítás átállítása a jelenlegi felhasználón
         $current_user->save(); //Elmentjük a változtatást
         return back();
+    }
+
+    public function currentAccess()
+    {
+        $history = History::latest()->first();
+        if ($history != null and $history->userId != null) {
+            return response()->json(['name' => $history->userId, 'cardID' => $history->cardId, ($history->successful == 1 ? __('site.success') : __('site.fail')), ($history->direction == "in" ? __('site.success') : __('site.fail')), 'successfulValue' => $history->successful, "directionValue" => $history->direction]);
+        } else {
+            return response()->json(['name' => "", 'cardID' => "", 'successful' => "", 'direction' => "", 'successfulValue' => null, "directionValue" => null]);
+        }
     }
 }
