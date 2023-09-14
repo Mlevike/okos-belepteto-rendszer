@@ -29,7 +29,7 @@
         }
        setInterval(()=>{
             fetchCurrent()
-        },500)
+        },1000)
     </script>
 </head>
 <body {{$current_user->darkMode ? 'data-bs-theme=dark' : ''}} onload="fetchCurrent()">
