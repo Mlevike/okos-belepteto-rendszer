@@ -179,6 +179,7 @@ class UsersViewController extends Controller
 
     public function setDarkMode(){ //A sötét mód állításáért felelős metódus
         $current_user = Auth::user();
+        Log::debug($current_user->role);
         $current_user->darkMode = !($current_user->darkMode); //Dark mód beállítás átállítása a jelenlegi felhasználón
         $current_user->save(); //Elmentjük a változtatást
         return back();
@@ -186,7 +187,7 @@ class UsersViewController extends Controller
 
     public function currentAccess()
     {
-        $current_user = Auth::user(); //Lekérjük a jelenleg bejelentkezett felhasználó adatait
+        $current_user = Auth::user();
         $history = History::latest()->first();
         if ($history != null and $history->userId != null and $current_user != null and ($current_user->role == 'admin' or $current_user->role == 'employee')) {
             return response()->json(['name' => $history->userId, 'cardID' => $history->cardId, 'successful' => ($history->successful == 1 ? __('site.successful') : __('site.fail')), 'direction' => ($history->direction == 'in' ? __('site.in') : __('site.out')), 'successfulValue' => $history->successful, "directionValue" => $history->direction]);
