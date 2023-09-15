@@ -26,4 +26,4 @@ Route::post('validation/get-methods', 'App\Http\Controllers\ValidationController
 Route::post('validation/validate', 'App\Http\Controllers\ValidationController@validate')->name('validate');
 
 //A legutóbb bejelentkezett felhasználó pollingolására szolgáló útvonal
-Route::get('poll/current', 'App\Http\Controllers\UsersViewController@currentAccess')->middleware('auth')->name('current-poll');
+Route::get('poll/current', 'App\Http\Controllers\UsersViewController@currentAccess')->name('current-poll');
