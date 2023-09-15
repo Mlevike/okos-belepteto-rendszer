@@ -77,7 +77,8 @@ class ValidationController extends Controller
                             History::where('cardId', $user->cardId)->where('successful', true)->latest()->firstOrFail()->update(['leaveTime' => now()]); //Frissítjük a távozás időpontját
                             return response()->json(['success' => true, 'message' => "Sikeres kiléptetés!"]);
                         }else{
-                            return response()->json(['success' => false, 'message' => "Sikertelen!"]); //Ezt egyenlőre nem logoljuk!
+                            History::create(['cardId' => $user->cardId, 'userId' => $user->id, 'direction' => $request->entry ? 'in' : 'out', 'successful' => false, 'arriveTime' =>  now(),  'workTime' => null]);
+                            return response()->json(['success' => false, 'message' => "Sikertelen!"]);
                         }
                     }else{
                         History::create(['cardId' => $request->uid, 'userId' => null, 'direction' => $request->entry ? 'in' : 'out', 'successful' => false, 'arriveTime' =>  now(),  'workTime' => null]);
