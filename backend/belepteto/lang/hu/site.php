@@ -67,5 +67,6 @@ return [
     'role' => "Szerepkör",
     'yes' => "Igen",
     'on' => "Be",
-    'off' => "Ki"
+    'off' => "Ki",
+    'unknown_user' => "ISMERETLEN FELHASZNÁLÓ"
 ];

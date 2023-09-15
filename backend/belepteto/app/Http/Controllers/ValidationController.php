@@ -80,9 +80,11 @@ class ValidationController extends Controller
                             return response()->json(['success' => false, 'message' => "Sikertelen!"]); //Ezt egyenlőre nem logoljuk!
                         }
                     }else{
+                        History::create(['cardId' => $request->uid, 'userId' => null, 'direction' => $request->entry ? 'in' : 'out', 'successful' => false, 'arriveTime' =>  now(),  'workTime' => null]);
                         return response()->json(['success' => false, 'message' => "Nincs ilyen felhasználó!"]); //Ezt sem logoljuk egyenlőre
                     }
                     }
+        return response()->json(['success' => false, 'message' => "Ismeretlen hiba!"]); //Ezt sem logoljuk egyenlőre
     }
 
     public function getMethods(Request $request, array $rules, array $messages = [], array $attributes = []){

@@ -189,8 +189,16 @@ class UsersViewController extends Controller
     {
         $current_user = Auth::user();
         $history = History::latest()->first();
-        if ($history != null and $history->userId != null and $current_user != null and ($current_user->role == 'admin' or $current_user->role == 'employee')) {
-            return response()->json(['name' => $history->userId, 'cardID' => $history->cardId, 'successful' => ($history->successful == 1 ? __('site.successful') : __('site.fail')), 'direction' => ($history->direction == 'in' ? __('site.in') : __('site.out')), 'successfulValue' => $history->successful, "directionValue" => $history->direction]);
+        if ($history != null and $current_user != null and ($current_user->role == 'admin' or $current_user->role == 'employee')) {
+            $name = "";
+            if($history->userId == null){
+                $name = __('site.unknown_user');
+            }else{
+                $user = User::findOrFail($history->userId);
+                $name = $user->name;
+            }
+
+            return response()->json(['name' => $name, 'cardID' => $history->cardId, 'successful' => ($history->successful == 1 ? __('site.successful') : __('site.fail')), 'direction' => ($history->direction == 'in' ? __('site.in') : __('site.out')), 'successfulValue' => $history->successful, "directionValue" => $history->direction]);
         } else {
             return response()->json(['name' => "", 'cardID' => "", 'successful' => "", 'direction' => "", 'successfulValue' => null, "directionValue" => null]);
         }

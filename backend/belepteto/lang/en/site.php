@@ -68,5 +68,6 @@ return [
     'role' => "Role",
     'yes' => "Yes",
     'on' => "On",
-    'off' => "Off"
+    'off' => "Off",
+    'unknown_user' => "UNKNOWN USER"
 ];
