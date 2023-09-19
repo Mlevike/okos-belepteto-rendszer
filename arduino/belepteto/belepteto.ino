@@ -1,13 +1,14 @@
 
 //Beimportáljuk a szükséges külső könyvtárakat
 #include <ArduinoJson.h>
-#include <Keypad.h>
 #include "HD44780_LCD_PCF8574.h"
 #include <MFRC522v2.h>
 #include <MFRC522DriverSPI.h>
 #include <MFRC522DriverPinSimple.h>
 #include <MFRC522Debug.h>
 #include <Adafruit_Fingerprint.h> 
+#include <TM1650.h>
+#include <TM16xxButtons.h>
 
 //Definiáljuk a hangszóró beállításait
 #define BUZZER_FREQUENCY 2400 //Megadjuk a frekvenciát Hz-ben
@@ -38,18 +39,29 @@ Adafruit_Fingerprint finger = Adafruit_Fingerprint(&mySerial); //Inicializáljuk
 uint8_t id; //Lérehozunk egy változót az felvevendő ujjlenyomat azonosítójának tárolására
 bool fingerprintOK = false; //Létrehozunk egy változót az ujjlenyomat olvasó állapotának reprezentálásához
 
-Keypad keypad = Keypad( makeKeymap(keys), pin_rows, pin_column, ROW_NUM, COLUMN_NUM ); //Inicializáljuk a Keypad-et
+TM1650 module(8, 9); //Inicializáljuk a keypad vezérlő modult
+TM16xxButtons buttons(&module);    //Inicializáljuk a Keypad-et
+
 HD44780LCD myLCD(2, 16, 0x27, &Wire); //Iniciálizáljuk az LCD kijelzőt
 MFRC522 mfrc522{driver};  //Inicializáljuk az RFID olvasót
 StaticJsonDocument<200> rx; //Definiáljuk a bemenő JSON adatszerkezetet
 StaticJsonDocument<200> tx; //Definiáljuk a kimenő JSON adatszerkezetet
+
+void fnClick(byte nButton) //Ez a függvény akkor kerül meghívásra, ha lenyomjuk valamelyik gombot a keypaden
+{
+  //TESZTELÉS MIATT VANNAK CSAK A KIÍRATÁSOK BENNE
+  Serial.print(F("Button "));
+  Serial.print(nButton);
+  Serial.println(F(" click."));
+}
+
 
 String GetCode(char mask){ //Kód kérő függvény
   String code = ""; //Létrehozunk egy sztringet a kód tárolására
   for(int i = 0; i < 4; i++){ //Azért hívjuk meg négyszer a karakterbekérő függvényt, mert négy számjegyből áll a kód
     char key = ' '; //Létrehozunk egy char típusú változót a bevitt karakterek ideiglenes tárolására
     while(!isDigit(key)){
-      key = keypad.getKey(); //Lekérünk egy billentyűt a keypad-ről
+      //key = keypad.getKey(); //Lekérünk egy billentyűt a keypad-ről, EZ A RÉGI VERZIÓ, EZ MAJD KIKERÜL
     }
     code = code + key; //A key változó tartalmát hozzáfűzzük a code változóhoz
     myLCD.PCF8574_LCDSendChar(mask); //Kiíratjuk a *-ot az LCD kijelzőre
@@ -146,6 +158,7 @@ void setup(){
   myLCD.PCF8574_LCDInit(myLCD.LCDCursorTypeOff); //Ne jelenítsük meg a kurzort az LCD kijelzőn
   Serial.begin(9600); //Elindítjuk a soros kommunikációt
   mfrc522.PCD_Init();  //Inicializáljuk az RFID olvasót
+  buttons.attachClick(fnClick); //Hozzárendeljük a kattintás metódust a keypad vezérlő könyvtárhoz
   finger.begin(115200); //Beállítjuk az ujjlenyomat olvasó kapcsolatának sebességét
   if (finger.verifyPassword()) {
     fingerprintOK = true;

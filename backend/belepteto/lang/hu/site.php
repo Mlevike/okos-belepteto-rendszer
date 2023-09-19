@@ -30,6 +30,7 @@ return [
     'users' => "Felhasználók",
     'edit' => "Szerkesztés",
     'logs' => "Logok",
+    'loading' => "Betöltés...",
     'name' => "Név",
     'no' => "Nem",
     'newToken' => "Új hozzáférési token létrehozva",

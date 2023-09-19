@@ -179,28 +179,28 @@ class UsersViewController extends Controller
 
     public function setDarkMode(){ //A sötét mód állításáért felelős metódus
         $current_user = Auth::user();
-        Log::debug($current_user->role);
         $current_user->darkMode = !($current_user->darkMode); //Dark mód beállítás átállítása a jelenlegi felhasználón
         $current_user->save(); //Elmentjük a változtatást
         return back();
     }
 
-    public function currentAccess()
+    public function currentAccess() //A legutóbbi bejelentkezési kísérlet lekérdezéséért felelős metódus
     {
         $current_user = Auth::user();
-        $history = History::latest()->first();
+        $history = History::latest()->first(); //Lekérdezzük az adatbázisból a legutóbbi belépési kísérletet
         if ($history != null and $current_user != null and ($current_user->role == 'admin' or $current_user->role == 'employee')) {
             $name = "";
+            $picture = "";
             if($history->userId == null){
-                $name = __('site.unknown_user');
+                $name = __('site.unknown_user'); //Amennyiben ismeretlen a felhasználó, akkor a name attribútum értéke legyen "ISMERETLEN FELHASZNÁLÓ"
             }else{
                 $user = User::findOrFail($history->userId);
                 $name = $user->name;
+                $picture = $user->picture;
             }
-
-            return response()->json(['name' => $name, 'cardID' => $history->cardId, 'successful' => ($history->successful == 1 ? __('site.successful') : __('site.fail')), 'direction' => ($history->direction == 'in' ? __('site.in') : __('site.out')), 'successfulValue' => $history->successful, "directionValue" => $history->direction]);
+            return response()->json(['name' => $name, 'cardID' => $history->cardId, 'successful' => ($history->successful == 1 ? __('site.successful') : __('site.fail')), 'direction' => ($history->direction == 'in' ? __('site.in') : __('site.out')), 'profilePicture' => $picture == ("" or null) ? asset('user.svg') : asset('/storage/pictures/profile/'.$picture), 'successfulValue' => $history->successful, "directionValue" => $history->direction]); //Ez az ág akkor fut le, ha be vagyunk lépve az oldalra, illetve rendelkezünk a megfelelő jogosultságokkal
         } else {
-            return response()->json(['name' => "", 'cardID' => "", 'successful' => "", 'direction' => "", 'successfulValue' => null, "directionValue" => null]);
+            return response()->json(['name' => "", 'cardID' => "", 'successful' => "", 'direction' => "", 'profilePicture' => "",  'successfulValue' => null, "directionValue" => null]); //Ez az ág akkor fut le, ha kijelentkeztünk, vagy nem rendelkezünk a megfelelő jogosultságokkal
         }
     }
 }

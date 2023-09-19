@@ -31,6 +31,7 @@ return [
     'users' => "Users",
     'edit' => "Edit",
     'logs' => "Logs",
+    'loading' => "Loading...",
     'name' => "Name",
     'no' => "No",
     'newToken' => "New access token generated",
