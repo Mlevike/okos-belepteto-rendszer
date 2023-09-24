@@ -8,7 +8,6 @@
 #include <MFRC522Debug.h>
 #include <Adafruit_Fingerprint.h> 
 #include <TM1650.h>
-#include <TM16xxButtons.h>
 
 //Definiáljuk a hangszóró beállításait
 #define BUZZER_FREQUENCY 2400 //Megadjuk a frekvenciát Hz-ben
@@ -17,56 +16,65 @@
 #define LONG_TIME 1000 //Megadjuk a hosszú csippanás idejét (ms)
 #define MUTED true //Megadjuk, hogy le van-e némítva az eszköz?
 
-//Definiáljuk a billentyűzet kiosztását
-const int ROW_NUM = 4; //Sorok száma
-const int COLUMN_NUM = 4; //Oszlopok száma
-char keys[ROW_NUM][COLUMN_NUM] = { //A billentyűk elrendezése
-  {'1','2','3', 'A'},
-  {'4','5','6', 'B'},
-  {'7','8','9', 'C'},
-  {'*','0','#', 'D'}
-};
-
-//Definiáljuk a keypad pin kiosztását
-byte pin_rows[ROW_NUM] = {9, 8, 7, 6}; //Sorok
-byte pin_column[COLUMN_NUM] = {5, 4, 3, 2}; //Oszlopok
 
 MFRC522DriverPinSimple ss_pin(10); //Definiáljuk a SPI SS lábát
 MFRC522DriverSPI driver{ss_pin}; //Inicializáljuk az SPI meghajtót
 
 SoftwareSerial mySerial(2, 3); //Inicializáljuk a szoftveres soros portot
 Adafruit_Fingerprint finger = Adafruit_Fingerprint(&mySerial); //Inicializáljuk az ujjlenyomat olvasó könyvtárat
-uint8_t id; //Lérehozunk egy változót az felvevendő ujjlenyomat azonosítójának tárolására
-bool fingerprintOK = false; //Létrehozunk egy változót az ujjlenyomat olvasó állapotának reprezentálásához
 
-TM1650 module(8, 9); //Inicializáljuk a keypad vezérlő modult
-TM16xxButtons buttons(&module);    //Inicializáljuk a Keypad-et
+TM1650 module(8, 9); //Inicializáljuk a keypad vezérlő modult, SDA=8; SCL=9
 
 HD44780LCD myLCD(2, 16, 0x27, &Wire); //Iniciálizáljuk az LCD kijelzőt
 MFRC522 mfrc522{driver};  //Inicializáljuk az RFID olvasót
 StaticJsonDocument<200> rx; //Definiáljuk a bemenő JSON adatszerkezetet
 StaticJsonDocument<200> tx; //Definiáljuk a kimenő JSON adatszerkezetet
 
-void fnClick(byte nButton) //Ez a függvény akkor kerül meghívásra, ha lenyomjuk valamelyik gombot a keypaden
-{
-  //TESZTELÉS MIATT VANNAK CSAK A KIÍRATÁSOK BENNE
-  Serial.print(F("Button "));
-  Serial.print(nButton);
-  Serial.println(F(" click."));
+char TranslateKey(uint32_t keyValue){ //Billentyűkódból karakterre fordító metódus
+  //Definiáljuk a billentyűzet kiosztását
+  typedef struct key{
+  uint32_t keyCode;
+  char key;
+  };
+
+  /*key keys[1] = { //A billentyűk elrendezése
+  {2, '1'}};*/
+  
+  key keys[16] = { //A billentyűk elrendezése
+  {2, '1'}, {32, '2'}, {512, '3'}, {8192, 'A'}, 
+  {4, '4'}, {64, '5'}, {1024, '6'}, {16384, 'B'}, 
+  {8, '7'}, {128, '8'}, {2048, '9'}, {32768, 'C'}, 
+  {1, '*'}, {16, '0'}, {256, '#'}, {4096, 'D'}, 
+  };
+
+
+  for(int i = 0; i < 16; i++){ //Társítsuk a kapott kódot a n
+    if(keys[i].keyCode == keyValue){
+      return keys[i].key;
+    }
+  }
+  return ' '; //Amennyiben nem valós billenytűre hivatkoztunk, akkor addjunk ' ' karaktert
 }
 
-
-String GetCode(char mask){ //Kód kérő függvény
+String GetCode(char mask){  //Kód kérő függvény
   String code = ""; //Létrehozunk egy sztringet a kód tárolására
   for(int i = 0; i < 4; i++){ //Azért hívjuk meg négyszer a karakterbekérő függvényt, mert négy számjegyből áll a kód
-    char key = ' '; //Létrehozunk egy char típusú változót a bevitt karakterek ideiglenes tárolására
-    while(!isDigit(key)){
-      //key = keypad.getKey(); //Lekérünk egy billentyűt a keypad-ről, EZ A RÉGI VERZIÓ, EZ MAJD KIKERÜL
+    char sample1 = ' '; //Létrehozunk egy változót az első mintavételnek
+    char sample2 = ' '; //Létrehozunk egy változót az második mintavételnek
+    while(!isDigit(sample1)){ 
+      while((sample1 != sample2) || sample1 == ' '){ //Addig olvasunk be a billentyűzetről, amíg a két minta nem egyezik meg
+        sample1 = TranslateKey(module.getButtons()); //Lekérdezzük a billenytűzet kezelő modultól a gombok állapotát
+        delay(20); //Várunk egy picit a prell kivédése érdekében
+        sample2 = TranslateKey(module.getButtons()); //Lekérdezzük a billenytűzet kezelő modultól a gombok állapotát
+      }
+      while(sample1 == sample2){ //Várunk arra, hogy a felhasználó felengedje a gombot
+        sample2 = TranslateKey(module.getButtons());
+      }; 
     }
-    code = code + key; //A key változó tartalmát hozzáfűzzük a code változóhoz
+    code = code + sample1; //A key változó tartalmát hozzáfűzzük a code változóhoz
     myLCD.PCF8574_LCDSendChar(mask); //Kiíratjuk a *-ot az LCD kijelzőre
   }
-  return(code); //Visszaadjuk a kódot sztringként
+  return(code); //Visszaadjuk a kódot sztringként*/
 }
 
 
@@ -151,6 +159,7 @@ int FingerprintSearch(){ //Az ujjlenyomat alapján történő azonosító keres�
 }
 
 void setup(){
+  bool fingerprintOK = false; //Létrehozunk egy változót az ujjlenyomat olvasó állapotának reprezentálásához, memóriatakaréskosság végett egyenlőre ide rakjuk
   ShortBeep(); //Csak teszteléshez
   delay(50);
   //Beállítjuk az LCD kijelzőt
@@ -158,7 +167,6 @@ void setup(){
   myLCD.PCF8574_LCDInit(myLCD.LCDCursorTypeOff); //Ne jelenítsük meg a kurzort az LCD kijelzőn
   Serial.begin(9600); //Elindítjuk a soros kommunikációt
   mfrc522.PCD_Init();  //Inicializáljuk az RFID olvasót
-  buttons.attachClick(fnClick); //Hozzárendeljük a kattintás metódust a keypad vezérlő könyvtárhoz
   finger.begin(115200); //Beállítjuk az ujjlenyomat olvasó kapcsolatának sebességét
   if (finger.verifyPassword()) {
     fingerprintOK = true;
@@ -170,93 +178,85 @@ void loop(){
   //Figyeljük a bejövő soros adatforgalmat
   if (Serial.available()){
     deserializeJson(rx, Serial);
-    if(rx["type"] == "action"){
-      if(rx["action"] == "get_code"){
+      if(rx["k"] == "get_code"){
         //Elküldjük válaszként a kódot!
-        tx["type"] = "event";
-        tx["event"] = "code_given";
+        tx["k"] = "code_given";
         tx["code"] = GetCode('*'); 
         serializeJson(tx, Serial); //Szerializáljuk és továbbítjuk soros kommunikáción keresztül a JSON adatszerkezetünket
         Serial.println(); //Küldjünk egy sor végét is a soros kommunikáción keresztül
         tx.clear(); //Töröljük a json adatszerkezet tartalmát, mert már nincs szükségünk rá!
       }
-      if(rx["action"] == "fp_get_image"){
+      if(rx["k"] == "fp_get_image"){
         int p = FingerprintGetImage();
-        tx["type"] = "event"; //Megadjuk az adat típusát (event)
-        tx["event"] = "fp_done"; //Megadjuk az eseményt (card_detected)
+        tx["k"] = "fp_done"; //Megadjuk az eseményt (card_detected)
         tx["status"] = p; //Hozzáadjuk az adatszerkezethez az uid-t
         serializeJson(tx, Serial); //Szerializáljuk és továbbítjuk soros kommunikáción keresztül a JSON adatszerkezetünket
         Serial.println(); //Küldjünk egy sor végét is a soros kommunikáción keresztül
         tx.clear(); //Töröljük a json adatszerkezet tartalmát, mert már nincs szükségünk rá!
       }
 
-      if(rx["action"] == "fp_gen_template"){
+      if(rx["k"] == "fp_gen_template"){
         int p = FingerprintGenerateTemplate(rx["nr"]);
-        tx["type"] = "event"; //Megadjuk az adat típusát (event)
-        tx["event"] = "fp_done"; //Megadjuk az eseményt (card_detected)
+        tx["k"] = "fp_done"; //Megadjuk az eseményt (card_detected)
         tx["status"] = p; //Hozzáadjuk az adatszerkezethez az uid-t
         serializeJson(tx, Serial); //Szerializáljuk és továbbítjuk soros kommunikáción keresztül a JSON adatszerkezetünket
         Serial.println(); //Küldjünk egy sor végét is a soros kommunikáción keresztül
         tx.clear(); //Töröljük a json adatszerkezet tartalmát, mert már nincs szükségünk rá!
       }
       
-      if(rx["action"] == "fp_create_model"){
+      if(rx["k"] == "fp_create_model"){
         int p = FingerprintCreateModel();
-        tx["type"] = "event"; //Megadjuk az adat típusát (event)
-        tx["event"] = "fp_done"; //Megadjuk az eseményt (card_detected)
+        tx["k"] = "fp_done"; //Megadjuk az eseményt (card_detected)
         tx["status"] = p; //Hozzáadjuk az adatszerkezethez az uid-t
         serializeJson(tx, Serial); //Szerializáljuk és továbbítjuk soros kommunikáción keresztül a JSON adatszerkezetünket
         Serial.println(); //Küldjünk egy sor végét is a soros kommunikáción keresztül
         tx.clear(); //Töröljük a json adatszerkezet tartalmát, mert már nincs szükségünk rá!
       }
 
-      if(rx["action"] == "fp_store_model"){
+      if(rx["k"] == "fp_store_model"){
         int p = FingerprintStoreModel(rx["id"]);
-        tx["type"] = "event"; //Megadjuk az adat típusát (event)
-        tx["event"] = "fp_done"; //Megadjuk az eseményt (card_detected)
+        tx["k"] = "fp_done"; //Megadjuk az eseményt (card_detected)
         tx["status"] = p; //Hozzáadjuk az adatszerkezethez az uid-t
         serializeJson(tx, Serial); //Szerializáljuk és továbbítjuk soros kommunikáción keresztül a JSON adatszerkezetünket
         Serial.println(); //Küldjünk egy sor végét is a soros kommunikáción keresztül
         tx.clear(); //Töröljük a json adatszerkezet tartalmát, mert már nincs szükségünk rá!
       }
 
-      if(rx["action"] == "fp_search"){
+      if(rx["k"] == "fp_search"){
         int p = {FingerprintSearch()};
-        tx["type"] = "event"; //Megadjuk az adat típusát (event)
-        tx["event"] = "fp_done"; //Megadjuk az eseményt
+        tx["k"] = "fp_done"; //Megadjuk az eseményt
         tx["finger"] = p; 
         serializeJson(tx, Serial); //Szerializáljuk és továbbítjuk soros kommunikáción keresztül a JSON adatszerkezetünket
         Serial.println(); //Küldjünk egy sor végét is a soros kommunikáción keresztül
         tx.clear(); //Töröljük a json adatszerkezet tartalmát, mert már nincs szükségünk rá!
       }
 
-      /*if(rx["action"] == "custom_beep"){
+      /*if(rx["k"] == "custom_beep"){
         CustomBeep(rx["frequency"], rx["delay"]);
       }*/
-      if(rx["action"] == "lcd_goto"){
+      if(rx["k"] == "lcd_goto"){
         LcdGoto(rx["row"], rx["column"]);
       }
 
-      if(rx["action"] == "get_status"){
-        tx["type"] = "event"; //Megadjuk az adat típusát (event)
-        tx["event"] = "status"; //Megadjuk az eseményt
+      if(rx["k"] == "get_status"){
+        tx["k"] = "status"; //Megadjuk az eseményt
         tx["status"] = 0; 
         serializeJson(tx, Serial); //Szerializáljuk és továbbítjuk soros kommunikáción keresztül a JSON adatszerkezetünket
         Serial.println(); //Küldjünk egy sor végét is a soros kommunikáción keresztül
         tx.clear(); //Töröljük a json adatszerkezet tartalmát, mert már nincs szükségünk rá!
       }
 
-      if(rx["action"] == "lcd_clear_screen"){
+      if(rx["k"] == "lcd_cls"){
         LcdClearScreen();
       }
       
-      if(rx["action"] == "lcd_send_string"){
-        LcdSendString(rx["string"]);
+      if(rx["k"] == "lcd_send_str"){
+        LcdSendString(rx["str"]);
       }
-      if(rx["action"] == "soft_reset"){
+      if(rx["k"] == "sw_rst"){
         SoftwareReset();
       }
-    }
+    
     rx.clear(); //Töröljük a json adatszerkezet tartalmát, mert már nincs szükségünk rá!  
   }
   //Figyeljük, hogy érintenek-e az olvasóhoz új kártyát
@@ -272,9 +272,8 @@ void loop(){
   for (int i = 0; i < mfrc522.uid.size; i++) {
     cardUID += String(mfrc522.uid.uidByte[i], HEX);
   }
-  mfrc522.PICC_HaltA(); //Befelyzzük a kártya olvasását
-  tx["type"] = "event"; //Megadjuk az adat típusát (event)
-  tx["event"] = "card_detected"; //Megadjuk az eseményt (card_detected)
+  mfrc522.PICC_HaltA(); //Befelyzzük a kártya olvasá
+  tx["k"] = "card_detected"; //Megadjuk az eseményt (card_detected)
   tx["uid"] = cardUID; //Hozzáadjuk az adatszerkezethez az uid-t
   serializeJson(tx, Serial); //Szerializáljuk és továbbítjuk soros kommunikáción keresztül a JSON adatszerkezetünket
   Serial.println(); //Küldjünk egy sor végét is a soros kommunikáción keresztül
