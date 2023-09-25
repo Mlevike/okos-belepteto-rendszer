@@ -178,53 +178,53 @@ void loop(){
   //Figyeljük a bejövő soros adatforgalmat
   if (Serial.available()){
     deserializeJson(rx, Serial);
-      if(rx["k"] == "get_code"){
+      if(rx["key"] == "get_code"){
         //Elküldjük válaszként a kódot!
-        tx["k"] = "code_given";
+        tx["key"] = "code_given";
         tx["code"] = GetCode('*'); 
         serializeJson(tx, Serial); //Szerializáljuk és továbbítjuk soros kommunikáción keresztül a JSON adatszerkezetünket
         Serial.println(); //Küldjünk egy sor végét is a soros kommunikáción keresztül
         tx.clear(); //Töröljük a json adatszerkezet tartalmát, mert már nincs szükségünk rá!
       }
-      if(rx["k"] == "fp_get_image"){
+      if(rx["key"] == "fp_get_image"){
         int p = FingerprintGetImage();
-        tx["k"] = "fp_done"; //Megadjuk az eseményt (card_detected)
+        tx["key"] = "fp_done"; //Megadjuk az eseményt (card_detected)
         tx["status"] = p; //Hozzáadjuk az adatszerkezethez az uid-t
         serializeJson(tx, Serial); //Szerializáljuk és továbbítjuk soros kommunikáción keresztül a JSON adatszerkezetünket
         Serial.println(); //Küldjünk egy sor végét is a soros kommunikáción keresztül
         tx.clear(); //Töröljük a json adatszerkezet tartalmát, mert már nincs szükségünk rá!
       }
 
-      if(rx["k"] == "fp_gen_template"){
+      if(rx["key"] == "fp_gen_template"){
         int p = FingerprintGenerateTemplate(rx["nr"]);
-        tx["k"] = "fp_done"; //Megadjuk az eseményt (card_detected)
+        tx["key"] = "fp_done"; //Megadjuk az eseményt (card_detected)
         tx["status"] = p; //Hozzáadjuk az adatszerkezethez az uid-t
         serializeJson(tx, Serial); //Szerializáljuk és továbbítjuk soros kommunikáción keresztül a JSON adatszerkezetünket
         Serial.println(); //Küldjünk egy sor végét is a soros kommunikáción keresztül
         tx.clear(); //Töröljük a json adatszerkezet tartalmát, mert már nincs szükségünk rá!
       }
       
-      if(rx["k"] == "fp_create_model"){
+      if(rx["key"] == "fp_create_model"){
         int p = FingerprintCreateModel();
-        tx["k"] = "fp_done"; //Megadjuk az eseményt (card_detected)
+        tx["key"] = "fp_done"; //Megadjuk az eseményt (card_detected)
         tx["status"] = p; //Hozzáadjuk az adatszerkezethez az uid-t
         serializeJson(tx, Serial); //Szerializáljuk és továbbítjuk soros kommunikáción keresztül a JSON adatszerkezetünket
         Serial.println(); //Küldjünk egy sor végét is a soros kommunikáción keresztül
         tx.clear(); //Töröljük a json adatszerkezet tartalmát, mert már nincs szükségünk rá!
       }
 
-      if(rx["k"] == "fp_store_model"){
+      if(rx["key"] == "fp_store_model"){
         int p = FingerprintStoreModel(rx["id"]);
-        tx["k"] = "fp_done"; //Megadjuk az eseményt (card_detected)
+        tx["key"] = "fp_done"; //Megadjuk az eseményt (card_detected)
         tx["status"] = p; //Hozzáadjuk az adatszerkezethez az uid-t
         serializeJson(tx, Serial); //Szerializáljuk és továbbítjuk soros kommunikáción keresztül a JSON adatszerkezetünket
         Serial.println(); //Küldjünk egy sor végét is a soros kommunikáción keresztül
         tx.clear(); //Töröljük a json adatszerkezet tartalmát, mert már nincs szükségünk rá!
       }
 
-      if(rx["k"] == "fp_search"){
+      if(rx["key"] == "fp_search"){
         int p = {FingerprintSearch()};
-        tx["k"] = "fp_done"; //Megadjuk az eseményt
+        tx["key"] = "fp_done"; //Megadjuk az eseményt
         tx["finger"] = p; 
         serializeJson(tx, Serial); //Szerializáljuk és továbbítjuk soros kommunikáción keresztül a JSON adatszerkezetünket
         Serial.println(); //Küldjünk egy sor végét is a soros kommunikáción keresztül
@@ -234,26 +234,26 @@ void loop(){
       /*if(rx["k"] == "custom_beep"){
         CustomBeep(rx["frequency"], rx["delay"]);
       }*/
-      if(rx["k"] == "lcd_goto"){
+      if(rx["key"] == "lcd_goto"){
         LcdGoto(rx["row"], rx["column"]);
       }
 
-      if(rx["k"] == "get_status"){
-        tx["k"] = "status"; //Megadjuk az eseményt
+      if(rx["key"] == "get_status"){
+        tx["key"] = "status"; //Megadjuk az eseményt
         tx["status"] = 0; 
         serializeJson(tx, Serial); //Szerializáljuk és továbbítjuk soros kommunikáción keresztül a JSON adatszerkezetünket
         Serial.println(); //Küldjünk egy sor végét is a soros kommunikáción keresztül
         tx.clear(); //Töröljük a json adatszerkezet tartalmát, mert már nincs szükségünk rá!
       }
 
-      if(rx["k"] == "lcd_cls"){
+      if(rx["key"] == "lcd_cls"){
         LcdClearScreen();
       }
       
-      if(rx["k"] == "lcd_send_str"){
+      if(rx["key"] == "lcd_send_str"){
         LcdSendString(rx["str"]);
       }
-      if(rx["k"] == "sw_rst"){
+      if(rx["key"] == "sw_rst"){
         SoftwareReset();
       }
     
@@ -273,7 +273,7 @@ void loop(){
     cardUID += String(mfrc522.uid.uidByte[i], HEX);
   }
   mfrc522.PICC_HaltA(); //Befelyzzük a kártya olvasá
-  tx["k"] = "card_detected"; //Megadjuk az eseményt (card_detected)
+  tx["key"] = "card_detected"; //Megadjuk az eseményt (card_detected)
   tx["uid"] = cardUID; //Hozzáadjuk az adatszerkezethez az uid-t
   serializeJson(tx, Serial); //Szerializáljuk és továbbítjuk soros kommunikáción keresztül a JSON adatszerkezetünket
   Serial.println(); //Küldjünk egy sor végét is a soros kommunikáción keresztül
