@@ -145,24 +145,21 @@ def ShortBeep(): #Rövid csippanást lejátszó metódus
 
 def LcdSendString(s): #LCD-re szöveget küldő metódus
     tx = {
-                "type":"action",
-                "action":"lcd_send_string",
-                "string": s
+                "key":"lcd_send_str",
+                "str": s
               }
     connection.write(json.dumps(tx).encode())
 
 def LcdClearScreen(): #LCD tartalmát törlő metódus
     tx = {
-                 "type":"action",
-                 "action":"lcd_clear_screen"
+                 "key":"lcd_cls"
               }
 
     connection.write(json.dumps(tx).encode())
 
 def LcdGoto(row, column): #LCD poziciót állító metódus
     tx = {
-           "type":"action",
-            "action":"lcd_goto",
+            "key":"lcd_goto",
             "row": row,
             "column": column
                           }

@@ -36,9 +36,11 @@ return [
     'newToken' => "Új hozzáférési token létrehozva",
     'newTokenText' => "Alább látható az új hozzáférési token, ezt fel kell írni, mert csak most látható:",
     'picture' => "Kép",
+    'register_FP_manually' => "Ujjlenyomat rögzítése kézzel",
     'code' => "Kód",
     'fingerprint' => "Ujjlenyomat",
     'language' => "Nyelv",
+    'left' => "Elment",
     'profile' => "Profil",
     'isAdmin' => "Admin?",
     'isWebEnabled' => "Van webes hozzáférése?",
@@ -54,6 +56,7 @@ return [
     'cancel' => "Mégsem",
     'user_logs' => "Felhasználókkal kapcsolatos logok",
     'system_logs' => "Rendszerrel kapcsolatos logok",
+    'system_side_operations' => "Rendszer szintű műveletek",
     'showCurrentUser' => "Az aktuális belépési kísérlet mutatása",
     'successful' => "Sikeres",
     'fail' => "Sikertelen",
@@ -62,6 +65,7 @@ return [
     'isHere' => "Itt van?",
     'hasCode' => "Van kódja?",
     'hasFingerprint' => "Van rögzített ujjlenyomata?",
+    'here' => "Itt van",
     'workTime' => "Munkaórák",
     'theLastEntryAttempt' => "A legutóbbi belépési kísérlet",
     'time' => "Időpont",
@@ -69,5 +73,6 @@ return [
     'yes' => "Igen",
     'on' => "Be",
     'off' => "Ki",
-    'unknown_user' => "ISMERETLEN FELHASZNÁLÓ"
+    'unknown_user' => "ISMERETLEN FELHASZNÁLÓ",
+    'users_currently_in' => "Jelenleg bent tartózkodó felhasználók"
 ];

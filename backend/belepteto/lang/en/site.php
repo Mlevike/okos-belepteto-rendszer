@@ -37,9 +37,11 @@ return [
     'newToken' => "New access token generated",
     'newTokenText' => "Above you can see the new access token, it can viewed only once.",
     'picture' => "Picture",
+    'register_FP_manually' => "Register fingerprint manually",
     'code' => "Code",
     'fingerprint' => "Fingerprint",
     'language' => "Language",
+    'left' => "Left",
     'profile' => "Profile",
     'isAdmin' => "Admin?",
     'isWebEnabled' => "Has web access?",
@@ -55,6 +57,7 @@ return [
     'cancel' => "Cancel",
     'user_logs' => "User logs",
     'system_logs' => "System logs",
+    'system_side_operations' => "System side operations",
     'showCurrentUser' => "Show current entry attempt",
     'successful' => "Successful",
     'fail' => "Fail",
@@ -63,6 +66,7 @@ return [
     'isHere' => "Is here?",
     'hasCode' => "Has Code?",
     'hasFingerprint' => "Has Fingerprint?",
+    'here' => "Here",
     'workTime' => "Working Hours",
     'theLastEntryAttempt' => "The last entry attempt",
     'time' => "Time",
@@ -70,5 +74,6 @@ return [
     'yes' => "Yes",
     'on' => "On",
     'off' => "Off",
-    'unknown_user' => "UNKNOWN USER"
+    'unknown_user' => "UNKNOWN USER",
+    'users_currently_in' => "Users currently in"
 ];
