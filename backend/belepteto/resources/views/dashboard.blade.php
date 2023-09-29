@@ -61,6 +61,28 @@
         </div>
         <div class="col-12 col-md-6">
             <h2>{{__('site.system_side_operations')}}</h2>
+            <div class="table-responsive" style="margin: 0px 10px 0px 10px;">
+                <table class="table table-hover">
+                    <thead>
+                    <th>#</th>
+                    <th>{{ __('site.name') }}</th>
+                    <th>{{ __('site.options') }}</th>
+                    <th>{{ __('site.operation_state') }}</th>
+                    <th>{{ __('site.sent_time') }}?</th>
+                    </thead>
+                    <tbody>
+                    @foreach($systemSideOperations as $current)
+                        <tr>
+                            <td>{{$current->id}}</td>
+                            <td>{{$current->name}}</td>
+                            <td>{{$current->options}}</td>
+                            <td>{{$current->operation_state}}</td>
+                            <td>{{$current->sent_time}}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
             <h2>{{__('site.options')}}</h2>
             <a type="button" class="btn btn-primary w-100" href="{{ route('current') }}" role="button" target="_blank">{{ __('site.showCurrentUser') }}</a>
             <a type="button" class="btn btn-primary w-100 mt-2 mb-2" onclick="triggerRecordFingerprintDialog()" role="button" >{{ __('site.register_FP_manually') }}</a>

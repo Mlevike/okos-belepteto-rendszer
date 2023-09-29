@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\SystemSideOperations;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -21,7 +23,7 @@ class DashboardController extends Controller
             $hash = '';
             $isEntryEnabled = Settings::all()->where('setting_name', 'isEntryEnabled')->first(); //Engedélyezve van-e beléptetés
             $isExitEnabled = Settings::all()->where('setting_name', 'isExitEnabled')->first(); //Engedélyezve van-e a kiléptetés
-
+            $systemSideOperations = DB::table('system_side_operations')->paginate(20, ['*'], 'operation_page'); //20 elem látszódjon egyszerre a rendszer szintő műveletekből
             foreach ($users as $user) { //Megszámoljuk az itt levő felhasználókat
                 if ($user != null) {
                     if ($user->isHere) {
@@ -31,7 +33,7 @@ class DashboardController extends Controller
                     }
                 }
             }
-            return view('dashboard', ['current_user' => $current_user, 'here' => $here, 'notHere' => $notHere, 'isEntryEnabled' => $isEntryEnabled, "isExitEnabled" => $isExitEnabled, "hash" => $hash]); //Ez lehet, hogy csak ideiglenes megooldás lesz
+            return view('dashboard', ['current_user' => $current_user, 'here' => $here, 'notHere' => $notHere, 'isEntryEnabled' => $isEntryEnabled, "isExitEnabled" => $isExitEnabled, "hash" => $hash, "systemSideOperations" => $systemSideOperations]); //Ez lehet, hogy csak ideiglenes megooldás lesz
         }else{
             return view('error', [ 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users'), 'current_user' => $current_user]); //Ez majd lehet, hogy máshová irányít át később
         }

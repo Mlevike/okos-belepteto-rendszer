@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\History;
 use App\Models\User;
 
+
 class LogController extends Controller
 {
     public function index(){
