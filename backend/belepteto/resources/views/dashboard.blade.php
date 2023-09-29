@@ -12,18 +12,20 @@
         function triggerRecordFingerprintDialog(){ //Az ujjlenyomat felvételéért felelős metódus megjelenítése
             $('#fpRecordDialog').modal('show')
         }
-        function testOptions(){ //Teszt ujjlenyomat olvasó slotok generálása automatikusan
-            console.log("Meghívva");
-            for(let i = 1; i <= 127; i++){
-                console.log(i);
-                document.getElementById("fpIDSelect").innerHTML =  document.getElementById("fpIDSelect").innerHTML + "<option value=" + i + ">" + i +"</option>";
-            }
+        function fetchIDS(){
+            console.log("Idáig eljut");
+            /*Létrehozunk HTML objektumokra mutató változókat*/
+            fetch('{{ route('get-usable-ids') }}').then(response => response.json()).then(data => { //Le fetcheljük az adatot az API segítségével
+                //Ellenőrizzük, hogy változnak az adatok és csak akkor frissítjük az oldalt
+                console.log("Teszt");
+                console.log(data.ids);
+            })
         }
     </script>
 </head>
-<body {{$current_user->darkMode ? 'data-bs-theme=dark' : ''}}>
+<body {{$current_user->darkMode ? 'data-bs-theme=dark' : ''}} onload="fetchIDS()">
 @include('header', ['current_user'=>$current_user])
-<main class="container m-1 w-100" onload="testOptions()">
+<main class="container m-1 w-100">
     <h1>{{ __('site.dashboard') }}</h1>
     <div class="row">
         <div class="col-12 col-md-6">
@@ -116,6 +118,12 @@
             <div class="modal-body">
                 <label class="mr-sm-2" for="inlineFormCustomSelect">Ujjlenyomat ID</label>
                 <select class="custom-select mr-sm-2" id="fpIDSelect">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option class="used-fp-id" value="6">6</option>
                 </select>
                 <div class="custom-control custom-checkbox mr-sm-2">
                     <input type="checkbox" class="custom-control-input" id="customControlAutosizing">

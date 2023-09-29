@@ -27,3 +27,9 @@ Route::post('validation/validate', 'App\Http\Controllers\ValidationController@va
 
 //A legutóbb bejelentkezett felhasználó pollingolására szolgáló útvonal
 Route::get('poll/current', 'App\Http\Controllers\UsersViewController@currentAccess')->name('current-poll');
+
+
+//Az használható ujjlenyomat helyek listázására szolgáló útvonal
+Route::get('fp/get-usable-ids', function (Request $request){
+        return response()->json(["ids" => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]);
+})->name('get-usable-ids'); //Ehhez majd új konténert kell létrehozni, a function csak ideiglenes jelleggel van ott
