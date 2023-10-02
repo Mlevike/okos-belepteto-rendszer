@@ -68,7 +68,7 @@
                     <th>{{ __('site.name') }}</th>
                     <th>{{ __('site.options') }}</th>
                     <th>{{ __('site.operation_state') }}</th>
-                    <th>{{ __('site.sent_time') }}?</th>
+                    <th>{{ __('site.sent_time') }}</th>
                     </thead>
                     <tbody>
                     @foreach($systemSideOperations as $current)
@@ -82,6 +82,9 @@
                     @endforeach
                     </tbody>
                 </table>
+            </div>
+            <div>
+                {{$systemSideOperations->links()}}
             </div>
             <h2>{{__('site.options')}}</h2>
             <a type="button" class="btn btn-primary w-100" href="{{ route('current') }}" role="button" target="_blank">{{ __('site.showCurrentUser') }}</a>
