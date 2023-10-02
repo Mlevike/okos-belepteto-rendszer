@@ -22,7 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('validation/get-methods', 'App\Http\Controllers\ValidationController@getMethods')->name('get-validation-methods');
 
 //A kártya validációhoz tartozó útvonal ennek egyenéőre nem adunk nevet!
-//Ez még csak ideiglenes, a végleges változatban majd az adatbázisból kéri le az információkat
 Route::post('validation/validate', 'App\Http\Controllers\ValidationController@validate')->name('validate');
 
 //A legutóbb bejelentkezett felhasználó pollingolására szolgáló útvonal
@@ -33,3 +32,6 @@ Route::get('poll/current', 'App\Http\Controllers\UsersViewController@currentAcce
 Route::get('fp/get-usable-ids', function (Request $request){
         return response()->json(["ids" => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]);
 })->name('get-usable-ids'); //Ehhez majd új konténert kell létrehozni, a function csak ideiglenes jelleggel van ott
+
+//A beléptető rendszer vezérléséért felelős útvonal
+Route::post('poll/get-command', 'App\Http\Controllers\SystemController@getCommand')->name('get-command');

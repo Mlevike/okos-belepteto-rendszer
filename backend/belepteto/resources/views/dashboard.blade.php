@@ -13,15 +13,33 @@
             $('#fpRecordDialog').modal('show')
         }
         function fetchIDS(){
-            console.log("Idáig eljut");
             /*Létrehozunk HTML objektumokra mutató változókat*/
             fetch('{{ route('get-usable-ids') }}').then(response => response.json()).then(data => { //Le fetcheljük az adatot az API segítségével
                 //Ellenőrizzük, hogy változnak az adatok és csak akkor frissítjük az oldalt
-                console.log("Teszt");
-                console.log(data.ids);
             })
         }
+
+      /*  function handleShowUsedClick(){ //A már használt ID-k megjelenítésére szolgáló metódus
+            const used = document.querySelectorAll('used-fp-id');
+            if(document.querySelector('#showUsed').checked){
+                console.log("Eljut idáig");
+                used.forEach(current => {
+                    current.style.display = "block";
+                });
+            }else{
+                console.log("Idáig is");
+                used.forEach(current => {
+                    current.prop('disabled', true);
+                });
+                console.log("Ez is lefut...")
+            }
+        }/* /*Egyenlőre ez nem használjuk*/
     </script>
+    <style>
+        /*.used-fp-id{
+            display: none;
+        }*/
+    </style>
 </head>
 <body {{$current_user->darkMode ? 'data-bs-theme=dark' : ''}} onload="fetchIDS()">
 @include('header', ['current_user'=>$current_user])
@@ -137,27 +155,30 @@
 <div class="modal fade" id="fpRecordDialog" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
+            <form action="{{ route('start-fp-registration')}}">
             <div class="modal-header">
                 <h5 class="modal-title" id="idDeleteDialogTitle">{{ __('site.register_FP_manually') }}</h5>
             </div>
             <div class="modal-body">
                 <label class="mr-sm-2" for="inlineFormCustomSelect">Ujjlenyomat ID</label>
-                <select class="custom-select mr-sm-2" id="fpIDSelect">
+                    <select class="custom-select mr-sm-2" id="fingerID" name="fingerID">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
                         <option value="4">4</option>
                         <option value="5">5</option>
                         <option class="used-fp-id" value="6">6</option>
-                </select>
+                    </select>
                 <div class="custom-control custom-checkbox mr-sm-2">
-                    <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
-                    <label class="custom-control-label" for="customControlAutosizing">Mutassa a már felhasználtakat is</label>
+                    <input type="checkbox" class="custom-control-input" id="showUsed">
+                    <label class="custom-control-label" for="showUsed">Mutassa a már felhasználtakat is</label>
                 </div>
             </div>
             <div class="modal-footer">
-                <a type="button" class="btn btn-primary" onclick="$('.modal').modal('hide')">{{ __('site.back') }}</a>
+                <button class="btn btn-primary" type="submit" value="Submit">{{ __('site.record') }}</button>
+                <a type="button" class="btn btn-secondary" onclick="$('.modal').modal('hide')">{{ __('site.back') }}</a>
             </div>
+            </form>
         </div>
     </div>
 </div>

@@ -37,6 +37,9 @@ Route::get('dashboard/setExitEnabled', 'App\Http\Controllers\DashboardController
 //Az új token generálásához használható útvonal
 Route::get('dashboard/generate-token', 'App\Http\Controllers\DashboardController@generateToken')->middleware('auth')->name('generate-token');
 
+//Az ujjlenyomat regisztráció elindításért felelős útvonal
+Route::get('dashboard/start-fingerprint-registration', 'App\Http\Controllers\DashboardController@startFingerprintRecord')->middleware('auth')->name('start-fp-registration');
+
 //A logok oldalhoz tartozó útvonal
 Route::get('logs', 'App\Http\Controllers\LogController@index')->middleware('auth')->name('logs');
 
@@ -60,7 +63,7 @@ Route::get('users/set-dark-mode', 'App\Http\Controllers\UsersViewController@setD
 Route::get('current', function(){
     $current_user = Auth::user();
     return view('current', ['current_user' => $current_user]);
-})->middleware('auth')->name('current'); //Az adott felhasználó adatainak megtekintésére szolgáló útvonal
+})->middleware('auth')->name('current');
 
 
 /*//A belépési kísérletek logolására szolgáló útvonal, ezt majd lehet, hogy máshogy kell megcsinálni
