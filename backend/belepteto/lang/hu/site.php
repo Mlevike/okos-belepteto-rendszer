@@ -37,6 +37,7 @@ return [
     'newTokenText' => "Alább látható az új hozzáférési token, ezt fel kell írni, mert csak most látható:",
     'picture' => "Kép",
     'register_FP_manually' => "Ujjlenyomat rögzítése kézzel",
+    'record' => "Felvétel",
     'code' => "Kód",
     'fingerprint' => "Ujjlenyomat",
     'language' => "Nyelv",

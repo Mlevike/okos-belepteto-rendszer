@@ -162,12 +162,10 @@
             <div class="modal-body">
                 <label class="mr-sm-2" for="inlineFormCustomSelect">Ujjlenyomat ID</label>
                     <select class="custom-select mr-sm-2" id="fingerID" name="fingerID">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option class="used-fp-id" value="6">6</option>
+                    <!--Körbeiteráljuk az összes ujjlenyomat ID-t -->
+                        @for($i = 1; $i <= 127; $i++)
+                        <option value="{{$i}}">{{$i}}</option>
+                        @endfor
                     </select>
                 <div class="custom-control custom-checkbox mr-sm-2">
                     <input type="checkbox" class="custom-control-input" id="showUsed">

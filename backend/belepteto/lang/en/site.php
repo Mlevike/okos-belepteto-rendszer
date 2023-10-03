@@ -38,6 +38,7 @@ return [
     'newTokenText' => "Above you can see the new access token, it can viewed only once.",
     'picture' => "Picture",
     'register_FP_manually' => "Register fingerprint manually",
+    'record' => "Record fingerprint",
     'code' => "Code",
     'fingerprint' => "Fingerprint",
     'language' => "Language",
