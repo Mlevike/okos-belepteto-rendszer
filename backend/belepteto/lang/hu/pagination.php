@@ -15,5 +15,7 @@ return [
 
     'previous' => '&laquo; Előző',
     'next' => 'Következő &raquo;',
-
+    'showing' => 'Listázzuk a(z)',
+    'of' => 'elemeket a',
+    'results' => 'találat közül'
 ];
