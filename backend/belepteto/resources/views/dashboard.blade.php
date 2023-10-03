@@ -7,17 +7,25 @@
     </script>
     <script type="text/javascript">
         function triggerNewTokenDialog(){ //A törlés megerősítésére szolgáló dialog megjelenítése
-            $('#deleteDialog').modal('show')
+            $('#newTokenDialog').modal('show')
         }
         function triggerRecordFingerprintDialog(){ //Az ujjlenyomat felvételéért felelős metódus megjelenítése
             $('#fpRecordDialog').modal('show')
         }
+
+        function triggerCancelOperationDialog(id){ //Az ujjlenyomat felvételéért felelős metódus megjelenítése
+            $('#cancelDialog').modal('show')
+            document.getElementById('cancel-operation-button').href = document.getElementById('cancel-operation-button').href + "?id=" + id;
+        }
+
         function fetchIDS(){
             /*Létrehozunk HTML objektumokra mutató változókat*/
             fetch('{{ route('get-usable-ids') }}').then(response => response.json()).then(data => { //Le fetcheljük az adatot az API segítségével
                 //Ellenőrizzük, hogy változnak az adatok és csak akkor frissítjük az oldalt
             })
         }
+
+        let selected = null;
 
       /*  function handleShowUsedClick(){ //A már használt ID-k megjelenítésére szolgáló metódus
             const used = document.querySelectorAll('used-fp-id');
@@ -87,6 +95,7 @@
                     <th>{{ __('site.options') }}</th>
                     <th>{{ __('site.operation_state') }}</th>
                     <th>{{ __('site.sent_time') }}</th>
+                    <th>{{ __('site.cancel') }}</th>
                     </thead>
                     <tbody>
                     @foreach($systemSideOperations as $current)
@@ -96,6 +105,7 @@
                             <td>{{$current->options}}</td>
                             <td>{{$current->operation_state}}</td>
                             <td>{{$current->sent_time}}</td>
+                            <td><a type="button" class="btn btn-danger"  onclick="triggerCancelOperationDialog({{$current->id}})"><i class="bi bi-x-octagon-fill"></i></a></td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -135,17 +145,35 @@
         </div>
 </main>
 <!-- New Token Dialog -->
-<div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="newTokenDialog" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="idDeleteDialogTitle">{{ __('site.confirmation') }}</h5>
+                <h5 class="modal-title" id="idNewTokenDialogId">{{ __('site.confirmation') }}</h5>
             </div>
             <div class="modal-body">
                 <p>{{ __('site.areYouSureToGenerateNewToken') }}</p>
             </div>
             <div class="modal-footer">
                 <a type="button" class="btn btn-warning" onclick="$('.modal').modal('hide')" href="{{ route('generate-token')}}" role="button">{{ __('site.generateNewAccessToken') }}</a>
+                <a type="button" class="btn btn-primary" onclick="$('.modal').modal('hide')">{{ __('site.back') }}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cancel Operation Dialog -->
+<div class="modal fade" id="cancelDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="idCancelDialogTitle">{{ __('site.confirmation') }}</h5>
+            </div>
+            <div class="modal-body">
+                <p>{{ __('site.areYouSureToCancelOperation') }}</p>
+            </div>
+            <div class="modal-footer">
+                <a type="button" class="btn btn-danger" onclick="$('.modal').modal('hide')" id="cancel-operation-button" href="{{ route('cancel-operation') }}" role="button">{{ __('site.cancel') }}</a>
                 <a type="button" class="btn btn-primary" onclick="$('.modal').modal('hide')">{{ __('site.back') }}</a>
             </div>
         </div>

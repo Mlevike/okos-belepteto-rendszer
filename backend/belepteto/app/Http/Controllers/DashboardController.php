@@ -71,4 +71,14 @@ class DashboardController extends Controller
         SystemSideOperations::create(['name' => "register_fingerprint",'operation_state'  => "created", 'options' => json_encode(["id" => $request->fingerID]), "reference_token" => hash('sha256', $plainTextToken = Str::random(40)), 'timeout' => 300]); //Létrehozunk egy új adatbázis bejegyzést
         return redirect(route('dashboard'))->with('status', 'Folyamat elindítva'); //Visszairányítjuk a felhasználót a vezérlőpultra
     }
+
+    public function cancelOperation(Request $request){ //Az elindított rendszerműveletek törlésséért felelős metódus
+        $operation = SystemSideOperations::findOrFail($request->id); //Lekérdezzük, az törölni kívánt sort az adatbázisból
+        if($operation->operation_state != 'sent') { //Erre azért van szükség, hogy a már kiküldött műveleteket ne lehessen törölni!
+            $operation->delete(); //Töröljük a sort
+            return redirect(route('dashboard'))->with('status', 'Törlés sikeres!'); //Visszairányítjuk a felhasználót a vezérlőpultra
+        }else{
+            return redirect(route('dashboard'))->with('status', 'Törlés sikertelen!'); //Visszairányítjuk a felhasználót a vezérlőpultra
+        }
+    }
 }

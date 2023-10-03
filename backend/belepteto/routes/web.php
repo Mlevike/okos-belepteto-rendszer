@@ -40,6 +40,10 @@ Route::get('dashboard/generate-token', 'App\Http\Controllers\DashboardController
 //Az ujjlenyomat regisztráció elindításért felelős útvonal
 Route::get('dashboard/start-fingerprint-registration', 'App\Http\Controllers\DashboardController@startFingerprintRecord')->middleware('auth')->name('start-fp-registration');
 
+//Az ujjlenyomat regisztráció elindításért felelős útvonal
+Route::get('dashboard/cancel-operation', 'App\Http\Controllers\DashboardController@cancelOperation')->middleware('auth')->name('cancel-operation');
+
+
 //A logok oldalhoz tartozó útvonal
 Route::get('logs', 'App\Http\Controllers\LogController@index')->middleware('auth')->name('logs');
 

@@ -16,4 +16,6 @@ class SystemController extends Controller
         $command->save(); //Elmentjük az adatbázisban a változtatásokat
         return response()->json(["command" => $command->name, "options" => $command->options, "reference_token" => $command->reference_token]); //Elküldjük a kliens felé a választ
     }
+
+
 }
