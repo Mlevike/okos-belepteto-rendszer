@@ -34,6 +34,7 @@ return [
     'loading' => "Loading...",
     'name' => "Name",
     'no' => "No",
+    'no_script' => "For the corresponding work, the site needs enabled JavaScript!",
     'newToken' => "New access token generated",
     'newTokenText' => "Above you can see the new access token, it can viewed only once.",
     'picture' => "Picture",

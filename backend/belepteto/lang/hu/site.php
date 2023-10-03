@@ -33,6 +33,7 @@ return [
     'loading' => "Betöltés...",
     'name' => "Név",
     'no' => "Nem",
+    'no_script' => "Az oldal megfelelő működése érdekében kérlek kapcsold be a JavaScriptet!",
     'newToken' => "Új hozzáférési token létrehozva",
     'newTokenText' => "Alább látható az új hozzáférési token, ezt fel kell írni, mert csak most látható:",
     'picture' => "Kép",

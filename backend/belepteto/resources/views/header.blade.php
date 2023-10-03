@@ -40,3 +40,9 @@
         </div>
     </div>
 </header>
+<!--Csinálunk egy <noscript> figyelmeztetést arra az esetre, ha a felhasználónál nem lenne javascript képes eszköz -->
+<noscript>
+    <div class="alert alert-warning mx-2" role="alert">
+        {{__('site.no_script')}}
+    </div>
+</noscript>
