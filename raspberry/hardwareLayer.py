@@ -9,7 +9,6 @@ import serial
 import threading
 import time
 import sys
-import cv2
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 import requests
@@ -67,8 +66,6 @@ GPIO.output(relay, GPIO.HIGH) #Relé alapállapotba állítása
 ph = PasswordHasher()
 
 #Inicicializáljuk a webkamerát
-cam_port = 0 #Megadjuk, hogy melyik kamerát próbáljuk megnyitni
-cam = cv2.VideoCapture(cam_port) #Elindítjuk a kamerát
 filename = "photo.jpg" #Definiáljuk a fájnevet
 
 def Authenticate(fetchedCode, code): #Ez az argon2 hash alapú autentikációért felelős függvény
@@ -101,11 +98,7 @@ def TriggerRelay(): #Relét kapcsoló metódus
     GPIO.output(relay, GPIO.HIGH)
 
 def TakePhoto(filename): #A fénykép készítésért felelős metódus
-    result, image = cam.read() #Beolvassuk a kameráról az információt
-    if result: #Abban az esetben, ha sikerül a képkészítés
-        cv2.imwrite(filename, image)
-    else:
-        print("Nem sikerült a fényképkészítés") #Ezt majd a szerveren kell logolni
+    return len(os.popen("fswebcam -q -r 640x480 --no-banner " + filename).read())
 
 def GetCode(uid): #UID alapján kódot lekérő metódus
     URL = validateUrl + uid
@@ -265,7 +258,7 @@ while True:  #Ez azért kell, hogy hiba esetén se álljon le
     ShortBeep() #Csak tesztelés miatt van itt!
     TriggerRelay() #Csak tesztelés miatt van itt!
     setupMode = True #Ez csak IDEIGLENES
-
+    print(TakePhoto(filename)) #Ez is csak a tesztelés miatt van!
     try:
         if not(setupMode):
              internalReadThread = threading.Thread(target=InternalAuthentication) #Létrehozunk egy háttér folyamatot a belső olvasó kártyadetektálásához
@@ -294,7 +287,7 @@ while True:  #Ez azért kell, hogy hiba esetén se álljon le
                             LcdSendString("Kommunikacio...") #LCD-re írunk
                             URL = setupUrl + "?cardId=" + uid
                             r = requests.get(URL, auth=(os.getenv('SERVER_USERNAME'), os.getenv('SERVER_PW'))) #Végrehajtjuk a lekérdezést
-                            print("Kommunikáció a szerverrel", end=' ') #Kommunikálunk a felhasználóval
+                            print("Kommunikáció a szerverrel") #Kommunikálunk a felhasználóval
                             if r.status_code == 200:
                                 print("[OK] (" + str(r.status_code) + ")") #Siker esetén
                                 LcdClearScreen() #Töröljük az LCD kijelző tartalmát
