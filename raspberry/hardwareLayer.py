@@ -68,9 +68,11 @@ ph = PasswordHasher()
 #Inicicializáljuk a webkamerát
 filename = "photo.jpg" #Definiáljuk a fájnevet
 
-def Authenticate(fetchedCode, code): #Ez az argon2 hash alapú autentikációért felelős függvény
+def Authenticate(uid, entry, code, fingerprint): #Ez az argon2 hash alapú autentikációért felelős függvény
     try:
-        return ph.verify(fetchedCode, str(code))
+        data = {'access_token': os.getenv('ACCESS_TOKEN'), 'uid' : uid, 'code' : ph.hash(str(code)), 'fingerprint' : fingerprint, 'entry': entry}
+        r = requests.post(URL, json = data)
+        return 
     except:
         return False
 
@@ -100,7 +102,7 @@ def TriggerRelay(): #Relét kapcsoló metódus
 def TakePhoto(filename): #A fénykép készítésért felelős metódus
     return len(os.popen("fswebcam -q -r 640x480 --no-banner " + filename).read())
 
-def GetCode(uid): #UID alapján kódot lekérő metódus
+"""def GetCode(uid): #UID alapján kódot lekérő metódus
     URL = validateUrl + uid
     print(URL)
     data = {'access_token' : os.getenv('ACCESS_TOKEN')}
@@ -108,16 +110,16 @@ def GetCode(uid): #UID alapján kódot lekérő metódus
     #r = requests.get(URL, auth=(os.getenv('SERVER_USERNAME'), os.getenv('SERVER_PW')))
     print("GetCode(): " + str(r.status_code))
     j = json.loads(json.dumps(r.json()))
-    return j.get("code")
+    return j.get("code") """
 
-def GetIsHere(uid): #UID alapján itt létet lekérő metódus
+"""def GetIsHere(uid): #UID alapján itt létet lekérő metódus
     URL = validateUrl + uid
     print(URL)
     data = {'access_token' : os.getenv('ACCESS_TOKEN')}
     r = requests.post(URL, json = data)
     print("GetIsHere(): " + str(r.status_code))
     j = json.loads(json.dumps(r.json()))
-    return j.get("isHere")
+    return j.get("isHere")"""
 
 def GetMethods(uid): #UID alapján megkapjuk az adott felhasználó hitelesítési módjait
     URL = getMethodsUrl
@@ -134,13 +136,13 @@ def GetMethods(uid): #UID alapján megkapjuk az adott felhasználó hitelesíté
     except:
         return False
 
-def SendLog(uid, successful, entry): #Logot mentő metódus
+"""def SendLog(uid, successful, entry): #Logot mentő metódus
     URL = logUrl
     print(URL) #Teszteléshez
     data = {'access_token' : os.getenv('ACCESS_TOKEN'), 'uid' : str(uid), 'successful' : str(successful), 'entry' : str(entry)}
     r = requests.post(URL, json = data)
     print("SendLog(): " + str(r.status_code))
-    return r.status_code
+    return r.status_code"""
 
 def ShortBeep(): #Rövid csippanást lejátszó metódus
     for i in range(600):
@@ -186,7 +188,7 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                         LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
                         LcdSendString("Kerem varjon...") #LCD-re írunk
                         uid = rx.get("uid") #Kiolvassuk az uid-t
-                        isHere = GetIsHere(uid)
+                        """isHere = GetIsHere(uid)
                         fetchedCode = GetCode(uid)
                         if ((fetchedCode == "") or (isHere == "1")): #Ha nem kapunk a szervertől kódot, akkor megtagadjuk a belépést
                             SendLog(uid, 0, 1) #Meghívjuk a logoló metódust
@@ -194,41 +196,63 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                             LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
                             LcdSendString("Elutasitva") #LCD-re írunk
                             time.sleep(1) #Késleltetünk azért, hogy olvasható legyen a felirat
-                            break
+                            break"""
                         # innen kezdődik a hitelesítése a kártyának
-                        LcdClearScreen() #Töröljük az LCD kijelző tartalmát
-                        LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
-                        LcdSendString("Kod: ") #LCD-re írunk
-                        tx = {
-                                    "type" : "action",
-                                    "action" : "get_code",
-                             }
-                        connection.write(json.dumps(tx).encode()) #Kérünk kódot a felhasználótól
-                        kodbeiras = True #Ez azért kell, hogy elkezdjük várni a kódot
+                        methods = GetMethods(uid) #Lekérdezzük a hitelesítéshez jasználandó módszereket a szerverről
+                        print methods;
                         code = ""
-                        while kodbeiras:  #Azért van itt, hogy megvárjuk a kódot
-                            if connection.inWaiting() != 0: #Ha van nejövő üzenet a soros porton, akkor azt beolvassuk
-                                data = connection.readline().decode("utf-8") #Pontosabban itt olvassuk be
-                                rx = json.loads(data) #Json belvasása  
-                                if rx.get("type") == "event": #Ha esemény érkezik
-                                    if rx.get("event") == "code_given": #Ha kód érkezik
-                                        code = rx.get("code") #Kiolvassuk a kódot a json adatszerkezetből
-                                        kodbeiras = False #Megjött a kód, már nem kell várni rá
-                        if Authenticate(fetchedCode, code):
-                            SendLog(uid, 1, 1) #Meghívjuk a logoló metódust
-                            LcdClearScreen() #Töröljük az LCD kijelző tartalmát
-                            LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
-                            LcdSendString("Elfogadva") #LCD-re írunk
-                            TriggerRelay() #Kapcsoljuk a relét
-                            time.sleep(1) #Késleltetünk azért, hogy olvasható legyen a felirat
-                            break
-                        else:
-                            SendLog(uid, 0, 1) #Meghívjuk a logoló metódust
-                            LcdClearScreen() #Töröljük az LCD kijelző tartalmát
-                            LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
-                            LcdSendString("Elutasitva") #LCD-re írunk
-                            time.sleep(1) #Késleltetünk azért, hogy olvasható legyen a felirat
-                            break
+                        fingerprint = ""
+                        if methods.get("enabled"):
+                            if methods.get("code"): #Ez így nem helyes, de nem 
+                                LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+                                LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+                                LcdSendString("Kod: ") #LCD-re írunk
+                                tx = {
+                                    "key" : "get_code",
+                                 }
+                                connection.write(json.dumps(tx).encode()) #Kérünk kódot a felhasználótól
+                                kodbeiras = True #Ez azért kell, hogy elkezdjük várni a kódot
+                                while kodbeiras:  #Azért van itt, hogy megvárjuk a kódot
+                                    if connection.inWaiting() != 0: #Ha van nejövő üzenet a soros porton, akkor azt beolvassuk
+                                        data = connection.readline().decode("utf-8") #Pontosabban itt olvassuk be
+                                        rx = json.loads(data) #Json belvasása  
+                                        if rx.get("type") == "event": #Ha esemény érkezik
+                                            if rx.get("event") == "code_given": #Ha kód érkezik
+                                                code = rx.get("code") #Kiolvassuk a kódot a json adatszerkezetből
+                                                kodbeiras = False #Megjött a kód, már nem kell várni rá
+                            if methods.get("fingerprint"): #Ez így nem helyes, de nem 
+                                LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+                                LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+                                LcdSendString("Kod: ") #LCD-re írunk
+                                tx = {
+                                    "key" : "get_code",
+                                 }
+                                connection.write(json.dumps(tx).encode()) #Kérünk kódot a felhasználótól
+                                kodbeiras = True #Ez azért kell, hogy elkezdjük várni a kódot
+                                while kodbeiras:  #Azért van itt, hogy megvárjuk a kódot
+                                    if connection.inWaiting() != 0: #Ha van nejövő üzenet a soros porton, akkor azt beolvassuk
+                                        data = connection.readline().decode("utf-8") #Pontosabban itt olvassuk be
+                                        rx = json.loads(data) #Json belvasása  
+                                        if rx.get("type") == "event": #Ha esemény érkezik
+                                            if rx.get("event") == "code_given": #Ha kód érkezik
+                                                code = rx.get("code") #Kiolvassuk a kódot a json adatszerkezetből
+                                                kodbeiras = False #Megjött a kód, már nem kell várni rá
+                                                
+                            if Authenticate(uid, True, code, fingerprint):
+                                SendLog(uid, 1, 1) #Meghívjuk a logoló metódust
+                                LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+                                LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+                                LcdSendString("Elfogadva") #LCD-re írunk
+                                TriggerRelay() #Kapcsoljuk a relét
+                                time.sleep(1) #Késleltetünk azért, hogy olvasható legyen a felirat
+                                break
+                            else:
+                                SendLog(uid, 0, 1) #Meghívjuk a logoló metódust
+                                LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+                                LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+                                LcdSendString("Elutasitva") #LCD-re írunk
+                                time.sleep(1) #Késleltetünk azért, hogy olvasható legyen a felirat
+                                break
 
 def InternalAuthentication(): #Létrehozunk egy függvényt a belső kártyaolvasó figyeléséhez
     #Inicializájuk a belső olvasót
@@ -252,12 +276,10 @@ def InternalAuthentication(): #Létrehozunk egy függvényt a belső kártyaolva
 
 while True:  #Ez azért kell, hogy hiba esetén se álljon le
     print(GetMethods("16722ba2")) #Csak tesztelésre
-    GetMethods("16722ba2") #Csak tesztelésre
     SetLedColor("blue") #Csak tesztelésre
-    #print(GetCode("16722ba2")) #Csak tesztelés miatt van itt!
     ShortBeep() #Csak tesztelés miatt van itt!
     TriggerRelay() #Csak tesztelés miatt van itt!
-    setupMode = True #Ez csak IDEIGLENES
+    #setupMode = True #Ez csak IDEIGLENES
     print(TakePhoto(filename)) #Ez is csak a tesztelés miatt van!
     try:
         if not(setupMode):
