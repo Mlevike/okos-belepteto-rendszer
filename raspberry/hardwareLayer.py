@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+7# -*- coding: utf-8 -*-
 
 #Fontos azt megjegyezni, hogy az olvasótól kért muvelet csak a kártya hozzáérintése után fut le!
 
@@ -60,9 +60,6 @@ GPIO.setup(redPin,GPIO.OUT) #Piros LED pin kimenetre állítása
 GPIO.setup(greenPin,GPIO.OUT) #Zöld LED pin kimenetre állítása
 GPIO.setup(bluePin,GPIO.OUT) #Kék LED pin kimenetre állítása
 GPIO.output(relay, GPIO.HIGH) #Relé alapállapotba állítása
-
-#Inicializáljuk a jelszó hashelőt
-ph = PasswordHasher()
 
 #Inicicializáljuk a webkamerát
 filename = "photo.jpg" #Definiáljuk a fájnevet
