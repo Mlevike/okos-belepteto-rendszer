@@ -62,7 +62,7 @@ class ValidationController extends Controller
                                 History::create(['cardId' => $user->uid, 'userId' => $user->id, 'direction' => 'in', 'successful' => false, 'arriveTime' =>  now(),  'workTime' => null]); //Mentünk a logba!
                                 return response()->json(['success' => false, 'message' => "Hibás ujjlenyomat!"]);
                             }
-                            if($request->filled('code') && ($request->code != $user->code)){
+                            if($request->filled('code') && !(Hash::check($request->code, $user->code))){
                                 History::create(['cardId' => $user->cardId, 'userId' => $user->id, 'direction' => 'in', 'successful' => false, 'arriveTime' =>  now(),  'workTime' => null]); //Mentünk a logba!
                                 return response()->json(['success' => false, 'message' => "Hibás kód!"]);
                             }else{ //Abban az esetben, ha mind az ujjlenyomat, mind a kód megfelel, lehet hogy ezt később máshgyan kéne csinálni!

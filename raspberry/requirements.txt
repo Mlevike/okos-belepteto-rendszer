@@ -1,5 +1,4 @@
 pyserial==3.5
-argon2-cffi==23.1.0
 python-dotenv==0.21.1
 pygame==2.5.2
 pysdl2==0.9.16

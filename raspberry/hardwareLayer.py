@@ -12,7 +12,6 @@ import sys
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 import requests
-from argon2 import PasswordHasher
 from dotenv import load_dotenv
 
 #Betöltjük a .env file-t
@@ -69,10 +68,9 @@ ph = PasswordHasher()
 filename = "photo.jpg" #Definiáljuk a fájnevet
 
 def Authenticate(uid, entry, code, fingerprint): #Ez az argon2 hash alapú autentikációért felelős függvény
-    print("Az authentiációig eljut")
     URL = validateUrl
     try:
-        data = {'access_token': os.getenv('ACCESS_TOKEN'), 'uid' : uid, 'code' : ph.hash(str(code)), 'fingerprint' : fingerprint, 'entry': entry}
+        data = {'access_token': os.getenv('ACCESS_TOKEN'), 'uid' : uid, 'code' : code, 'fingerprint' : fingerprint, 'entry': entry}
         r = requests.post(URL, json = data)
         j = json.loads(json.dumps(r.json()))
         print(j)
