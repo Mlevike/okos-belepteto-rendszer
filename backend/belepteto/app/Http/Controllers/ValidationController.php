@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Settings;
 use App\Models\User;
 use App\Models\History;
+use Illuminate\Support\Facades\Hash;
 
 class ValidationController extends Controller
 {
