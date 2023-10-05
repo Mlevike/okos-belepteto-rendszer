@@ -152,6 +152,12 @@ def ShortBeep(): #Rövid csippanást lejátszó metódus
     	GPIO.output(buzzer, GPIO.HIGH)
     	time.sleep(buzzerTime)
 
+def WaitForSerial(): #Soros porti válaszra váró metódus
+    waiting = True
+    while waiting:
+        if connection.inWaiting() != 0:
+            waiting = False
+
 def LcdSendString(s): #LCD-re szöveget küldő metódus
     tx = {
                 "key":"lcd_send_str",
@@ -173,6 +179,51 @@ def LcdGoto(row, column): #LCD poziciót állító metódus
             "column": column
                           }
     connection.write(json.dumps(tx).encode())
+
+def FP_GetImage():
+    tx = {   
+        "key": "fp_get_image",
+    }
+    connection.write(json.dumps(tx).encode())
+    WaitForSerial()
+
+def FP_GenerateTemplate(nr):
+    tx = {   
+        "key": "fp_gen_template",
+        "nr": nr,
+    }
+    connection.write(json.dumps(tx).encode())
+    WaitForSerial()
+    rx = json.loads(connection.readline().decode("utf-8")) #Beolvasunk a soros portról
+    return(rx.get("finger")) #Visszadjuk válaszként az ujj azonosítóját
+
+def FP_CreateModel():
+    tx = {   
+        "key": "fp_create_model",
+    }
+    connection.write(json.dumps(tx).encode())
+    WaitForSerial()
+    rx = json.loads(connection.readline().decode("utf-8")) #Beolvasunk a soros portról
+    return(rx.get("finger")) #Visszadjuk válaszként az ujj azonosítóját
+
+def FP_StoreModel(id):
+    tx = {   
+        "key": "fp_store_model",
+        "id": id,
+    }
+    connection.write(json.dumps(tx).encode())
+    WaitForSerial()
+    rx = json.loads(connection.readline().decode("utf-8")) #Beolvasunk a soros portról
+    return(rx.get("status")) #Visszadjuk válaszként a státuszt
+
+def FP_Search():
+    tx = {   
+        "key": "search",
+    }
+    connection.write(json.dumps(tx).encode())
+    WaitForSerial() #Várunk a soros portra
+    rx = json.loads(connection.readline().decode("utf-8")) #Beolvasunk a soros portról
+    return(rx.get("finger")) #Visszadjuk válaszként az ujj azonosítóját
 
 def ExternalAuthentication(): #Kártya Authentikáció metódusa
     if(interface): # Ha a sorosport értéke "None", akkor ne próbáljuk megnyitni
@@ -234,9 +285,17 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                                 time.sleep(0.2)
 
                             if methods.get("fingerprint"): #Ez lesz majd az ujjlenyomat olvasás rész
-                                LcdClearScreen() #Töröljük az LCD kijelző tartalmát
-                                LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
-                                LcdSendString("Ujjlenyomat! ") #LCD-re írunk
+                                numberOfTries = 1 #A próbálkozások számát rögzítő változó
+                                id = -1 #Létrehozunk az ujjlenyomat tárolására egy id változót
+                                while numberOfTries <= 3 and id = -1: #Egyenlőre a maximális próbálkozások száma legyen 3
+                                    numberOfTries++
+                                    LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+                                    LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+                                    LcdSendString("Kerem az ujjat!") #LCD-re írunk
+                                    #Majd a köztes lépések sikerességét is ellenőrizni kell
+                                    FP_GetImage() #Rögzítünk egy ujjlenyomat képet
+                                    FP_GenerateTemplate(1) #Generálunk belőle egy sablont
+                                    id = FP_Search() #Kikeressük az ujjlenyomathoz tartozó azonosítót
                                 time.sleep(1)
                             LcdClearScreen()
                             LcdGoto(0, 0)
