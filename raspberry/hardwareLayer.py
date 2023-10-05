@@ -68,6 +68,7 @@ def Authenticate(uid, entry, code, fingerprint): #Ez az argon2 hash alapú auten
     URL = validateUrl
     try:
         data = {'access_token': os.getenv('ACCESS_TOKEN'), 'uid' : uid, 'code' : code, 'fingerprint' : fingerprint, 'entry': entry}
+        print(data)
         r = requests.post(URL, json = data)
         j = json.loads(json.dumps(r.json()))
         print(j)
@@ -152,11 +153,10 @@ def ShortBeep(): #Rövid csippanást lejátszó metódus
     	GPIO.output(buzzer, GPIO.HIGH)
     	time.sleep(buzzerTime)
 
-def WaitForSerial(): #Soros porti válaszra váró metódus
-    waiting = True
-    while waiting:
+"""def WaitForSerial(): #Soros porti válaszra váró metódus
+    while True:
         if connection.inWaiting() != 0:
-            waiting = False
+            break""" #Ez egyenlőre nem kell!
 
 def LcdSendString(s): #LCD-re szöveget küldő metódus
     tx = {
@@ -181,48 +181,64 @@ def LcdGoto(row, column): #LCD poziciót állító metódus
     connection.write(json.dumps(tx).encode())
 
 def FP_GetImage():
-    tx = {   
+    connection.flushInput()
+    tx = {
         "key": "fp_get_image",
     }
     connection.write(json.dumps(tx).encode())
-    WaitForSerial()
+    while True:
+        if connection.inWaiting != 0:
+            break
 
 def FP_GenerateTemplate(nr):
-    tx = {   
+    connection.flushInput()
+    tx = {
         "key": "fp_gen_template",
         "nr": nr,
     }
     connection.write(json.dumps(tx).encode())
-    WaitForSerial()
+    while True:
+        if connection.inWaiting != 0:
+            break
     rx = json.loads(connection.readline().decode("utf-8")) #Beolvasunk a soros portról
     return(rx.get("finger")) #Visszadjuk válaszként az ujj azonosítóját
 
 def FP_CreateModel():
-    tx = {   
+    connection.flushInput()
+    tx = {
         "key": "fp_create_model",
     }
     connection.write(json.dumps(tx).encode())
-    WaitForSerial()
+    while True:
+        if connection.inWaiting() != 0:
+            break
     rx = json.loads(connection.readline().decode("utf-8")) #Beolvasunk a soros portról
     return(rx.get("finger")) #Visszadjuk válaszként az ujj azonosítóját
 
 def FP_StoreModel(id):
-    tx = {   
+    connection.flushInput()
+    tx = {
         "key": "fp_store_model",
         "id": id,
     }
     connection.write(json.dumps(tx).encode())
-    WaitForSerial()
+    while True:
+         if connection.inWaiting() != 0:
+             break
     rx = json.loads(connection.readline().decode("utf-8")) #Beolvasunk a soros portról
     return(rx.get("status")) #Visszadjuk válaszként a státuszt
 
 def FP_Search():
-    tx = {   
-        "key": "search",
+    connection.flushInput()
+    tx = {
+        "key": "fp_search",
     }
     connection.write(json.dumps(tx).encode())
-    WaitForSerial() #Várunk a soros portra
+    while True:
+        if connection.inWaiting() != 0:
+            break
     rx = json.loads(connection.readline().decode("utf-8")) #Beolvasunk a soros portról
+    print(rx)
     return(rx.get("finger")) #Visszadjuk válaszként az ujj azonosítóját
 
 def ExternalAuthentication(): #Kártya Authentikáció metódusa
@@ -285,17 +301,22 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                                 time.sleep(0.2)
 
                             if methods.get("fingerprint"): #Ez lesz majd az ujjlenyomat olvasás rész
+                                fingerprint = -1 #Ez csak ideiglenes, azért kell, hogy a rendszer mindeképpen csak helyes ujjlenyomat esetén engedjen be
                                 numberOfTries = 1 #A próbálkozások számát rögzítő változó
                                 id = -1 #Létrehozunk az ujjlenyomat tárolására egy id változót
-                                while numberOfTries <= 3 and id = -1: #Egyenlőre a maximális próbálkozások száma legyen 3
-                                    numberOfTries++
+                                while numberOfTries <= 3 and id == -1: #Egyenlőre a maximális próbálkozások száma legyen 3
+                                    numberOfTries = numberOfTries + 1
                                     LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                                     LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
                                     LcdSendString("Kerem az ujjat!") #LCD-re írunk
                                     #Majd a köztes lépések sikerességét is ellenőrizni kell
+                                    time.sleep(0.2)
                                     FP_GetImage() #Rögzítünk egy ujjlenyomat képet
+                                    time.sleep(0.2)
                                     FP_GenerateTemplate(1) #Generálunk belőle egy sablont
-                                    id = FP_Search() #Kikeressük az ujjlenyomathoz tartozó azonosítót
+                                    time.sleep(0.2)
+                                    print(FP_Search()) #Kikeressük az ujjlenyomathoz tartozó azonosítót
+                                print("ID: " + str(id))
                                 time.sleep(1)
                             LcdClearScreen()
                             LcdGoto(0, 0)
