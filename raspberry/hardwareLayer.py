@@ -236,6 +236,7 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                                         if rx.get("key") == "code_given": #Ha kód érkezik
                                             code = rx.get("code") #Kiolvassuk a kódot a json adatszerkezetből
                                             kodbeiras = False #Megjött a kód, már nem kell várni rá
+                                time.sleep(0.2)
 
                             if methods.get("fingerprint"): #Ez lesz majd az ujjlenyomat olvasás rész
                                 LcdClearScreen() #Töröljük az LCD kijelző tartalmát
