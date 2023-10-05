@@ -207,6 +207,7 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                         LcdSendString("Ismeretlen")
                         LcdGoto(1, 0)
                         LcdSendString("Kartya!")
+                        print(GetMethods("16722ba2")) #Csak tesztelésre
                         time.sleep(1)
                         break
                     else:
@@ -256,28 +257,29 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                                 LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                                 LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
                                 LcdSendString("Elutasitva") #LCD-re írunk
+                                print(GetMethods("16722ba2")) #Csak tesztelésre
                                 time.sleep(1) #Késleltetünk azért, hogy olvasható legyen a felirat
                                 break
 
 def InternalAuthentication(): #Létrehozunk egy függvényt a belső kártyaolvasó figyeléséhez
     #Inicializájuk a belső olvasót
-    SetLedColor("red") #LED színét pirosra állítjuk
     internalReader = SimpleMFRC522() #Inicalizáljuk a belső RFID olvasót
     while True:
+        SetLedColor("red") #Beállítjuk a LED színét pirosra
         id, text = internalReader.read() #Beolvassuk a belső kártyát
         uid = str(hex(id)[2:10]).replace('0', '')
-        isHere = GetIsHere(uid)
+        #isHere = GetIsHere(uid)
         ShortBeep() #Csippantunk jelezve a kártya beolvasást
         SetLedColor("none") #Kikapcsoljuk a LED-et
-        if (GetCode(uid) != "") and (isHere != "0"): #Ha kapunk vissza kódot
-            SendLog(uid, 1, 0) #Meghívjuk a logoló metódust
+        if Authenticate(uid, False, "", ""): #A fingerprint és code helyett csak üres stringet írunk
+            #SendLog(uid, 1, 0) #Meghívjuk a logoló metódust
             TriggerRelay() #Kapcsoljuk a relét
             SetLedColor("green") #Beállítjuk a LED színét zöldre
         else:
-            SendLog(uid, 0, 0) #Meghívjuk a logoló metódust
+            #SendLog(uid, 0, 0) #Meghívjuk a logoló metódust
+            print(GetMethods("16722ba2")) #Csak tesztelésre
             SetLedColor ("red") #Beállítjuk a LED színét pirosra
         time.sleep(1) #Egy másodperces szünet
-        SetLedColor("red") #Beállítjuk a LED színét pirosra
 
 while True:  #Ez azért kell, hogy hiba esetén se álljon le
     print(GetMethods("16722ba2")) #Csak tesztelésre
