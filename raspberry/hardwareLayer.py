@@ -207,7 +207,6 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                         LcdSendString("Ismeretlen")
                         LcdGoto(1, 0)
                         LcdSendString("Kartya!")
-                        print(GetMethods("16722ba2")) #Csak tesztelésre
                         time.sleep(1)
                         break
                     else:
@@ -257,7 +256,6 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                                 LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                                 LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
                                 LcdSendString("Elutasitva") #LCD-re írunk
-                                print(GetMethods("16722ba2")) #Csak tesztelésre
                                 time.sleep(1) #Késleltetünk azért, hogy olvasható legyen a felirat
                                 break
 
@@ -277,12 +275,10 @@ def InternalAuthentication(): #Létrehozunk egy függvényt a belső kártyaolva
             SetLedColor("green") #Beállítjuk a LED színét zöldre
         else:
             #SendLog(uid, 0, 0) #Meghívjuk a logoló metódust
-            print(GetMethods("16722ba2")) #Csak tesztelésre
             SetLedColor ("red") #Beállítjuk a LED színét pirosra
         time.sleep(1) #Egy másodperces szünet
 
 while True:  #Ez azért kell, hogy hiba esetén se álljon le
-    print(GetMethods("16722ba2")) #Csak tesztelésre
     SetLedColor("blue") #Csak tesztelésre
     ShortBeep() #Csak tesztelés miatt van itt!
     TriggerRelay() #Csak tesztelés miatt van itt!
