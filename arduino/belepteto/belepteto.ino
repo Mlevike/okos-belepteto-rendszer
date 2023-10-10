@@ -9,26 +9,43 @@
 #include <Adafruit_Fingerprint.h> 
 #include <TM1650.h>
 
-//Definiáljuk a hangszóró beállításait
+//Definiáljuk a beállításokat
+
 #define BUZZER_FREQUENCY 2400 //Megadjuk a frekvenciát Hz-ben
 #define BUZZER_PIN A0 //Megadjuk a kimeneti pin-t
 #define SHORT_TIME 500 //Megadjuk a rövid csippanás idejét (ms)
 #define LONG_TIME 1000 //Megadjuk a hosszú csippanás idejét (ms)
 #define MUTED true //Megadjuk, hogy le van-e némítva az eszköz?
 
+#define MFRC522_SS_PIN 10 //Megadjuk a SPI SS lábának számát
 
-MFRC522DriverPinSimple ss_pin(10); //Definiáljuk a SPI SS lábát
+#define FPR_SOFT_SERIAL_RX_PIN 2 //Megadjuk a softwareSerial RX lábának számát
+#define FPR_SOFT_SERIAL_TX_PIN 3 //Megadjuk a softwareSerial TX lábának számát
+#define FPR_SERIAL_BAUDRATE 115200 //Megadjuk a softwareSerial sebességét
+
+#define TM1650_SDA_PIN 8 //Megadjuk a TM1650-es billenytű vezérlő IC felé vezető SDA lábnak számát
+#define TM1650_SCL_PIN 9 //Megadjuk a TM1650-es billenytű vezérlő IC felé vezető SCL lábnak számát
+
+#define LCD_ROW_NUMBER 2 //Megadjuk, hogy hány sor magas az LCD kijelzőnk
+#define LCD_COLUMN_NUMBER 16 //Megadjuk, hogy hány oszlop széles az LCD kijelzőnk
+#define LCD_ADDRESS 0x27 //Megadjuk az LCD kijelző címét
+#define LCD_BACKLIGHT true //Megadjuk, hogy az inicializációkor bekapcsoljuk-e az LCD kijelző háttérvilágítását
+
+#define STATIC_JSON_DOCUMENT_SIZE 200 //Megadjuk, hogy a JSON feldolgozó mekkora méretű területet foglalahat a memóriában (byte)
+#define SERIAL_BAUDRATE 9600 //Megadjuk a soros kommunikáció sebességét
+
+MFRC522DriverPinSimple ss_pin(MFRC522_SS_PIN); //Definiáljuk a SPI SS lábát
 MFRC522DriverSPI driver{ss_pin}; //Inicializáljuk az SPI meghajtót
 
-SoftwareSerial mySerial(2, 3); //Inicializáljuk a szoftveres soros portot
+SoftwareSerial mySerial(FPR_SOFT_SERIAL_RX_PIN, FPR_SOFT_SERIAL_TX_PIN); //Inicializáljuk a szoftveres soros portot
 Adafruit_Fingerprint finger = Adafruit_Fingerprint(&mySerial); //Inicializáljuk az ujjlenyomat olvasó könyvtárat
 
-TM1650 module(8, 9); //Inicializáljuk a keypad vezérlő modult, SDA=8; SCL=9
+TM1650 module(TM1650_SDA_PIN, TM1650_SCL_PIN); //Inicializáljuk a keypad vezérlő modult, SDA=8; SCL=9
 
-HD44780LCD myLCD(2, 16, 0x27, &Wire); //Iniciálizáljuk az LCD kijelzőt
+HD44780LCD myLCD(LCD_ROW_NUMBER, LCD_COLUMN_NUMBER, LCD_ADDRESS, &Wire); //Iniciálizáljuk az LCD kijelzőt
 MFRC522 mfrc522{driver};  //Inicializáljuk az RFID olvasót
-StaticJsonDocument<200> rx; //Definiáljuk a bemenő JSON adatszerkezetet
-StaticJsonDocument<200> tx; //Definiáljuk a kimenő JSON adatszerkezetet
+StaticJsonDocument<STATIC_JSON_DOCUMENT_SIZE> rx; //Definiáljuk a bemenő JSON adatszerkezetet
+StaticJsonDocument<STATIC_JSON_DOCUMENT_SIZE> tx; //Definiáljuk a kimenő JSON adatszerkezetet
 
 char TranslateKey(uint32_t keyValue){ //Billentyűkódból karakterre fordító metódus
   //Definiáljuk a billentyűzet kiosztását
@@ -40,15 +57,15 @@ char TranslateKey(uint32_t keyValue){ //Billentyűkódból karakterre fordító 
   /*key keys[1] = { //A billentyűk elrendezése
   {2, '1'}};*/
   
-  key keys[16] = { //A billentyűk elrendezése
-  {2, '1'}, {32, '2'}, {512, '3'}, {8192, 'A'}, 
-  {4, '4'}, {64, '5'}, {1024, '6'}, {16384, 'B'}, 
-  {8, '7'}, {128, '8'}, {2048, '9'}, {32768, 'C'}, 
-  {1, '*'}, {16, '0'}, {256, '#'}, {4096, 'D'}, 
+  key keys[10] = { //A billentyűk elrendezése
+  {2, '1'}, {32, '2'}, {512, '3'}, 
+  {4, '4'}, {64, '5'}, {1024, '6'}, 
+  {8, '7'}, {128, '8'}, {2048, '9'}, 
+  {16, '0'},
   };
 
 
-  for(int i = 0; i < 16; i++){ //Társítsuk a kapott kódot a n
+  for(int i = 0; i < 10; i++){ //Társítsuk a kapott kódot a n
     if(keys[i].keyCode == keyValue){
       return keys[i].key;
     }
@@ -91,14 +108,14 @@ void ShortBeep(){ //A rövid csippanásért felelős metódus
   }
 }
 
-void LongBeep(){ //A hosszú csippanásért felelős metódus
+/*void LongBeep(){ //A hosszú csippanásért felelős metódus
   if(!MUTED){ //Akkor működjön csak, ha a MUTED értéke false
   pinMode(BUZZER_PIN, OUTPUT); //Kimeneti pin beálltása
   tone(BUZZER_PIN, BUZZER_FREQUENCY); //Hang generálása
   delay(LONG_TIME); //Várakozás SHORT_TIME időtartamnyit
   noTone(BUZZER_PIN); //Hang generálásának befejezése
   }
-}
+}*/
 
 /*void CustomBeep(int freq, int delayedTime){ //Egyenlőre memóriatakarékosság miatt megjegyzésbe téve
   if(!MUTED){
@@ -163,11 +180,11 @@ void setup(){
   ShortBeep(); //Csak teszteléshez
   delay(50);
   //Beállítjuk az LCD kijelzőt
-  myLCD.PCF8574_LCDBackLightSet(true); //Engedélyezzük az LCD háttérvilágítását
+  myLCD.PCF8574_LCDBackLightSet(LCD_BACKLIGHT); //Engedélyezzük az LCD háttérvilágítását
   myLCD.PCF8574_LCDInit(myLCD.LCDCursorTypeOff); //Ne jelenítsük meg a kurzort az LCD kijelzőn
-  Serial.begin(9600); //Elindítjuk a soros kommunikációt
+  Serial.begin(SERIAL_BAUDRATE); //Elindítjuk a soros kommunikációt
   mfrc522.PCD_Init();  //Inicializáljuk az RFID olvasót
-  finger.begin(115200); //Beállítjuk az ujjlenyomat olvasó kapcsolatának sebességét
+  finger.begin(FPR_SERIAL_BAUDRATE); //Beállítjuk az ujjlenyomat olvasó kapcsolatának sebességét
   if (finger.verifyPassword()) {
     fingerprintOK = true;
   }
