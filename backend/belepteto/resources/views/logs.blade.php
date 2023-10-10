@@ -56,7 +56,9 @@
     {{$history->links()}}
 </div>
 @if($current_user->role == 'admin')
-    <h2>{{ __('site.system_logs') }}</h2>
+    <!--A rendszerrel kapcsolatos logok megjelenítése táblázatos formában -->
+        <div class="table-responsive" style="margin: 0px 10px 0px 10px;">
+        <h2>{{ __('site.system_logs') }}</h2>
         <table class="table table-hover">
             <thead>
                 <th>#</th>
@@ -83,6 +85,7 @@
                     @endforeach
             </tbody>
         </table>
+        </div>
         <div>
             {{$logs->links()}}
         </div>
