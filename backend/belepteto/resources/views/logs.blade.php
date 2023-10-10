@@ -57,8 +57,8 @@
 </div>
 @if($current_user->role == 'admin')
     <!--A rendszerrel kapcsolatos logok megjelenítése táblázatos formában -->
-        <div class="table-responsive" style="margin: 0px 10px 0px 10px;">
         <h2>{{ __('site.system_logs') }}</h2>
+        <div class="table-responsive" style="margin: 0px 10px 0px 10px;">
         <table class="table table-hover">
             <thead>
                 <th>#</th>
