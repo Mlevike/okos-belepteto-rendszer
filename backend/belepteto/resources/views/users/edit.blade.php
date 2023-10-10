@@ -47,6 +47,23 @@
                 </option>
             </select>
             <br>
+            <label for="validation-method">{{ __('site.validationMethod') }}:* </label>
+            <br>
+            <select name="validationMethod" id="validation-method" {{$user == null ? 'reguired' : ''}}>
+                <option value="" selected disabled hidden>{{ __('site.choseHere') }}</option> <!--Arra az estre ha nem akarunk nyelvet választani -->
+                <option value="code"> <!--Egyenlőre az angol lesz az alapértelmezett nyelv-->
+                    <p>Code</p>
+                </option>
+                <option value="fingerprint">
+                    <p>Fingerprint</p>
+                </option>
+                <option value="both">
+                    <p>Both</p>
+                </option>
+                <option value="none">
+                    <p>None</p>
+                </option>
+            </select>
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" role="switch" id="isEntryEnabledSwitch" name="isEntryEnabled" {{$user != null ? $user->isEntryEnabled  ? 'checked' : '' : ''}}>
                 <label class="form-check-label" for="isEntryEnabledSwitch">{{ __('site.isEntryEnabled') }}</label>

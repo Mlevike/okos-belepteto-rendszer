@@ -62,6 +62,10 @@ class UsersViewController extends Controller
                          $request->language = 'en'; //Alapértelmezett nyelv beállítás megadása
                      }
 
+                     if (!($request->filled('validationMethod'))) {
+                         $request->validationMethod = 'code'; //Alapértelmezett hitelesítési mód beállítás megadása
+                     }
+
                      $user = User::create(['name' => $request->name, 'email' => $request->email, 'email_verified_at' => now(), 'password' => Hash::make($request->password, ['memory' => 1024, 'time' => 2, 'threads' => 2,]), 'picture' => '', 'code' => ($request->code != null ? Hash::make($request->code, ['memory' => 1024, 'time' => 2, 'threads' => 2,]) : ''), 'fingerprint' => $request->fingerprint != null ? $request->fingerprint : '', 'language' => $request->language != null ? $request->language : '', 'profile' => $request->profile != null ? $request->profile : '', 'isEntryEnabled' => $request->isEntryEnabled, 'role' => $request->role, 'isHere' => false, 'cardId' => $request->cardId != null ? $request->cardId : '',]);
                      //A profilkép beállítása
                      if ($request->hasFile('picture')) { //A profilkép feltöltésének kezelése
@@ -102,6 +106,9 @@ class UsersViewController extends Controller
                      }
                      if ($request->filled('language')) {
                          $user->language = $request->language;
+                     }
+                     if ($request->filled('validationMethod')) {
+                         $user->validationMethod = $request->validationMethod;
                      }
                      if ($request->hasFile('picture')) { //A profilkép feltöltésének kezelése
                          $filename = $user->id . '.' . $request->picture->extension(); //Ez adja a fájl nevét
@@ -151,6 +158,7 @@ class UsersViewController extends Controller
         $user->password = 0;
         $user->picture = 0;
         $user->code = 0;
+        $user->validationMethod = "";
         $user->fingerprint = 0;
         $user->language = 0;
         $user->profile = "deleted_user_" . (string)$user->id;

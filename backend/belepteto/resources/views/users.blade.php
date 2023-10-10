@@ -19,6 +19,7 @@
             <th>{{ __('site.isEntryEnabled') }}</th>
             <th>{{ __('site.hasCode') }}</th>
             <th>{{ __('site.hasFingerprint') }}</th>
+            <th>{{ __('site.validationMethod') }}</th>
             <th>{{ __('site.role') }}</th>
             <th>{{ __('site.isHere') }}</th>
             <th>{{ __('auth.email') }}</th>
@@ -70,6 +71,9 @@
                 @else
                     <i class="bi bi-x-square-fill" style="color: red"></i>
                 @endif
+            </td>
+            <td>
+                {{$user->validationMethod}}
             </td>
             <td>
                 {{$user->role}}
