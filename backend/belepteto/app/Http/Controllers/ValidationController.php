@@ -60,15 +60,15 @@ class ValidationController extends Controller
             if(Settings::where('setting_name', 'isEntryEnabled')->first()->setting_value){
                     if($user != null){ //Ezt majd lehet, hogy kevesebb ifből kéne megoldani
                         if($request->entry && !$user->isHere){ //Bemeneti próbálkozás esetén, ha a felhasználó nincs itt
-                            if(($user->validationMethod == 'fingerprint' || $user->validationMethod == 'both') && ($request->fingerprint != $user->fingerprint)){
+                            if(($user->validationMethod == 'fingerprint' || $user->validationMethod == 'both') && (($request->fingerprint != $user->fingerprint) || ($request->fingerprint == null || $request->fingerprint == ""))){
                                 History::create(['cardId' => $user->cardId, 'userId' => $user->id, 'direction' => 'in', 'successful' => false, 'arriveTime' =>  now(),  'workTime' => null]); //Mentünk a logba!
                                 if($user->fingerprint == "" || $user->fingerprint == null){ //Ha a felhasználót ujjlenyomattal akarjuk validálni, de az nem rendelkezik ujjlenyomat mintával
                                     Log::Warning("A ".$user->cardId." kártyaazonosítójú felhasználó validációs módja ujjlenyomat, de nem rendelkezik ujjlenyomat mintával!");
                                     return response()->json(['success' => false, 'message' => "A felhasználó nem rendelkezik ujjlenyomat mintával!"]);
+                                    return response()->json(['success' => false, 'message' => "Hibás ujjlenyomat!"]);
                                 }
-                                return response()->json(['success' => false, 'message' => "Hibás ujjlenyomat!"]);
-                            }
-                            else if($user->validationMethod == 'code' || $user->validationMethod == 'both' && !(Hash::check($request->code, $user->code))){
+                                }
+                            else if($user->validationMethod == 'code' || $user->validationMethod == 'both' && (!(Hash::check($request->code, $user->code) || ($request->fingerprint == null || $request->fingerprint == "")))){
                                 History::create(['cardId' => $user->cardId, 'userId' => $user->id, 'direction' => 'in', 'successful' => false, 'arriveTime' =>  now(),  'workTime' => null]); //Mentünk a logba!
                                 if($user->code == "" || $user->code == null){ //Ha a felhasználót kóddal akarjuk validálni, de az nem kóddal
                                     Log::Warning("A ".$user->cardId." kártya azonosítójú felhasználó validációs módja kód, de nem rendelkezik kóddal!"); //Később majd a both esetre is gondolni kell a megfogalmazásban!
