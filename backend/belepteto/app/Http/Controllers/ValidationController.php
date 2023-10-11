@@ -54,10 +54,10 @@ class ValidationController extends Controller
 
     public function validate(Request $request, array $rules, array $messages = [], array $attributes = []) //A felhasználó hitelesítéséért felelős metódus
     {
-            Settings::where('setting_name', 'access_token')->where('setting_value', $request->access_token)->FindOrFail(1); //Ellenőrizzük az access_token-t
+            Settings::where('setting_name', 'access_token')->where('setting_value', $request->access_token)->FirstOrFail(); //Ellenőrizzük az access_token-t
             //A megfelelő cardID-val rendelkező user kiválasztása
-            $user = User::where('cardId', $request->uid)->first();
-            if(Settings::where('setting_name', 'isEntryEnabled')->first()->setting_value){
+            $user = User::where('cardId', $request->uid)->FirstOrFail();
+            if(Settings::where('setting_name', 'isEntryEnabled')->FirstOrFail()->setting_value){
                     if($user != null){ //Ezt majd lehet, hogy kevesebb ifből kéne megoldani
                         if($request->entry && !$user->isHere){ //Bemeneti próbálkozás esetén, ha a felhasználó nincs itt
                             if(($user->validationMethod == 'fingerprint' || $user->validationMethod == 'both') && (($request->fingerprint != $user->fingerprint) || ($request->fingerprint == null || $request->fingerprint == ""))){
@@ -65,10 +65,10 @@ class ValidationController extends Controller
                                 if($user->fingerprint == "" || $user->fingerprint == null){ //Ha a felhasználót ujjlenyomattal akarjuk validálni, de az nem rendelkezik ujjlenyomat mintával
                                     Log::Warning("A ".$user->cardId." kártyaazonosítójú felhasználó validációs módja ujjlenyomat, de nem rendelkezik ujjlenyomat mintával!");
                                     return response()->json(['success' => false, 'message' => "A felhasználó nem rendelkezik ujjlenyomat mintával!"]);
-                                    return response()->json(['success' => false, 'message' => "Hibás ujjlenyomat!"]);
                                 }
+                                return response()->json(['success' => false, 'message' => "Hibás ujjlenyomat!"]);
                                 }
-                            else if($user->validationMethod == 'code' || $user->validationMethod == 'both' && (!(Hash::check($request->code, $user->code) || ($request->fingerprint == null || $request->fingerprint == "")))){
+                            else if(($user->validationMethod == 'code' || $user->validationMethod == 'both') && (!(Hash::check($request->code, $user->code) || ($request->code == null || $request->code == "")))){
                                 History::create(['cardId' => $user->cardId, 'userId' => $user->id, 'direction' => 'in', 'successful' => false, 'arriveTime' =>  now(),  'workTime' => null]); //Mentünk a logba!
                                 if($user->code == "" || $user->code == null){ //Ha a felhasználót kóddal akarjuk validálni, de az nem kóddal
                                     Log::Warning("A ".$user->cardId." kártya azonosítójú felhasználó validációs módja kód, de nem rendelkezik kóddal!"); //Később majd a both esetre is gondolni kell a megfogalmazásban!
@@ -94,7 +94,9 @@ class ValidationController extends Controller
                         History::create(['cardId' => $request->uid, 'userId' => null, 'direction' => $request->entry ? 'in' : 'out', 'successful' => false, 'arriveTime' =>  now(),  'workTime' => null]);
                         return response()->json(['success' => false, 'message' => "Nincs ilyen felhasználó!"]); //Ezt sem logoljuk egyenlőre
                     }
-                    }
+                    }else{
+                return response()->json(['success' => false, 'message' => "Felhasználó nincs engedélyezve!!"]); //Ezt sem logoljuk egyenlőre
+            }
         return response()->json(['success' => false, 'message' => "Ismeretlen hiba!"]); //Ezt sem logoljuk egyenlőre
     }
 
