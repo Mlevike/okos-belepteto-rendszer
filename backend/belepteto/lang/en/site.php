@@ -79,5 +79,6 @@ return [
     'on' => "On",
     'off' => "Off",
     'unknown_user' => "UNKNOWN USER",
-    'users_currently_in' => "Users currently in"
+    'users_currently_in' => "Users currently in",
+    'validationMethod' => "Validation method"
 ];

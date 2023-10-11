@@ -78,5 +78,6 @@ return [
     'on' => "Be",
     'off' => "Ki",
     'unknown_user' => "ISMERETLEN FELHASZNÁLÓ",
-    'users_currently_in' => "Jelenleg bent tartózkodó felhasználók"
+    'users_currently_in' => "Jelenleg bent tartózkodó felhasználók",
+    'validationMethod' => "Hitelesítési mód"
 ];
