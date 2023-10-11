@@ -101,21 +101,15 @@ class ValidationController extends Controller
     public function getMethods(Request $request, array $rules, array $messages = [], array $attributes = []){ //A hitelesítési módok lekéréséért felelős metódus
         Settings::where('setting_name', 'access_token')->where('setting_value', $request->access_token)->FindOrFail(1); //Ellenőrizzük az access_token-t
         $user = User::where('cardId', $request->uid)->firstOrFail(); //Lekérdezzük a felhasználót
-        if($user->isEntryEnabled){
-            if($user->validationMethod == 'code'){ //Amennyiben kóddal hitelesítjük a felhasználót
-                return response()->json(['code' => true, 'fingerprint' => false, 'enabled' => $user->isEntryEnabled]);
-            }else if($user->validationMethod == 'fingerprint'){ //Amennyiben ujjlenyomattal hitelesítjük a felhasználót
-                return response()->json(['code' => false, 'fingerprint' => true, 'enabled' => $user->isEntryEnabled]);
-            }else if($user->validationMethod == 'both'){ //Amennyiben mindkét módszerrel hitelesítjük a felhasználót
-                return response()->json(['code' => true, 'fingerprint' => true, 'enabled' => $user->isEntryEnabled]);
-            }else if(($user->validationMethod == 'none')){ //Amennyiben a kártyán kívül nem alkalmazunk további hitelesítést
-                return response()->json(['code' => false, 'fingerprint' => false, 'enabled' => $user->isEntryEnabled]);
-            }else{
-                return response()->json(['code' => false, 'fingerprint' => false, 'enabled' => false]); //Amennyiben nincs érvényes érték, akkor ne engedjük be a felhasználót
-            }
-        }else{
-            return response()->json(['code' => false, 'fingerprint' => false, 'enabled' => false]); //Ha nincsen engedélyezve a felhasználó
+        if($user->validationMethod == 'code'){ //Amennyiben kóddal hitelesítjük a felhasználót
+            return response()->json(['code' => true, 'fingerprint' => false, 'enabled' => $user->isEntryEnabled]);
+        }else if($user->validationMethod == 'fingerprint'){ //Amennyiben ujjlenyomattal hitelesítjük a felhasználót
+            return response()->json(['code' => false, 'fingerprint' => true, 'enabled' => $user->isEntryEnabled]);
+        }else if($user->validationMethod == 'both'){ //Amennyiben mindkét módszerrel hitelesítjük a felhasználót
+            return response()->json(['code' => true, 'fingerprint' => true, 'enabled' => $user->isEntryEnabled]);
+        }else if(($user->validationMethod == 'none')){ //Amennyiben a kártyán kívül nem alkalmazunk további hitelesítést
+            return response()->json(['code' => false, 'fingerprint' => false, 'enabled' => $user->isEntryEnabled]);
         }
-
+        return response()->json(['code' => false, 'fingerprint' => false, 'enabled' => false]); //Amennyiben nincs érvényes érték, akkor ne engedjük be a felhasználót
     }
 }
