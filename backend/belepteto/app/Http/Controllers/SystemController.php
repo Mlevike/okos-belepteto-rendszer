@@ -10,7 +10,7 @@ class SystemController extends Controller
 {
     public function getCommand(Request $request){ //A rendszer által végrehajtandó feladat lekérdezésére szolgáló függvény
         Settings::where('setting_name', 'access_token')->where('setting_value', $request->access_token)->FindOrFail(1); //Ellenőrizzük az access_token-t
-        $command = SystemSideOperations::where('operation_state', '=', 'created')->first(); //Lekérdezzük a legelső végrehajtandó feladatot az adatbázisból
+        $command = SystemSideOperations::where('operation_state', '=', 'created')->findOrFail(1); //Lekérdezzük a legelső végrehajtandó feladatot az adatbázisból
         $command->sent_time = date('Y-m-d H:i:s'); //Hozzárendelünk egy időbélyeget, mely a kiküldés időpontját rögzíti
         $command->operation_state = "sent"; //Átállítjuk a parancs állapotát elküldöttre állítjuk
         $command->save(); //Elmentjük az adatbázisban a változtatásokat
