@@ -270,6 +270,9 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
         LcdSendString("Kerem a kartyat!") #LCD-re írunk
         time.sleep(0.2)
         while True:
+            time.sleep(1)
+            if GetCommand():
+                print("Van parancs!")
             if connection.inWaiting() != 0: #Ha van bejövő üzenet a soros porton, akkor azt beolvassuk
                 data = connection.readline().decode("utf-8") #Pontosabban itt olvassuk be
                 rx = json.loads(data) #Json belvasása
@@ -402,10 +405,6 @@ while True:  #Ez azért kell, hogy hiba esetén se álljon le
              internalReadThread.start() #Elindítjuk a belső olvasó háttérfolyamatát
              while True:
                 ExternalAuthentication() #Elindítjuk az Authentikáció
-                command = GetCommand() #Ez csak tesztelés végett van itt!
-                if command != False:
-                    print("Érkezett parancs")
-                    print(command)
                 
         else:
             print("Telepítési mód:")
