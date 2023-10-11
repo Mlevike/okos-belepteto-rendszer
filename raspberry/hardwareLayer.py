@@ -46,6 +46,7 @@ getMethodsUrl = 'https://mlevente.hu/belepteto/api/validation/get-methods'
 validateUrl = "https://mlevente.hu/belepteto/api/validation/validate"
 logUrl = "https://mlevente.hu/belepteto/log"
 setupUrl = "https://mlevente.hu/belepteto/setup"
+getCommandUrl = "https://mlevente.hu/belepteto/api/poll/get-command"
 
 
 #Inicializájuk a Buzzer globális változóit 
@@ -131,6 +132,23 @@ def GetMethods(uid): #UID alapján megkapjuk az adott felhasználó hitelesíté
     data = {'access_token': os.getenv('ACCESS_TOKEN'), 'uid' : uid}
     r = requests.post(URL, json = data)
     print("GetMethods(): " + str(r.status_code))
+    #print the response text (the content of the requested file):
+    print(r.status_code)
+    if r.status_code == 200:
+        try:
+            j = json.loads(json.dumps(r.json()))
+            return j
+        except:
+            return False
+    else:
+        return False
+
+def GetCommand(): #UID alapján megkapjuk az adott felhasználó hitelesítési módjait
+    URL = getCommandUrl
+    print(URL)
+    data = {'access_token': os.getenv('ACCESS_TOKEN')}
+    r = requests.post(URL, json = data)
+    print("GetCommand(): " + str(r.status_code))
     #print the response text (the content of the requested file):
     print(r.status_code)
     if r.status_code == 200:
@@ -371,7 +389,13 @@ while True:  #Ez azért kell, hogy hiba esetén se álljon le
     ShortBeep() #Csak tesztelés miatt van itt!
     TriggerRelay() #Csak tesztelés miatt van itt!
     #setupMode = True #Ez csak IDEIGLENES
-    print(TakePhoto(filename)) #Ez is csak a tesztelés miatt van!
+    print("Érkezett-e új parancs a szerverről?")
+    command = GetCommand()
+    if command != False:
+        print("Érkezett parancs")
+        print(command)
+    else:
+        print("Nem érlezett parancs")
     try:
         if not(setupMode):
              internalReadThread = threading.Thread(target=InternalAuthentication) #Létrehozunk egy háttér folyamatot a belső olvasó kártyadetektálásához
