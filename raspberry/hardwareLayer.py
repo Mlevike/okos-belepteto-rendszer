@@ -402,6 +402,11 @@ while True:  #Ez azért kell, hogy hiba esetén se álljon le
              internalReadThread.start() #Elindítjuk a belső olvasó háttérfolyamatát
              while True:
                 ExternalAuthentication() #Elindítjuk az Authentikáció
+                command = GetCommand() #Ez csak tesztelés végett van itt!
+                if command != False:
+                    print("Érkezett parancs")
+                    print(command)
+                
         else:
             print("Telepítési mód:")
             print("--------------")
