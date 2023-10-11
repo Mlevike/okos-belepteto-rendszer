@@ -269,10 +269,13 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
         LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
         LcdSendString("Kerem a kartyat!") #LCD-re írunk
         time.sleep(0.2)
+        timestamp = time.time() #Létrehozunk egy időbélyeget a megszakítás nélküli időzítéshez
         while True:
-            time.sleep(1)
-            if GetCommand():
-                print("Van parancs!")
+            if (time.time() - timestamp) > 3: #Három másodpercenként kérdezzen le a szerverről
+                command = GetCommand() #Lekérdezzük a parancsot s szerverről
+                if command: #Amennyiben érkezett parancs a szerverről
+                    print("Van parancs!")
+                timestamp = time.time() #"Nullázzuk" az időbélyeget
             if connection.inWaiting() != 0: #Ha van bejövő üzenet a soros porton, akkor azt beolvassuk
                 data = connection.readline().decode("utf-8") #Pontosabban itt olvassuk be
                 rx = json.loads(data) #Json belvasása
