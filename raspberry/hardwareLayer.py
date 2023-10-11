@@ -291,8 +291,8 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                 command = GetCommand() #Lekérdezzük a parancsot s szerverről
                 if command: #Amennyiben érkezett parancs a szerverről
                     print("Van parancs!")
-                    currentCommandRef = command.reference_token #Elmentjük egy változóba a parancs-ra hivatkozó tokent
-                    if command.command == "register_fingerprint": #Ha ujjlenyomatolvasásról van szó
+                    currentCommandRef = command.get("reference_token") #Elmentjük egy változóba a parancs-ra hivatkozó tokent
+                    if command.get("command") == "register_fingerprint": #Ha ujjlenyomatolvasásról van szó
                         print("Ujjlenyomatot olvasunk...")
                         LogCommandState(currentCommandRef, "successful", "Teszt!") #Logoljuk a művelet sikerességét
 
