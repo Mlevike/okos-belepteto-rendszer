@@ -50,7 +50,7 @@ setupUrl = "https://mlevente.hu/belepteto/setup"
 
 #Inicializájuk a Buzzer globális változóit 
 buzzer = 7 #Kimeneti pin
-buzzerTime = 0.000416666667 / 2 #Periódusidő/2
+buzzerTime = (1 / 2400) / 2 #Periódusidő/2
 
 #Inicializáljuk a GPIO-t
 GPIO.setmode(GPIO.BOARD) #BOARD pin kiosztás használata, azért, mert az idióta RFID könyvtár is ezt használja
@@ -101,6 +101,10 @@ def TriggerRelay(): #Relét kapcsoló metódus
 
 def TakePhoto(filename): #A fénykép készítésért felelős metódus
     return len(os.popen("fswebcam -q -r 640x480 --no-banner " + filename).read())
+
+def UploadPhoto(filename):
+    return len(os.popen("cp " + filename + " /var/www/html/" + filename).read())
+    print("Ide majd a fotófeltöltés jön, ha a backenden kész lesz a fogadó url....")
 
 """def GetCode(uid): #UID alapján kódot lekérő metódus
     URL = validateUrl + uid
@@ -274,6 +278,8 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                         LcdSendString("Ismeretlen")
                         LcdGoto(1, 0)
                         LcdSendString("Kartya!")
+                        TakePhoto(filename) #Fényképet készítünk a sikertelen próbálkozásokról
+                        UploadPhoto(filename) #Feltöltjük a fényképet
                         time.sleep(1)
                         break
                     else:
@@ -336,6 +342,8 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                                 LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                                 LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
                                 LcdSendString("Elutasitva") #LCD-re írunk
+                                TakePhoto(filename) #Fényképet készítünk a sikertelen próbálkozásokról
+                                UploadPhoto(filename) #Feltöltjük a fényképet
                                 time.sleep(1) #Késleltetünk azért, hogy olvasható legyen a felirat
                                 break
 
