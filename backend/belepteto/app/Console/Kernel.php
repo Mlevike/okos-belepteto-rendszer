@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-         $schedule->command(CheckOperationTimeout::class)->everyTenSeconds();
+         $schedule->command(CheckOperationTimeout::class)->everyMinute();
     }
 
     /**
