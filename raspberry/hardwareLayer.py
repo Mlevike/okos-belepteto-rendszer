@@ -103,8 +103,8 @@ def TakePhoto(filename): #A fénykép készítésért felelős metódus
     return len(os.popen("fswebcam -q -r 640x480 --no-banner " + filename).read())
 
 def UploadPhoto(filename):
-    return len(os.popen("cp " + filename + " /var/www/html/" + filename).read())
     print("Ide majd a fotófeltöltés jön, ha a backenden kész lesz a fogadó url....")
+    return len(os.popen("cp " + filename + " /var/www/html/" + filename).read())
 
 """def GetCode(uid): #UID alapján kódot lekérő metódus
     URL = validateUrl + uid
