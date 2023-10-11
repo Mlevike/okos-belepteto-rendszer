@@ -35,3 +35,6 @@ Route::get('fp/get-usable-ids', function (Request $request){
 
 //A beléptető rendszer vezérléséért felelős útvonal
 Route::post('poll/get-command', 'App\Http\Controllers\SystemController@getCommand')->name('get-command');
+
+//A beléptető rendszer vezérlése végett elküldött parancsok sikerességének logolására szolgáló útvonal
+Route::post('poll/log-command-state', 'App\Http\Controllers\SystemController@logCommandState')->name('log-command-state');

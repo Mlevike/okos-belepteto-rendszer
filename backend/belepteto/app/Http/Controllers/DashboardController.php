@@ -74,7 +74,7 @@ class DashboardController extends Controller
 
     public function cancelOperation(Request $request){ //Az elindított rendszerműveletek törlésséért felelős metódus
         $operation = SystemSideOperations::findOrFail($request->id); //Lekérdezzük, az törölni kívánt sort az adatbázisból
-        if($operation->operation_state != 'sent') { //Erre azért van szükség, hogy a már kiküldött műveleteket ne lehessen törölni!
+        if($operation->operation_state == 'created') { //Erre azért van szükség, hogy a már kiküldött műveleteket ne lehessen törölni!
             $operation->delete(); //Töröljük a sort
             return redirect(route('dashboard'))->with('status', 'Törlés sikeres!'); //Visszairányítjuk a felhasználót a vezérlőpultra
         }else{

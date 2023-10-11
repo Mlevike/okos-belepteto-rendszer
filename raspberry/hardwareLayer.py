@@ -47,7 +47,7 @@ validateUrl = "https://mlevente.hu/belepteto/api/validation/validate"
 logUrl = "https://mlevente.hu/belepteto/log"
 setupUrl = "https://mlevente.hu/belepteto/setup"
 getCommandUrl = "https://mlevente.hu/belepteto/api/poll/get-command"
-
+logCommandStateUrl = "https://mlevente.hu/belepteto/api/poll/log-command-state"
 
 #Inicializájuk a Buzzer globális változóit 
 buzzer = 7 #Kimeneti pin
@@ -64,6 +64,9 @@ GPIO.output(relay, GPIO.HIGH) #Relé alapállapotba állítása
 
 #Inicicializáljuk a webkamerát
 filename = "photo.jpg" #Definiáljuk a fájnevet
+
+#Létrehozunk egy globális változót jelenleg futtatott utasítás azonosítására
+currentCommandRef = ""
 
 def Authenticate(uid, entry, code, fingerprint): #Ez az argon2 hash alapú autentikációért felelős függvény
     URL = validateUrl
@@ -157,6 +160,19 @@ def GetCommand(): #UID alapján megkapjuk az adott felhasználó hitelesítési 
             return j
         except:
             return False
+    else:
+        return False
+
+def LogCommandState(reference_token, state, message): #A parancsok lefutásának sikereségét a szerver felé továbbító metódus
+    URL = logCommandStateUrl
+    print(URL)
+    data = {'access_token': os.getenv('ACCESS_TOKEN'), 'reference_token': reference_token, 'state': state, 'message': message}
+    r = requests.post(URL, json = data)
+    print("LogCommandState(): " + str(r.status_code))
+    #print the response text (the content of the requested file):
+    print(r.status_code)
+    if r.status_code == 200:
+        return True #200-as kód esetén igaz értéket adjunk vissza
     else:
         return False
 
@@ -275,6 +291,11 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                 command = GetCommand() #Lekérdezzük a parancsot s szerverről
                 if command: #Amennyiben érkezett parancs a szerverről
                     print("Van parancs!")
+                    currentCommandRef = command.reference_token #Elmentjük egy változóba a parancs-ra hivatkozó tokent
+                    if command.command == "register_fingerprint": #Ha ujjlenyomatolvasásról van szó
+                        print("Ujjlenyomatot olvasunk...")
+                        LogCommandState(currentCommandRef, "successful", "Teszt!") #Logoljuk a művelet sikerességét
+
                 timestamp = time.time() #"Nullázzuk" az időbélyeget
             if connection.inWaiting() != 0: #Ha van bejövő üzenet a soros porton, akkor azt beolvassuk
                 data = connection.readline().decode("utf-8") #Pontosabban itt olvassuk be
@@ -395,13 +416,6 @@ while True:  #Ez azért kell, hogy hiba esetén se álljon le
     ShortBeep() #Csak tesztelés miatt van itt!
     TriggerRelay() #Csak tesztelés miatt van itt!
     #setupMode = True #Ez csak IDEIGLENES
-    print("Érkezett-e új parancs a szerverről?")
-    command = GetCommand()
-    if command != False:
-        print("Érkezett parancs")
-        print(command)
-    else:
-        print("Nem érlezett parancs")
     try:
         if not(setupMode):
              internalReadThread = threading.Thread(target=InternalAuthentication) #Létrehozunk egy háttér folyamatot a belső olvasó kártyadetektálásához

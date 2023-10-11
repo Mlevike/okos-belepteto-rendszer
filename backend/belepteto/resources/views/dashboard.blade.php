@@ -105,7 +105,11 @@
                             <td>{{$current->options}}</td>
                             <td>{{$current->operation_state}}</td>
                             <td>{{$current->sent_time}}</td>
-                            <td><a type="button" class="btn btn-danger"  onclick="triggerCancelOperationDialog({{$current->id}})"><i class="bi bi-x-octagon-fill"></i></a></td>
+                            <td>
+                                @if($current->operation_state == 'created')
+                                <a type="button" class="btn btn-danger"  onclick="triggerCancelOperationDialog({{$current->id}})"><i class="bi bi-x-octagon-fill"></i></a>
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>
