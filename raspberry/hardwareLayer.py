@@ -396,8 +396,10 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                                     time.sleep(0.2)
                                     FP_GenerateTemplate(1) #Generálunk belőle egy sablont
                                     time.sleep(0.2)
-                                    print(FP_Search()) #Kikeressük az ujjlenyomathoz tartozó azonosítót
+                                    id = FP_Search()
+                                    print(str(id)) #Kikeressük az ujjlenyomathoz tartozó azonosítót
                                 print("ID: " + str(id))
+                                fingerprint = id #Itt lehet, hogy túl van biztosítva a program
                                 time.sleep(1)
                             LcdClearScreen()
                             LcdGoto(0, 0)
@@ -444,7 +446,7 @@ def InternalAuthentication(): #Létrehozunk egy függvényt a belső kártyaolva
 while True:  #Ez azért kell, hogy hiba esetén se álljon le
     SetLedColor("blue") #Csak tesztelésre
     ShortBeep() #Csak tesztelés miatt van itt!
-    TriggerRelay() #Csak tesztelés miatt van itt!
+    #TriggerRelay() #Csak tesztelés miatt van itt!
     #setupMode = True #Ez csak IDEIGLENES
     try:
         if not(setupMode):
