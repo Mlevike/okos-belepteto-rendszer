@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\History;
 use App\Models\User;
 use App\Models\Settings;
 use Illuminate\Support\Facades\Auth;
@@ -11,9 +12,11 @@ use Illuminate\Http\Request;
 use App\Models\SystemSideOperations;
 use Illuminate\Support\Facades\DB;
 
+
 class DashboardController extends Controller
 {
-    public function index(){
+
+    public function index(Request $request){
         $current_user = Auth::user(); //Jelenleg bejelentkezett felhasználó adatainak lekérése
         if($current_user->role == 'admin') {
             $users = User::all(); //Lekérjük az összes felhasználót az adatbázisból
@@ -23,7 +26,7 @@ class DashboardController extends Controller
             $hash = '';
             $isEntryEnabled = Settings::all()->where('setting_name', 'isEntryEnabled')->first(); //Engedélyezve van-e beléptetés
             $isExitEnabled = Settings::all()->where('setting_name', 'isExitEnabled')->first(); //Engedélyezve van-e a kiléptetés
-            $systemSideOperations = DB::table('system_side_operations')->paginate(20, ['*'], 'operation_page'); //20 elem látszódjon egyszerre a rendszer szintő műveletekből
+            $systemSideOperations = DB::table('system_side_operations')->paginate(10, ['*'], 'operation_page'); //20 elem látszódjon egyszerre a rendszer szintő műveletekből
             foreach ($users as $user) { //Megszámoljuk az itt levő felhasználókat
                 if ($user != null) {
                     if ($user->isHere) {
@@ -80,5 +83,25 @@ class DashboardController extends Controller
         }else{
             return redirect(route('dashboard'))->with('status', 'Törlés sikertelen!'); //Visszairányítjuk a felhasználót a vezérlőpultra
         }
+    }
+
+    public function pollDashboard(Request $request){
+        $current_user = Auth::user();
+        if ($current_user != null and $current_user->role == 'admin' ) {
+            $users = User::all(); //Lekérjük az összes felhasználót az adatbázisból
+            $here = 0;
+            $notHere = 0;
+            foreach ($users as $user) { //Megszámoljuk az itt levő felhasználókat
+                if ($user != null) {
+                    if ($user->isHere) {
+                        $here++;
+                    } else {
+                        $notHere++;
+                    }
+                }
+            }
+            return response()->json(['reload' => false, 'here' => $here, 'notHere' => $notHere]);
+    }
+        return response()->json([]);
     }
 }

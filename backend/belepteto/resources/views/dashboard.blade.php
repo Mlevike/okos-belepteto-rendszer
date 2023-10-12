@@ -18,14 +18,29 @@
             document.getElementById('cancel-operation-button').href = document.getElementById('cancel-operation-button').href + "?id=" + id;
         }
 
-        function fetchIDS(){
+       function fetchIDS(){
             /*Létrehozunk HTML objektumokra mutató változókat*/
             fetch('{{ route('get-usable-ids') }}').then(response => response.json()).then(data => { //Le fetcheljük az adatot az API segítségével
                 //Ellenőrizzük, hogy változnak az adatok és csak akkor frissítjük az oldalt
             })
         }
 
-        let selected = null;
+        function fetchDashboard(){
+            /*Létrehozunk HTML objektumokra mutató változókat*/
+
+            fetch('{{ route('poll-dashboard') }}').then(response => response.json()).then(data => { //Le fetcheljük az adatot az API segítségével
+                //Ellenőrizzük, hogy változnak az adatok és csak akkor frissítjük az oldalt!
+                if(data.here != yValues[0] || data.notHere != yValues[1]){
+                    yValues = [data.here, data.notHere];
+                    chart.data.datasets[0].data = yValues;
+                    chart.update();
+                }
+            })
+        }
+
+        setInterval(()=>{ //A setInterval() metódus segítségével megadjuk ms-ban, hogy bizonyos ídőközönként kérje le az adatokat a szerverről
+            fetchDashboard();
+        },5000)
 
       /*  function handleShowUsedClick(){ //A már használt ID-k megjelenítésére szolgáló metódus
             const used = document.querySelectorAll('used-fp-id');
@@ -67,7 +82,7 @@
                  "#b91d47",
                 ];
 
-                new Chart("isHereChart", {
+                let chart = new Chart("isHereChart", {
                     type: "pie",
                     data: {
                     labels: xValues,
@@ -83,6 +98,7 @@
                     }
                 }
             });
+
             </script>
         </div>
         <div class="col-12 col-md-6">
