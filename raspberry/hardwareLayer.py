@@ -295,6 +295,9 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                     print("Van parancs!")
                     currentCommandRef = command.get("reference_token") #Elmentjük egy változóba a parancs-ra hivatkozó tokent
                     if command.get("command") == "register_fingerprint": #Ha ujjlenyomatolvasásról van szó
+                        options = command.get("options")
+                        id = json.loads(options).get("id")
+                        print(id)
                         print("Ujjlenyomatot olvasunk...")
                         LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                         LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
@@ -320,7 +323,7 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                         LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                         LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
                         LcdSendString("Tarolas...") #LCD-re írunk
-                        print("StoreModel(id): " + str(FP_StoreModel(10))) #Egyenlőre mentsünk a 10-es helyre
+                        print("StoreModel(id): " + str(FP_StoreModel(id))) #Egyenlőre mentsünk a 10-es helyre
                         LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                         LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
                         LcdSendString("KESZ!") #LCD-re írunk
