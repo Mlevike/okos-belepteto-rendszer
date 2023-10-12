@@ -241,7 +241,7 @@ def FP_GenerateTemplate(nr):
         if connection.inWaiting != 0:
             break
     rx = json.loads(connection.readline().decode("utf-8")) #Beolvasunk a soros portról
-    return(rx.get("finger")) #Visszadjuk válaszként az ujj azonosítóját
+    return(rx.get("status")) #Visszadjuk válaszként az ujj azonosítóját
 
 def FP_CreateModel():
     connection.flushInput()
@@ -253,7 +253,7 @@ def FP_CreateModel():
         if connection.inWaiting() != 0:
             break
     rx = json.loads(connection.readline().decode("utf-8")) #Beolvasunk a soros portról
-    return(rx.get("finger")) #Visszadjuk válaszként az ujj azonosítóját
+    return(rx.get("status")) #Visszadjuk válaszként az ujj azonosítóját
 
 def FP_StoreModel(id):
     connection.flushInput()
@@ -304,25 +304,28 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                         time.sleep(1) #Várunk egy keveset
                         LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                         LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
-                        LcdSendString("Kérem az ujjat!") #LCD-re írunk
-                        print("GetImage(): " + FP_GetImage())
-                        print("GenTemplate(1): " + FP_GenerateTemplate(1))
+                        LcdSendString("Kerem az ujjat!") #LCD-re írunk
+                        print("GetImage(): " + str(FP_GetImage()))
+                        print("GenTemplate(1): " + str(FP_GenerateTemplate(1)))
+                        LcdClearScreen()
+                        LcdGoto(0, 0)
                         LcdSendString("Ujra!") #LCD-re írunk
-                        print("GetImage(): " + FP_GetImage())
-                        print("GenTemplate(2): " + FP_GenerateTemplate(2))
+                        time.sleep(1)
+                        print("GetImage(): " + str(FP_GetImage()))
+                        print("GenTemplate(2): " + str(FP_GenerateTemplate(2)))
                         LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                         LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
                         LcdSendString("Model alkotas...") #LCD-re írunk
-                        print("CreateModel(): " + FP_CreateModel())
+                        print("CreateModel(): " + str(FP_CreateModel()))
                         LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                         LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
                         LcdSendString("Tarolas...") #LCD-re írunk
-                        print("StoreModel(id): " + FP_CreateModel(10)) #Egyenlőre mentsünk a 10-es helyre
+                        print("StoreModel(id): " + str(FP_StoreModel(10))) #Egyenlőre mentsünk a 10-es helyre
                         LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                         LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
                         LcdSendString("KESZ!") #LCD-re írunk
                         LogCommandState(currentCommandRef, "successful", "Teszt!") #Logoljuk a művelet sikerességét
-
+                        break
                 timestamp = time.time() #"Nullázzuk" az időbélyeget
             if connection.inWaiting() != 0: #Ha van bejövő üzenet a soros porton, akkor azt beolvassuk
                 data = connection.readline().decode("utf-8") #Pontosabban itt olvassuk be
