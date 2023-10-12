@@ -69,7 +69,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/Budapest', //Ezt majd lehet, hogy ki kell tenni .env fájlba
 
     /*
     |--------------------------------------------------------------------------
