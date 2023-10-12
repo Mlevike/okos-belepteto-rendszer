@@ -302,32 +302,75 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                         LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                         LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
                         LcdSendString("Ujjlenyomat") #LCD-re írunk
-                        LcdGoto(1, 0) #A kurzort visszaállítjuk a nulla pontra
+                        LcdGoto(1, 0) 
                         LcdSendString("regisztráció") #LCD-re írunk
                         time.sleep(1) #Várunk egy keveset
                         LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                         LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
                         LcdSendString("Kerem az ujjat!") #LCD-re írunk
-                        print("GetImage(): " + str(FP_GetImage()))
-                        print("GenTemplate(1): " + str(FP_GenerateTemplate(1)))
+                        if FP_GetImage() != 0:
+                            LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+                            LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+                            LcdSendString("Olvasasi hiba!") #LCD-re írunk
+                            LogCommandState(currentCommandRef, "failed", "Olvasási hiba!") #Logoljuk a művelet sikerességét
+                            time.sleep(2)
+                            break
+                        if FP_GenerateTemplate(1) != 0:
+                            LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+                            LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+                            LcdSendString("Sablon") #LCD-re írunk
+                            LcdGoto(1, 0) 
+                            LcdSendString("keszitesi hiba!") #LCD-re írunk
+                            LogCommandState(currentCommandRef, "failed", "Sablon készítési hiba!") #Logoljuk a művelet sikerességét
+                            time.sleep(2)
+                            break
                         LcdClearScreen()
                         LcdGoto(0, 0)
                         LcdSendString("Ujra!") #LCD-re írunk
                         time.sleep(1)
-                        print("GetImage(): " + str(FP_GetImage()))
-                        print("GenTemplate(2): " + str(FP_GenerateTemplate(2)))
+                        if FP_GetImage() != 0:
+                            LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+                            LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+                            LcdSendString("Olvasasi hiba!") #LCD-re írunk
+                            LogCommandState(currentCommandRef, "failed", "Olvasási hiba!") #Logoljuk a művelet sikerességét
+                            time.sleep(2)
+                            break
+                        if FP_GenerateTemplate(2) != 0:
+                            LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+                            LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+                            LcdSendString("Sablon") #LCD-re írunk
+                            LcdGoto(1, 0) 
+                            LcdSendString("keszitesi hiba!") #LCD-re írunk
+                            LogCommandState(currentCommandRef, "failed", "Sablon készítési hiba!") #Logoljuk a művelet sikerességét
+                            time.sleep(2)
+                            break
                         LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                         LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
                         LcdSendString("Model alkotas...") #LCD-re írunk
-                        print("CreateModel(): " + str(FP_CreateModel()))
+                        if FP_CreateModel() != 0:
+                            LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+                            LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+                            LcdSendString("Model") #LCD-re írunk
+                            LcdGoto(1, 0) 
+                            LcdSendString("alkotasi hiba!") #LCD-re írunk
+                            LogCommandState(currentCommandRef, "failed", "Model alkotási hiba!") #Logoljuk a művelet sikerességét
+                            time.sleep(2)
+                            break
                         LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                         LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
                         LcdSendString("Tarolas...") #LCD-re írunk
-                        print("StoreModel(id): " + str(FP_StoreModel(id))) #Egyenlőre mentsünk a 10-es helyre
+                        if FP_StoreModel(id) != 0:
+                            LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+                            LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+                            LcdSendString("Tarolasi hiba!") #LCD-re írunk
+                            LogCommandState(currentCommandRef, "failed", "Tárolási hiba!") #Logoljuk a művelet sikerességét
+                            time.sleep(2)
+                            break
                         LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                         LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
                         LcdSendString("KESZ!") #LCD-re írunk
                         LogCommandState(currentCommandRef, "successful", "Teszt!") #Logoljuk a művelet sikerességét
+                        time.sleep(1)
                         break
                 timestamp = time.time() #"Nullázzuk" az időbélyeget
             if connection.inWaiting() != 0: #Ha van bejövő üzenet a soros porton, akkor azt beolvassuk
