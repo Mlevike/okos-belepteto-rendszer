@@ -227,6 +227,8 @@ def FP_GetImage():
     while True:
         if connection.inWaiting != 0:
             break
+    rx = json.loads(connection.readline().decode("utf-8")) #Beolvasunk a soros portról
+    return(rx.get("status")) #Visszadjuk válaszként az ujj azonosítóját
 
 def FP_GenerateTemplate(nr):
     connection.flushInput()
@@ -294,6 +296,31 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                     currentCommandRef = command.get("reference_token") #Elmentjük egy változóba a parancs-ra hivatkozó tokent
                     if command.get("command") == "register_fingerprint": #Ha ujjlenyomatolvasásról van szó
                         print("Ujjlenyomatot olvasunk...")
+                        LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+                        LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+                        LcdSendString("Ujjlenyomat") #LCD-re írunk
+                        LcdGoto(1, 0) #A kurzort visszaállítjuk a nulla pontra
+                        LcdSendString("regisztráció") #LCD-re írunk
+                        time.sleep(1) #Várunk egy keveset
+                        LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+                        LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+                        LcdSendString("Kérem az ujjat!") #LCD-re írunk
+                        print("GetImage(): " + FP_GetImage())
+                        print("GenTemplate(1): " + FP_GenerateTemplate(1))
+                        LcdSendString("Ujra!") #LCD-re írunk
+                        print("GetImage(): " + FP_GetImage())
+                        print("GenTemplate(2): " + FP_GenerateTemplate(2))
+                        LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+                        LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+                        LcdSendString("Model alkotas...") #LCD-re írunk
+                        print("CreateModel(): " + FP_CreateModel())
+                        LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+                        LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+                        LcdSendString("Tarolas...") #LCD-re írunk
+                        print("StoreModel(id): " + FP_CreateModel(10)) #Egyenlőre mentsünk a 10-es helyre
+                        LcdClearScreen() #Töröljük az LCD kijelző tartalmát
+                        LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
+                        LcdSendString("KESZ!") #LCD-re írunk
                         LogCommandState(currentCommandRef, "successful", "Teszt!") #Logoljuk a művelet sikerességét
 
                 timestamp = time.time() #"Nullázzuk" az időbélyeget
