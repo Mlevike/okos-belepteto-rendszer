@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\History;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class ValidationController extends Controller
 {
@@ -58,15 +59,21 @@ class ValidationController extends Controller
             //A megfelelő cardID-val rendelkező user kiválasztása
             $user = User::where('cardId', $request->uid)->FirstOrFail();
             //A kamerakép feltöltéséért felelős rész
+            $picture = "";
             if($request->picture != null && $request != ""){
-                History::create(['cardId' => $user->cardId, 'userId' => $user->id, 'direction' => $request->picture, 'successful' => false, 'arriveTime' =>  now(),  'workTime' => null]);
-                return response()->json(['success' => false, 'message' => "Teszt vége!"]);
+                $picture = base64_decode($request->picture); //Változóba írjuk a base64-es kódolású képet
             }
             if(Settings::where('setting_name', 'isEntryEnabled')->FirstOrFail()->setting_value){
                     if($user != null){ //Ezt majd lehet, hogy kevesebb ifből kéne megoldani
                         if($request->entry && !$user->isHere){ //Bemeneti próbálkozás esetén, ha a felhasználó nincs itt
                             if(($user->validationMethod == 'fingerprint' || $user->validationMethod == 'both') && (($request->fingerprint != $user->fingerprint) || ($request->fingerprint == null || $request->fingerprint == ""))){
-                                History::create(['cardId' => $user->cardId, 'userId' => $user->id, 'direction' => 'in', 'successful' => false, 'arriveTime' =>  now(),  'workTime' => null]); //Mentünk a logba!
+                                $history = History::create(['cardId' => $user->cardId, 'userId' => $user->id, 'direction' => 'in', 'successful' => false, 'arriveTime' =>  now(),  'workTime' => null, 'picture' => null]); //Mentünk a logba!
+                                if($picture != ""){
+                                    $filename = $history->id . '.jpg'; //Ez adja a fájl nevét
+                                    $history->picture = $filename;
+                                    Storage::disk('public')->put('pictures/log/'.$filename, $picture);
+                                    $history->save();
+                                }
                                 if($user->fingerprint == "" || $user->fingerprint == null){ //Ha a felhasználót ujjlenyomattal akarjuk validálni, de az nem rendelkezik ujjlenyomat mintával
                                     Log::Warning("A ".$user->cardId." kártyaazonosítójú felhasználó validációs módja ujjlenyomat, de nem rendelkezik ujjlenyomat mintával!");
                                     return response()->json(['success' => false, 'message' => "A felhasználó nem rendelkezik ujjlenyomat mintával!"]);
@@ -74,14 +81,20 @@ class ValidationController extends Controller
                                 return response()->json(['success' => false, 'message' => "Hibás ujjlenyomat!"]);
                                 }
                             else if(($user->validationMethod == 'code' || $user->validationMethod == 'both') && (!(Hash::check($request->code, $user->code) || ($request->code == null || $request->code == "")))){
-                                History::create(['cardId' => $user->cardId, 'userId' => $user->id, 'direction' => 'in', 'successful' => false, 'arriveTime' =>  now(),  'workTime' => null]); //Mentünk a logba!
+                                $history = History::create(['cardId' => $user->cardId, 'userId' => $user->id, 'direction' => 'in', 'successful' => false, 'arriveTime' =>  now(),  'workTime' => null, 'picture' => null]); //Mentünk a logba!
+                                if($picture != ""){
+                                    $filename = $history->id . '.jpg'; //Ez adja a fájl nevét
+                                    $history->picture = $filename;
+                                    Storage::disk('public')->put('pictures/log/'.$filename, $picture);
+                                    $history->save();
+                                }
                                 if($user->code == "" || $user->code == null){ //Ha a felhasználót kóddal akarjuk validálni, de az nem kóddal
                                     Log::Warning("A ".$user->cardId." kártya azonosítójú felhasználó validációs módja kód, de nem rendelkezik kóddal!"); //Később majd a both esetre is gondolni kell a megfogalmazásban!
                                     return response()->json(['success' => false, 'message' => "A felhasználó nem rendelkezik kóddal!"]);
                                 }
                                 return response()->json(['success' => false, 'message' => "Hibás kód!"]);
                             }else{ //Abban az esetben, ha mind az ujjlenyomat, mind a kód megfelel, lehet hogy ezt később máshgyan kéne csinálni!
-                                History::create(['cardId' => $user->cardId, 'userId' => $user->id, 'direction' => 'in', 'successful' => true, 'arriveTime' =>  now(),  'workTime' => null]); //Mentünk a logba!
+                                History::create(['cardId' => $user->cardId, 'userId' => $user->id, 'direction' => 'in', 'successful' => true, 'arriveTime' =>  now(),  'workTime' => null, 'picture' => null]); //Mentünk a logba!
                                 $user->isHere = true;
                                 $user->save(); //Mentjük az user objektumot
                                 return response()->json(['success' => true, 'message' => "Sikeres beléptetés!"]);
@@ -92,15 +105,27 @@ class ValidationController extends Controller
                             History::where('cardId', $user->cardId)->where('successful', true)->latest()->firstOrFail()->update(['leaveTime' => now()]); //Frissítjük a távozás időpontját
                             return response()->json(['success' => true, 'message' => "Sikeres kiléptetés!"]);
                         }else{
-                            History::create(['cardId' => $user->cardId, 'userId' => $user->id, 'direction' => $request->entry ? 'in' : 'out', 'successful' => false, 'arriveTime' =>  now(),  'workTime' => null]);
+                            $history = History::create(['cardId' => $user->cardId, 'userId' => $user->id, 'direction' => $request->entry ? 'in' : 'out', 'successful' => false, 'arriveTime' =>  now(),  'workTime' => null, 'picture' => null]);
+                            if($picture != "" && $request->entry){
+                                $filename = $history->id . '.jpg'; //Ez adja a fájl nevét
+                                $history->picture = $filename;
+                                Storage::disk('public')->put('pictures/log/'.$filename, $picture);
+                                $history->save();
+                            }
                             return response()->json(['success' => false, 'message' => "Sikertelen!"]);
                         }
                     }else{
-                        History::create(['cardId' => $request->uid, 'userId' => null, 'direction' => $request->entry ? 'in' : 'out', 'successful' => false, 'arriveTime' =>  now(),  'workTime' => null]);
+                        $history = History::create(['cardId' => $request->uid, 'userId' => null, 'direction' => $request->entry ? 'in' : 'out', 'successful' => false, 'arriveTime' =>  now(),  'workTime' => null, 'picture' => null]);
+                        if($picture != ""){
+                            $filename = $history->id . '.jpg'; //Ez adja a fájl nevét
+                            $history->picture = $filename;
+                            Storage::disk('public')->put('pictures/log/'.$filename, $picture);
+                            $history->save();
+                        }
                         return response()->json(['success' => false, 'message' => "Nincs ilyen felhasználó!"]); //Ezt sem logoljuk egyenlőre
                     }
                     }else{
-                return response()->json(['success' => false, 'message' => "Felhasználó nincs engedélyezve!!"]); //Ezt sem logoljuk egyenlőre
+                return response()->json(['success' => false, 'message' => "Felhasználó nincs engedélyezve!"]); //Ezt sem logoljuk egyenlőre
             }
         return response()->json(['success' => false, 'message' => "Ismeretlen hiba!"]); //Ezt sem logoljuk egyenlőre
     }

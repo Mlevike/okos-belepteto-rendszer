@@ -20,6 +20,7 @@
             <th>{{ __('site.successful') }}?</th>
             <th>{{ __('site.arriveTime') }}</th>
             <th>{{ __('site.leaveTime') }}</th>
+            <th>{{ __('site.picture') }}</th>
             <!--<th>{{ __('site.workTime') }}</th>-->
         </thead>
         <tbody>
@@ -46,6 +47,11 @@
                 </td>
                 <td>{{$current->arriveTime}}</td>
                 <td>{{$current->leaveTime}}</td>
+                @if($current->picture != null)
+                    <td><a href="{{asset('/storage/pictures/log/'.$current->picture)}}" target="_blank" rel="noopener noreferer"><i class="bi bi-file-earmark-image"></i></a></td>
+                @else
+                    <td></td>
+                @endif
                 <!-- <td>{{$current->workTime}}</td> --> <!--Ideiglenesen elrejtve -->
             </tr>
     @endforeach

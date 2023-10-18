@@ -28,6 +28,7 @@ class History extends Model
         'workTime',
         'direction',
         'userId',
-        'cardId'
+        'cardId',
+        'picture'
     ];
 }

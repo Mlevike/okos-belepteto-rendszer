@@ -3,6 +3,7 @@
 #Fontos azt megjegyezni, hogy az olvasótól kért muvelet csak a kártya hozzáérintése után fut le!
 
 #Beimprtáljuk a szükséges könyvtárakat
+import base64
 import os
 import json
 import serial
@@ -68,11 +69,12 @@ filename = "photo.jpg" #Definiáljuk a fájnevet
 #Létrehozunk egy globális változót jelenleg futtatott utasítás azonosítására
 currentCommandRef = ""
 
-def Authenticate(uid, entry, code, fingerprint): #Ez az argon2 hash alapú autentikációért felelős függvény
+def Authenticate(uid, entry, code, fingerprint, filename): #Az az authnetikációért felelős függvény
     URL = validateUrl
     try:
-        data = {'access_token': os.getenv('ACCESS_TOKEN'), 'uid' : uid, 'code' : code, 'fingerprint' : fingerprint, 'entry': entry}
-        print(data)
+        file = open(filename, 'rb') #Megnyitjuk a képet
+        b64 = base64.b64encode(file.read()) #Átalakítjuk a képet BASE64 formátumúvá
+        data = {'access_token': os.getenv('ACCESS_TOKEN'), 'uid' : uid, 'code' : code, 'fingerprint' : fingerprint, 'entry': entry, 'picture' : b64}
         r = requests.post(URL, json = data)
         j = json.loads(json.dumps(r.json()))
         print(j)
@@ -105,10 +107,7 @@ def TriggerRelay(): #Relét kapcsoló metódus
 
 def TakePhoto(filename): #A fénykép készítésért felelős metódus
     return len(os.popen("fswebcam -q -r 640x480 --no-banner " + filename).read())
-
-def UploadPhoto(filename):
-    print("Ide majd a fotófeltöltés jön, ha a backenden kész lesz a fogadó url....")
-    return len(os.popen("cp " + filename + " /var/www/html/" + filename).read())
+   
 
 """def GetCode(uid): #UID alapján kódot lekérő metódus
     URL = validateUrl + uid
@@ -399,8 +398,6 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                         LcdSendString("Ismeretlen")
                         LcdGoto(1, 0)
                         LcdSendString("Kartya!")
-                        TakePhoto(filename) #Fényképet készítünk a sikertelen próbálkozásokról
-                        UploadPhoto(filename) #Feltöltjük a fényképet
                         time.sleep(1)
                         break
                     else:
@@ -451,7 +448,8 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                             LcdGoto(0, 0)
                             LcdSendString("Hitelesites...")
                             time.sleep(0.2)
-                            if Authenticate(uid, True, code, fingerprint):
+                            TakePhoto(filename) #Képet készítünk az authetikációhoz
+                            if Authenticate(uid, True, code, fingerprint, filename):
                                 #SendLog(uid, 1, 1) #Meghívjuk a logoló metódust
                                 LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                                 LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
@@ -465,8 +463,6 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                                 LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                                 LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
                                 LcdSendString("Elutasitva") #LCD-re írunk
-                                TakePhoto(filename) #Fényképet készítünk a sikertelen próbálkozásokról
-                                UploadPhoto(filename) #Feltöltjük a fényképet
                                 time.sleep(1) #Késleltetünk azért, hogy olvasható legyen a felirat
                                 break
 
