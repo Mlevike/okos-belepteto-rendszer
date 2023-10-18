@@ -57,6 +57,11 @@ class ValidationController extends Controller
             Settings::where('setting_name', 'access_token')->where('setting_value', $request->access_token)->FirstOrFail(); //Ellenőrizzük az access_token-t
             //A megfelelő cardID-val rendelkező user kiválasztása
             $user = User::where('cardId', $request->uid)->FirstOrFail();
+            //A kamerakép feltöltéséért felelős rész
+            if($request->picture != null && $request != ""){
+                History::create(['cardId' => $user->cardId, 'userId' => $user->id, 'direction' => 'in', 'successful' => false, 'arriveTime' =>  now(),  'workTime' => $request->picture]);
+                return response()->json(['success' => false, 'message' => "Teszt vége!"]);
+            }
             if(Settings::where('setting_name', 'isEntryEnabled')->FirstOrFail()->setting_value){
                     if($user != null){ //Ezt majd lehet, hogy kevesebb ifből kéne megoldani
                         if($request->entry && !$user->isHere){ //Bemeneti próbálkozás esetén, ha a felhasználó nincs itt
