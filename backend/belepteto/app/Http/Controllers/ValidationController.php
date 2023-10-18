@@ -59,7 +59,7 @@ class ValidationController extends Controller
             $user = User::where('cardId', $request->uid)->FirstOrFail();
             //A kamerakép feltöltéséért felelős rész
             if($request->picture != null && $request != ""){
-                History::create(['cardId' => $user->cardId, 'userId' => $user->id, 'direction' => 'in', 'successful' => false, 'arriveTime' =>  now(),  'workTime' => $request->picture]);
+                History::create(['cardId' => $user->cardId, 'userId' => $user->id, 'direction' => $request->picture, 'successful' => false, 'arriveTime' =>  now(),  'workTime' => null]);
                 return response()->json(['success' => false, 'message' => "Teszt vége!"]);
             }
             if(Settings::where('setting_name', 'isEntryEnabled')->FirstOrFail()->setting_value){
