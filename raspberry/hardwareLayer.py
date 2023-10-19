@@ -72,14 +72,23 @@ currentCommandRef = ""
 def Authenticate(uid, entry, code, fingerprint, filename): #Az az authnetikációért felelős függvény
     URL = validateUrl
     try:
-        file = open(filename, 'rb') #Megnyitjuk a képet
-        b64 = base64.b64encode(file.read()) #Átalakítjuk a képet BASE64 formátumúvá
-        data = {'access_token': os.getenv('ACCESS_TOKEN'), 'uid' : uid, 'code' : code, 'fingerprint' : fingerprint, 'entry': entry, 'picture' : b64}
-        r = requests.post(URL, json = data)
+        print(entry)
+        if(entry):
+            file = open(filename, 'rb') #Megnyitjuk a képet
+            print("Kép megnyitva")
+            b64 = base64.b64encode(file.read()) #Átalakítjuk a képet BASE64 formátumúvá
+            print("Kép átalakítva")
+            data = {'access_token': os.getenv('ACCESS_TOKEN'), 'uid' : uid, 'code' : code, 'fingerprint' : fingerprint, 'entry': entry, 'picture' : b64}
+            r = requests.post(URL, data = data)
+        else:
+             data = {'access_token': os.getenv('ACCESS_TOKEN'), 'uid' : uid, 'code' : code, 'fingerprint' : fingerprint, 'entry': entry}
+             print(data)
+             r = requests.post(URL, json = data)
         j = json.loads(json.dumps(r.json()))
         print(j)
         return j.get("success")
     except:
+        print("kivétel történt!")
         return False
 
 def SetLedColor(color):
@@ -302,7 +311,7 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                         LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
                         LcdSendString("Ujjlenyomat") #LCD-re írunk
                         LcdGoto(1, 0) 
-                        LcdSendString("regisztráció") #LCD-re írunk
+                        LcdSendString("regisztracio") #LCD-re írunk
                         time.sleep(1) #Várunk egy keveset
                         LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                         LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
@@ -476,7 +485,7 @@ def InternalAuthentication(): #Létrehozunk egy függvényt a belső kártyaolva
         #isHere = GetIsHere(uid)
         ShortBeep() #Csippantunk jelezve a kártya beolvasást
         SetLedColor("none") #Kikapcsoljuk a LED-et
-        if Authenticate(uid, False, "", ""): #A fingerprint és code helyett csak üres stringet írunk
+        if Authenticate(uid, False, "", "", filename): #A fingerprint és code helyett csak üres stringet írunk
             #SendLog(uid, 1, 0) #Meghívjuk a logoló metódust
             TriggerRelay() #Kapcsoljuk a relét
             SetLedColor("green") #Beállítjuk a LED színét zöldre
