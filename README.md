@@ -2,7 +2,7 @@
 Okos, internetre kötött beléptető rendszer Raspberry Pi és Arduino alapokon.
 
 # A rendszer leírása
-A projekt céja egy hálózaton keresztül elérhető beléptető rendszer megvalósítása, amely engedélyezi a regisztrált ügyfelek számára a belépést RFID kártya segítségével. A biztonság növelése érdekében az RFID kártya leovasását követően a felkasználónak meg kell adni a saját 4 karakter hosszú PIN kódját. A sikeres belépést LED-ekkel, illetve egy 16x2-es karakteres LCD kijelzővel szemléltetjük. 
+A projekt céja egy hálózaton keresztül elérhető beléptető rendszer megvalósítása, amely engedélyezi a regisztrált felhasználók számára a belépést RFID kártya segítségével. A biztonság növelése érdekében az RFID kártya leovasását követően a felhasználóknak meg kell adni a saját 4 karakter hosszú PIN kódját és/vagy ujjlenyomat segítségével hitelesíteniük kell magukat. A sikeres belépést LED-ekkel, illetve egy 16x2-es karakteres LCD kijelzővel szemléltetjük. 
 
 # Felhasznált Hardware elemek
 - 1 db Raspberry pi 1b rev.2
@@ -33,7 +33,7 @@ A projekt céja egy hálózaton keresztül elérhető beléptető rendszer megva
 
 # A rendszer telepítése
 
-## A web backend telepítése
+## A web backend telepítése 
 
 ### Docker segítségével
 
