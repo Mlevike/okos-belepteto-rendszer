@@ -117,16 +117,6 @@ Ha ennek az üzenetnek küldjük az adatszerkezetét az olvasó felé, akkor az 
         "key":"sw_rst"
     }
     
-#### Hang lejátszása hangszórón
-
-Ezen üzenet elküldésével, egy tetszőleges frekvenciájú és idejű hangot tudunk lejátszani.
-
-    {     
-        "key": "custom_beep",
-        "frequency": [frekvencia (Hz)],
-        "delay": [időbeli hosszúság (ms)]
-    }
-
 #### Képalkotás ujjlenyomatolvasó használatával
 
 Ezen üzenet elküldésével, egy ujjlenyomatképet tudunk rögzíteni.
