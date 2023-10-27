@@ -6,12 +6,13 @@ A projekt céja egy hálózaton keresztül elérhető beléptető rendszer megva
 
 # Felhasznált Hardware elemek
 - 1 db Raspberry pi 1b rev.2
-- 1 db 4 csatornás relé (MSP430)
+- 1 db SY-12W-K típusú relá
 - 1 db 16x2-es karakteres LCD kijelzővel
 - 1 db 4x4-es gomb mátrix
 - 2 db RFID olvasó (MFRC-522)
-- 1 db Ardiono Nano
+- 1 db Arduino Nano
 - 1 db 3,3-5V szintillesztő
+- 1 db TM1650 típusú billenytűzet vezérlő IC
 - 1 db RGB LED
 - 2 db Csipogó hangszóró
 - Egyéb kisebb alkatrészek

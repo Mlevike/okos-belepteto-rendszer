@@ -108,24 +108,6 @@ void ShortBeep(){ //A rövid csippanásért felelős metódus
   }
 }
 
-/*void LongBeep(){ //A hosszú csippanásért felelős metódus
-  if(!MUTED){ //Akkor működjön csak, ha a MUTED értéke false
-  pinMode(BUZZER_PIN, OUTPUT); //Kimeneti pin beálltása
-  tone(BUZZER_PIN, BUZZER_FREQUENCY); //Hang generálása
-  delay(LONG_TIME); //Várakozás SHORT_TIME időtartamnyit
-  noTone(BUZZER_PIN); //Hang generálásának befejezése
-  }
-}*/
-
-/*void CustomBeep(int freq, int delayedTime){ //Egyenlőre memóriatakarékosság miatt megjegyzésbe téve
-  if(!MUTED){
-  pinMode(BUZZER_PIN, OUTPUT);
-  tone(BUZZER_PIN, freq);
-  delay(delayedTime);
-  noTone(BUZZER_PIN);
-  }
-}*/
-
 void LcdGoto(int row, int column){ //Az LCD-n adott pozicióra ugrásért felelő metódus
   if(row == 0){
     myLCD.PCF8574_LCDGOTO(myLCD.LCDLineNumberOne, column); //Pozicióra ugrás, ha row == 0
@@ -248,9 +230,6 @@ void loop(){
         tx.clear(); //Töröljük a json adatszerkezet tartalmát, mert már nincs szükségünk rá!
       }
 
-      /*if(rx["k"] == "custom_beep"){
-        CustomBeep(rx["frequency"], rx["delay"]);
-      }*/
       if(rx["key"] == "lcd_goto"){
         LcdGoto(rx["row"], rx["column"]);
       }
