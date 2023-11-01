@@ -32,8 +32,8 @@ A projekt céja egy hálózaton keresztül elérhető beléptető rendszer megva
 # A rendszer hardveres felépítése
 A rendszer két egymástól jól elkülöníthető, ugyanakkor összekapcsolt hardveres részből áll, melyek a következők:
 
-- A Rasperry Pi, illetve a hozzákapcsolt hardvare elemek, melynek feladata a teljes rendszert vezérlő Python alapú program futtatása, illetve a belső, a felhasználók kiengedéséért felelős RFID kártyaolvasó működtetése.
 - Az Arduino mikrovezérlőre épülő, melynek felafata a felhasználók beengedéséért felelős külső RFID olvasó, illetve a hozzá tartozó LCD kijelző, ujjlenyomat olvasó, és számbillentyűzet vezérlése.
+- A Rasperry Pi, illetve a hozzákapcsolt hardvare elemek, melynek feladata a teljes rendszert vezérlő Python alapú program futtatása, illetve a belső, a felhasználók kiengedéséért felelős RFID kártyaolvasó működtetése.
 
 A kettő rendszer UART soros interfésszel kommunikál egymással, amely megvalósításához szükséges egy 3,3V-5V szintillesztő áramkör.
 
@@ -54,7 +54,7 @@ A kommunikáció a központi egység és a külső olvasó között soros interf
 
 ### Az olvasó nyomtatott áramköri lap terve
 
-![Az olvasó nyomtatott áramköri lap terve](arduino/pcb/belepteto_cropped.jpg)
+![Az olvasó nyomtatott áramköri lap terve](arduino/pcb/belepteto.JPG)
 
 ### Az új ujjlenyomat felvételének folyamata
 
@@ -196,29 +196,102 @@ Ezen üzenet elküldésével, egy ujjlenyomat modelt tudunk tárolni.
         "key": "fp_search",
     }
 
+## A Raspberry Pi alapú belső olvasó
+
+A Raspberry Pi alapú belső olvasó egy Raspbery Pi 1 rev.2 miniszámítógépen alapul, mely futtat egy Python 3 nyelven írt programot, ami a felhasználók PHP backendenden történő hitelesítéséért felel. Ez a program vezérli a külső olvasót is JSON adatszerkezetek segítségével.
+
+### Az olvasó kapcsolási rajza (Csatlakozók nélkül)
+
+![Beléptető belső olvasó kapcsolási rajza](raspberry/fritzing/belepteto_rpi_schem.jpg)
+
+### Az olvasó nyomtatott áramköri terve
+
+![Beléptető belső olvasó nyomtatott áramköri terve](raspberry/pcb/belepteto_rpi.jpg)
+
+# A rendszer szoftveres felépítése
+
+A rendszer szoftveresen a következő három részből áll:
+ - Laravel PHP keretrendszer alapú webalkalmazás: Ez a web alkalmazás felelős a felhasználók hitelesítéséért, illetve a webes adminfelületért.
+ - A belső olvasón futtatandó Python nyelvű program: Ez felelős a felhasználók hitelesítéssért, illetve az RFID olvasók vezérlésséért.
+- Az Arduino Mikrokontrolleren futtatot kód: Ezt a programot vezérli a Python kód és ezáltal a mikrovezérlőre kapcsolt LCD kijelzőt, kódbillentyűzetet és RFID olvasót éri el.
+
+## A Laravel PHP keretrendszer alapú webalkalmazás
+
+### A projekt adatbázis modelljének felépítése
+#### History model
+
+A History model a következő attribútumokat tartalmazza:
+- arriveTime: A felhasználó beléptetőrenszeren keresztüli objektumba való belépésének időpontja.
+- successful: A felhasználó objektumba történő belépésének sikersségét rögzítő attribútum.
+- leaveTime: A felhasználó beléptetőrenszeren keresztüli objektumból való kilépésének időpontja.
+- workTime: A felhasználó objetumban töltött ideje, az arriveTime és leaveTime különbsége.
+- direction: A ki/be léptetés iránya.
+- userId: Az érintett felhasználó azonosítója.
+- cardId: A belépéshez használt kártya azonosítója.
+
+#### User model
+
+A User model a következő attribútumokat tartalmazza:
+- name: Az érintett felhasználó neve.
+- picture: Az érintett felhasználó profilképe.
+- code: Az érintett felhsználó belépési kódja.
+- fingerprint: Az érintett felhasználó ujjlenyomata.
+- language: Az érintett felhasználó nyelvi beállítása.
+- profile: Az adott felhasználó profilja.
+- role: Az adott felhasználó jogosultásgi szintje, szerepköre.
+- isEntryEnabled: Az adott felhasználó rendelkezik-e az objektumba történő belépés jogosultsággával?
+- email: Az érintett felhasználó email címe.
+- password: Az érintett felhasználó jelszava titkosítva.
+- remember_token: A felhasználó megjegyzéséért felelős token a Laravel keretrendszerben.
+- cardId: Az érintett felhasználó beléppését biztosító kártya azonosítója.
+- isHere: A felhasználó ittlétét tároló attribútum.
+- email_verified_at: Az email cím visszaigazolásának időpontja.
+
+#### Settings model
+
+A Settings model a következő attribútumokat tartalmazza:
+- setting_name: A beállítás neve.
+- setting_value: A beállítás értéke.
 
 
+### A projektben használt útvonalak
+- `/`: Az oldal kiindulópontja, a dashboard.blade.php nézetet hívja meg. (Ideiglenesen át van írányítva a /users-re)
+- `/logs`: Az oldalon, illetve a beléptetés során történő esetleges események visszanézhetőségét biztosító oldal, a logs.blade.php nézetet hívja meg.
+- `/users`: Az oldal felhasználó kezezelését biztosító oldala, az UsersViewController index() metódusát hívja meg.
+- `/users/add`: Az oldal felhasználók hozzáadását biztosító oldala, az UsersViewController add() metódusát hívja meg.
+- `/users/edit/{userId}`: Az oldal felhasználók módosítását biztosító oldala, az UsersViewController edit() metódusát hívja meg.
+- `/users/delete/{userId}`: Az oldal felhasználók hozzáadását biztosító oldala, az UsersViewController delete() metódusát hívja meg.
+- `/current`: A legutóbbi belépési kísérletet mutató nézet elérési útja.
+- `/api/validation/validate`: Az authentikációra szolgáló útvonal, a ValidationController validate() metódusát hívja meg.
+- `/api/validation/get-methods`: Az authentikációs metódusokat lekérdezó útvonal, a ValidationController getMethods() metódusát hívja meg.
+- `/log`: Egy adott belépési kísérlet sikerességének mentésére szolgló útvonal.
+- `/setup`: Majd az eszköz beállításra fog szolgálni, de még fejlesztés alatt..
 
-# A rendszer telepítése
+### A projektben használt Laravel Controllerek
+- UsersViewController: A felhasználókkal kapcsolatos műveletekért felelős vezérlő.
+- ValidationController: Az authentikációért felelős vezérlő.
 
-## A web backend telepítése 
+### A web backend telepítése Docker segítségével
 
-### Docker segítségével
+0. Telepítsd a Docker Desktop alkalmazást, amennyiben nem található meg a számítógépeden, az alkalmazás innen tölthető le [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)
 
-1. Lépj a projekt `/backend/.docker` mappájába!
-2. A megfelelő docker konténerek telepítéséhez add ki a következő parancsot:
+1. Indítsd el a Docker Desktop alkalmazást amennyiben nem futna.
+
+2. Lépj a projekt `/backend/.docker` mappájába!
+
+3. A megfelelő docker konténerek telepítéséhez add ki a következő parancsot:
 ```
 docker-compose up
 ```
-3. A `/backend` mappában a Docker Desktop segítségével futtasd a következő parancsot az adatbázis migrációk alkalmazásához:
+4. A `/backend` mappában a Docker Desktop segítségével futtasd a következő parancsot az adatbázis migrációk alkalmazásához:
 ```
 php artisan migrate
 ```
-4. Hozzuk létre a kezdeti beállításokat a következő paranccsal:
+5. Hozzuk létre a kezdeti beállításokat a következő paranccsal:
 ```
 php artisan app:generate-default-settings
 ```
-4. Hozzuk létre a kezdeti felhasználót a következő paranccsal:
+6. Hozzuk létre a kezdeti felhasználót a következő paranccsal:
 ```
 php artisan app:create-first-user
 ```
@@ -226,21 +299,40 @@ php artisan app:create-first-user
   - email: admin@admin.com
   - jelszó: jelszo
 
+**Megjegyzés:** Amennyiben a helyi, fejlesztői gépen futtatod a Laravel keretrendszert, abban az esetben a sikeres telepítést követően a következő címen lesz elérhető az oldal: `127.0.0.1:8000`.
+
 # Felhasznált software eszközök
+
+## A projekt frontendjének kialakítására használt külső könyvtárak
+- https://github.com/lipis/flag-icons
+- Bootstrap
+- Bootstrap icons
+
+## A projekt során használt Laravel modulok
+- laravel/fortify a felhasználók webes felületen történő hitelesítéséhez.
+- yoeriboven/laravel-log-db az adatbázisban történő logoláshoz.
+
+
+
+## Az Arudino programhoz felhasznált külső könyvtárak:
+
+- Arduino Keypad library - https://playground.arduino.cc/Code/Keypad/
+- HD44780_LCD_PCF8574 i2c LCD controller library - https://github.com/gavinlyonsrepo/HD44780_LCD_PCF8574
+- MFRC522v2 library - https://github.com/OSSLibraries/Arduino_MFRC522v2
+- ArdunioJSON - https://arduinojson.org/
+- Adafruit fingerprint libary - https://github.com/adafruit/Adafruit-Fingerprint-Sensor-Library
+
+
 
 - A Raspberry Pi-n található vezérlő szoftvert Python programozási nyelv segítségével fejlesztettük le, ez a szoftver kommunikál a Laravel alapú PHP backenddel REST API segítségével.
 - pip
 - gpio
 - phpmyadmin
-- Az Arudino programhoz felhasznált külső könyvtárak:
 
-  - Arduino Keypad library - https://playground.arduino.cc/Code/Keypad/
-  - HD44780_LCD_PCF8574 i2c LCD controller library - https://github.com/gavinlyonsrepo/HD44780_LCD_PCF8574
-  - MFRC522v2 library - https://github.com/OSSLibraries/Arduino_MFRC522v2
-  - ArdunioJSON - https://arduinojson.org/
-  - Adafruit fingerprint libary - https://github.com/adafruit/Adafruit-Fingerprint-Sensor-Library
 
   A Python-hoz használt külső könyvtárak:
-
   - pyserial
+
+  ## A dokumentáció írása során felhasznált források
+- [https://hub.docker.com/r/bitnami/laravel](https://hub.docker.com/r/bitnami/laravel)
 
