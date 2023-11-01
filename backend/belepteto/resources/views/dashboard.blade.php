@@ -117,9 +117,15 @@
                     @foreach($systemSideOperations as $current)
                         <tr>
                             <td>{{$current->id}}</td>
-                            <td>{{$current->name}}</td>
+                            <td>
+                                @if($current->name == 'register_fingerprint')
+                                    {{ __('site.register_fp') }}
+                                @else
+                                    {{$current->name}}
+                                @endif
+                            </td>
                             <td>{{$current->options}}</td>
-                            <td>{{$current->operation_state}}</td>
+                            <td>{{ __('site.operation_state_'.$current->operation_state)}}</td>
                             <td>{{$current->sent_time}}</td>
                             <td>
                                 @if($current->operation_state == 'created')
