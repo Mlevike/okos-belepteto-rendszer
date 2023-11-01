@@ -117,7 +117,7 @@
                     @foreach($systemSideOperations as $current)
                         <tr>
                             <td>{{$current->id}}</td>
-                            <td>
+                            <td style="white-space: nowrap">
                                 @if($current->name == 'register_fingerprint')
                                     {{ __('site.register_fp') }}
                                 @else
