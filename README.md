@@ -46,23 +46,23 @@ A kommunikáció a központi egység és a külső olvasó között soros interf
 
 ### Az olvasó felépítése (Csatlakozók nélkül)
 
-![Beléptető külső olvasó felépítése](../documentation/images/belepteto_bb.jpg)
+![Beléptető külső olvasó felépítése](documentation/images/belepteto_bb.jpg)
 
 ### Az olvasó kapcsolási rajza (Csatlakozók nélkül)
 
-![Beléptető külső olvasó kapcsolási rajza](../documentation/images/belepteto_schem.jpg)
+![Beléptető külső olvasó kapcsolási rajza](documentation/images/belepteto_schem.jpg)
 
 ### Az olvasó nyomtatott áramköri lap terve
 
-![Az olvasó nyomtatott áramköri lap terve](../arduino/pcb/belepteto_cropped.jpg)
+![Az olvasó nyomtatott áramköri lap terve](arduino/pcb/belepteto_cropped.jpg)
 
 ### Az új ujjlenyomat felvételének folyamata
 
-![Az új ujjlenyomat felvételének folyamata](../documentation/images/fp_enroll_process.jpg)
+![Az új ujjlenyomat felvételének folyamata](documentation/images/fp_enroll_process.jpg)
 
 ### Az ujjlenyomat keresésének folyamata
 
-![Az ujjlenyomat keresésének folyamata](../documentation/images/fp_search_process.jpg)
+![Az ujjlenyomat keresésének folyamata](documentation/images/fp_search_process.jpg)
 
 ### A külső olvasó kommunikációja a központi egységgel
 
