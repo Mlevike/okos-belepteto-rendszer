@@ -24,6 +24,7 @@ A projekt céja egy hálózaton keresztül elérhető beléptető rendszer megva
 - 1 db Arduino Nano
 - 1 db 3,3-5V szintillesztő
 - 1 db TM1650 típusú billenytűzet vezérlő IC
+- 1 db AS-608 típusú ujjlenyomat olvasó
 - 1 db RGB LED
 - 2 db Csipogó hangszóró
 - Egyéb kisebb alkatrészek
