@@ -317,13 +317,11 @@ php artisan app:create-first-user
 
 ## Az Arudino programhoz felhasznált külső könyvtárak:
 
-- Arduino Keypad library - https://playground.arduino.cc/Code/Keypad/
 - HD44780_LCD_PCF8574 i2c LCD controller library - https://github.com/gavinlyonsrepo/HD44780_LCD_PCF8574
 - MFRC522v2 library - https://github.com/OSSLibraries/Arduino_MFRC522v2
 - ArdunioJSON - https://arduinojson.org/
-- Adafruit fingerprint libary - https://github.com/adafruit/Adafruit-Fingerprint-Sensor-Library
-
-
+- Adafruit fingerprint libary - https://github.com/adafruit/Adafruit-Fingerprint-Sensor-Library/
+- TM16xx libary - https://github.com/maxint-rd/TM16xx/
 
 - A Raspberry Pi-n található vezérlő szoftvert Python programozási nyelv segítségével fejlesztettük le, ez a szoftver kommunikál a Laravel alapú PHP backenddel REST API segítségével.
 - pip
