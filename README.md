@@ -38,6 +38,17 @@ A rendszer két egymástól jól elkülöníthető, ugyanakkor összekapcsolt ha
 
 A kettő rendszer UART soros interfésszel kommunikál egymással, amely megvalósításához szükséges egy 3,3V-5V szintillesztő áramkör.
 
+A két eszköz összekötéséért felelős kábel bekötése:
+
+| A lábel színe és vastagsága | Funkciója                | Bekötése az Arduino mikrovezérlőn | Bekötése a Raspberry Pi miniszámítógépen | Megjegyzés                                                                                   |
+| --------------------------- | ------------------------ | --------------------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------   |
+| Vörös / Vastag              | 5V táp                   | VIN (30)                          | 5V                                       |                                                                                              |
+| Fekete / Vastag             | Közös föld               | GND                               | GND                                      |                                                                                              |
+| Vörös / Vékony              | NINCS BEKÖTVE            | -                                 | -                                        |                                                                                              |
+| Fehér / Vékony              | NINCS BEKÖTVE            | -                                 | -                                        |                                                                                              |
+| Zöld / Vékony               | Bejövő UART adatforgalom | TX (1)                            | RxD / GPIO 16 (10)                       | A Raspberry Pi felől nézve, 3,3-5V szintillesztőn keresztül a Rasperry Pi védelme érdekében. |
+| Sárga / Vékony              | Kimenő UART adatforgalom | RX (2)                            | TxD / GPIO 15 (8)                        | A Raspberry Pi felől nézve, 3,3-5V szintillesztőn keresztül a Rasperry Pi védelme érdekében. |
+
 ## Az Arduino alapú külső olvasó
 
 ### Az külső olvasó rövid leírása
