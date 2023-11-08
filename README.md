@@ -56,6 +56,25 @@ A két eszköz összekötéséért felelős kábel bekötése:
 A külső olvasó egy Arduino mikrokontroller által vezérelt panel, amelyre csatlakozik a 1602-es LCD kijelző, a kódbillentyűzet, a kártyaolvasó, illetve egy kis hangszóró, amely segítségével a felhasználónak visszajelzést adhatunk a kártya beolvasása során.
 A kommunikáció a központi egység és a külső olvasó között soros interfészen valósul meg, az Ardunio, illetve a Raspberry Pi megfelelő lábainak felhasználásával, illetve egy szintillesztő modul közbeikatatásával. A szintillesztő modulra azért van szükség, mert az Arduino a kommunikáció során 5V-os jelszintet használ, míg a Raspberry Pi 3,3V-osat, ezért ha két eszközt közvetlenül csatlakozatnánk, akkor Rasberry Pi károsodna.
 
+### A külső olvasót tartalmazó PCB kivezetései (táblázat)
+
+| Csatlakozás megnevezése                | A panel/mikrovezérlő kivezetése | A panelhez csatlakozó modul kivezetése | Megjegyzés |
+| -------------------------------------- | ------------------------------- | -------------------------------------- | ---------- |
+| LCD A kijelző adat kábelei             | A4 (23)                         | SDA                                    |            |
+|                                        | A5 (24)                         | SCL                                    |            |
+| LCD kijelző táp kábelei                | 5V                              | VCC                                    |            |
+|                                        | GND                             | GND                                    |            |
+| MFRC-522 RFID olvasó adat kábelei      | D10 (13)                        | SDA                                    |            |
+|                                        | D11 (14)                        | MOSI                                   |            |
+|                                        | D12 (15)                        | MISO                                   |            |
+|                                        | D13 (16)                        | SCK                                    |            |
+| MFRC-522 RFID olvasó táp kábelei       | 3,3V                            | 3,3V                                   |            |
+|                                        | GND                             | GND                                    |            |
+| AS-608 ujjlenyomat olvasó adat kábelei | D2 (5)                          | TX                                     |            |
+|                                        | D3 (6)                          | RX                                     |            |
+| AS-608 ujjlenyomat olvasó táp kábelei  | 3,3V                            | VCC                                    |            |
+|                                        | GND                             | GND                                    |            |
+
 ### Az olvasó felépítése (Csatlakozók nélkül)
 
 ![Beléptető külső olvasó felépítése](documentation/images/belepteto_bb.jpg)
@@ -211,6 +230,17 @@ Ezen üzenet elküldésével, egy ujjlenyomat modelt tudunk tárolni.
 ## A Raspberry Pi alapú belső olvasó
 
 A Raspberry Pi alapú belső olvasó egy Raspbery Pi 1 rev.2 miniszámítógépen alapul, mely futtat egy Python 3 nyelven írt programot, ami a felhasználók PHP backendenden történő hitelesítéséért felel. Ez a program vezérli a külső olvasót is JSON adatszerkezetek segítségével.
+
+### A belső olvasót tartalmazó PCB kivezetései (táblázat)
+
+| Csatlakozás megnevezése                | A panel/miniszámítógép kivezetése | A panelhez csatlakozó modul kivezetése | Megjegyzés |
+| -------------------------------------- | --------------------------------- | -------------------------------------- | ---------- |
+| MFRC-522 RFID olvasó adat kábelei      | MOSI/GPIO10 (19)                  | MOSI                                   |            |
+|                                        | MISO/GPIO9 (21)                   | MISO                                   |            |
+|                                        | SCLK/GPIO11 (23)                  | SCK                                    |            |
+|                                        | CE0/GPIO8 (24)                    | SDA                                    |            |
+| MFRC-522 RFID olvasó táp kábelei       | 3,3V                              | 3,3V                                   |            |
+|                                        | GND                               | GND                                    |            |
 
 ### Az olvasó kapcsolási rajza (Csatlakozók nélkül)
 
