@@ -92,6 +92,9 @@
                     }]
              },
                     options: {
+                        animation: {
+                            duration: 0
+                        },
                     title: {
                         display: true,
                         text: "{{__('site.users_currently_in')}}"
