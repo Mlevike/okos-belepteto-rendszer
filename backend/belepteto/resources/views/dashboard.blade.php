@@ -3,8 +3,7 @@
 <!--Ebben a fájlban található a vezérlőpult nézet sablonja.-->
 <head>
 @include('head')
-    <script src=" https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js ">
-    </script>
+    <script src=" https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js "></script>
     <script type="text/javascript">
         function triggerNewTokenDialog(){ //A törlés megerősítésére szolgáló dialog megjelenítése
             $('#newTokenDialog').modal('show')
@@ -42,27 +41,18 @@
             fetchDashboard();
         },5000)
 
-      /*  function handleShowUsedClick(){ //A már használt ID-k megjelenítésére szolgáló metódus
-            const used = document.querySelectorAll('used-fp-id');
-            if(document.querySelector('#showUsed').checked){
-                console.log("Eljut idáig");
-                used.forEach(current => {
-                    current.style.display = "block";
-                });
+        function checkFingerprintID(){
+            let usedIDs = @json($usedFingerprintIDs); //Átalakítjuk JSON tömbbé a JS miatt
+            let id = document.getElementById("fingerID").value;
+            if(usedIDs.includes(id)){
+                $('#fpRecordDialog').modal('hide');
+                $('#fpDuplicateWarnDialog').modal('show');
             }else{
-                console.log("Idáig is");
-                used.forEach(current => {
-                    current.prop('disabled', true);
-                });
-                console.log("Ez is lefut...")
+                $('#fpRecordDialog').modal('hide');
+                document.getElementById("fingerprintRecordForm").submit();
             }
-        }/* /*Egyenlőre ez nem használjuk*/
+        }
     </script>
-    <style>
-        /*.used-fp-id{
-            display: none;
-        }*/
-    </style>
 </head>
 <body {{$current_user->darkMode ? 'data-bs-theme=dark' : ''}} onload="fetchIDS()">
 @include('header', ['current_user'=>$current_user])
@@ -76,7 +66,7 @@
             </div>
             <script>
                 var xValues = ["{{__('site.here')}}", "{{__('site.left')}}"];
-             var yValues = [{{$here}}, {{$notHere}}];
+                var yValues = [{{$here}}, {{$notHere}}];
                 var barColors = [
                  "#00aba9",
                  "#b91d47",
@@ -212,22 +202,38 @@
 <div class="modal fade" id="fpRecordDialog" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <form action="{{ route('start-fp-registration')}}">
+            <form id="fingerprintRecordForm" action="{{ route('start-fp-registration')}}">
             <div class="modal-header">
                 <h5 class="modal-title" id="idDeleteDialogTitle">{{ __('site.register_FP_manually') }}</h5>
             </div>
             <div class="modal-body">
-                <label class="mr-sm-2" for="inlineFormCustomSelect">Ujjlenyomat ID: </label>
-                    @foreach($usedFingeprintIDs as $i)
-                    <p>{{ $i }}</p>
-                    @endforeach
+                <div class="form-group">
+                    <label class="mr-sm-2" for="inlineFormCustomSelect">Ujjlenyomat ID: </label>
                     <input id="fingerID" name="fingerID" type="number">
+                </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" type="submit" value="Submit">{{ __('site.record') }}</button>
+                <input type="button" class="btn btn-primary" id="recordFingerprintButton" value="{{ __('site.record') }}" onclick="checkFingerprintID()">
                 <a type="button" class="btn btn-secondary" onclick="$('.modal').modal('hide')">{{ __('site.back') }}</a>
             </div>
             </form>
+        </div>
+    </div>
+</div>
+<!--A már felvett ujjlenyomatra figyelmeztető dialógus -->
+<div class="modal fade" id="fpDuplicateWarnDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="idDeleteDialogTitle">{{ __('site.confirmation' ) }}</h5>
+                </div>
+                <div class="modal-body">
+                    <p>A regisztrálni kívánt ujjlenyomat azonosító már használatban van, biztos folytatja a műveletet?</p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-primary" id="recordFingerprintButton" value="{{ __('site.record') }}" onclick=document.getElementById("fingerprintRecordForm").submit();>
+                    <a type="button" class="btn btn-secondary" onclick="$('.modal').modal('hide'); $('#fpRecordDialog').modal('show');">{{ __('site.back') }}</a>
+                </div>
         </div>
     </div>
 </div>

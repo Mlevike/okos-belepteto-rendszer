@@ -36,11 +36,10 @@ class DashboardController extends Controller
                         $notHere++;
                     }
                 }
-                if ($user->fingerprint != null && $user->fingerprint != "") {
-                    array_push($usedFingerprintIDs, $user->fingeprint);
-                }
+                if($user->fingerprint)
+                array_push($usedFingerprintIDs, $user->fingerprint);
             }
-            return view('dashboard', ['current_user' => $current_user, 'here' => $here, 'notHere' => $notHere, 'isEntryEnabled' => $isEntryEnabled, "isExitEnabled" => $isExitEnabled, "hash" => $hash, "systemSideOperations" => $systemSideOperations, "usedFingeprintIDs" => $usedFingerprintIDs]); //Ez lehet, hogy csak ideiglenes megooldás lesz
+            return view('dashboard', ['current_user' => $current_user, 'here' => $here, 'notHere' => $notHere, 'isEntryEnabled' => $isEntryEnabled, "isExitEnabled" => $isExitEnabled, "hash" => $hash, "systemSideOperations" => $systemSideOperations, "usedFingerprintIDs" => $usedFingerprintIDs]); //Ez lehet, hogy csak ideiglenes megooldás lesz
         }else{
             return view('error', [ 'errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users'), 'current_user' => $current_user]); //Ez majd lehet, hogy máshová irányít át később
         }
