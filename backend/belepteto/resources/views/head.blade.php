@@ -10,3 +10,8 @@
 <title>
     {{ __('site.entry_system') }}
 </title>
+<script> <!--Inicialiáljuk a tooltip-eket mindenhol az oldalon-->
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
