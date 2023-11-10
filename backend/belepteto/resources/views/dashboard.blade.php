@@ -217,17 +217,11 @@
                 <h5 class="modal-title" id="idDeleteDialogTitle">{{ __('site.register_FP_manually') }}</h5>
             </div>
             <div class="modal-body">
-                <label class="mr-sm-2" for="inlineFormCustomSelect">Ujjlenyomat ID</label>
-                    <select class="custom-select mr-sm-2" id="fingerID" name="fingerID">
-                    <!--Körbeiteráljuk az összes ujjlenyomat ID-t -->
-                        @for($i = 1; $i <= 127; $i++)
-                        <option value="{{$i}}">{{$i}}</option>
-                        @endfor
-                    </select>
-                <div class="custom-control custom-checkbox mr-sm-2">
-                    <input type="checkbox" class="custom-control-input" id="showUsed">
-                    <label class="custom-control-label" for="showUsed">Mutassa a már felhasználtakat is</label>
-                </div>
+                <label class="mr-sm-2" for="inlineFormCustomSelect">Ujjlenyomat ID: </label>
+                    @foreach($usedFingeprintIDs as $i)
+                    <p>{{ $i }}</p>
+                    @endforeach
+                    <input id="fingerID" name="fingerID" type="number">
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" type="submit" value="Submit">{{ __('site.record') }}</button>
