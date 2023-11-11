@@ -21,7 +21,7 @@
             <th>{{ __('site.arriveTime') }}</th>
             <th>{{ __('site.leaveTime') }}</th>
             <th>{{ __('site.picture') }}</th>
-            <!--<th>{{ __('site.workTime') }}</th>-->
+            <<th>{{ __('site.workTime') }}</th>
         </thead>
         <tbody>
     @foreach($history as $current)
@@ -52,7 +52,7 @@
                 @else
                     <td></td>
                 @endif
-                <!-- <td>{{$current->workTime}}</td> --> <!--Ideiglenesen elrejtve -->
+                <td>{{$current->workTime}}</td>
             </tr>
     @endforeach
         </tbody>

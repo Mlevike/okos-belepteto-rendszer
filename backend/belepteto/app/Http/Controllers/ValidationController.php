@@ -101,8 +101,14 @@ class ValidationController extends Controller
                             }
                         }else if(!$request->entry && $user->isHere){ //Kimeneti próbálkozás esetén, ha a felhasználó itt van
                             $user->isHere = false;
+                            $entry = History::where('direction', '=', 'in')->where('userId', '=', $user->id)->where('successful', '=', true)->orderBy('created_at', 'desc')->first();; //Lekérdezzük az adott felhaszbáló utolsó sikeres belépési kísérletét
+                            $worktime = null;
+                            if($entry != null){
+                                //A bent tartózkodás idejét számoló rész, a későbbiekben ezt még lehet finomítani
+                                $worktime = ((time() - strtotime($entry->arriveTime)) / 3600);
+                            }
                             $user->save(); //Mentjük az user objektumot
-                            History::where('cardId', $user->cardId)->where('successful', true)->latest()->firstOrFail()->update(['leaveTime' => now()]); //Frissítjük a távozás időpontját
+                            History::where('cardId', $user->cardId)->where('successful', true)->latest()->firstOrFail()->update(['leaveTime' => now(), 'workTime' => $worktime]); //Frissítjük a távozás időpontját
                             return response()->json(['success' => true, 'message' => "Sikeres kiléptetés!"]);
                         }else{
                             $history = History::create(['cardId' => $user->cardId, 'userId' => $user->id, 'direction' => $request->entry ? 'in' : 'out', 'successful' => false, 'arriveTime' =>  now(),  'workTime' => null, 'picture' => null]);
