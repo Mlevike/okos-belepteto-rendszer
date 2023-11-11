@@ -34,6 +34,7 @@ return [
     'name' => "Név",
     'no' => "Nem",
     'no_script' => "Az oldal megfelelő működése érdekében kérem kapcsolja be a JavaScriptet!",
+    'no_password_match' => "A megadott jelszavak nem egyeznek!",
     'newToken' => "Új hozzáférési token létrehozva",
     'newTokenText' => "Alább látható az új hozzáférési token, ezt fel kell írni, mert csak most látható:",
     'picture' => "Kép",

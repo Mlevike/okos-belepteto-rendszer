@@ -2,15 +2,35 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <!--Ebben a fájlban található a logok nézet sablonja.-->
 <head>
-@include('head') <!--Be includoljuk a bootstrap hivatkozásokat és más könyvtárakat behivatkozó blade templatet-->
+    @include('head') <!--Be includoljuk a bootstrap hivatkozásokat és más könyvtárakat behivatkozó blade templatet-->
+    <script>
+        function ShowErrorMessage(message){ //A hibaüzenetek megjelenítéséért felelős függvény
+            let errorMessage = document.getElementById("error-message"); //Létehozunk egy változót a div objekzum tárolására
+            errorMessage.innerText = message; //Beállítjuk a hibaüzenet szövegét
+            errorMessage.style.display = "block"; //Beállítjuk a hibaüzenet láthatóságát
+            document.body.scrollTop = document.documentElement.scrollTop = 0; //Visszatekerjük az csúszkát az oldal tetejére, hogy biztosan láthassuk s hibaüzenetet!
+        }
+
+        function ValidateForm(){ //Az űrlap frontenden történő ellenőrzésére szolgáló függvény
+            //Létrehozunk változókat a form mezőinek
+            let password = document.getElementById("password").value;
+            let password_again = document.getElementById("password_again").value;
+            if(password !== password_again){ //Ha a megadott két jelszó nem egyezik meg
+                ShowErrorMessage("{{ __('site.no_password_match') }}"); //Megjelenítjük a hibaüzenetet
+            }else{ //Ha minden adat stimmelt a formon..
+                document.getElementById("user-edit-form").submit(); //..akkor elküldjük a formot a szerverre
+            }
+        }
+    </script>
 </head>
 <body {{$current_user->darkMode ? 'data-bs-theme=dark' : ''}}>
 @include('header') <!--Be include-oljuk a menüt tartalmazó blade templatet -->
+<div class="alert alert-danger mx-2" role="alert" id="error-message" style="display: none"> <!-- Hibák esetén megjelenő üzenet -->
+</div>
 <main class="p-2">
     <h1>{{$user != null ?  __('site.editUser')  :  __('site.addUser') }}</h1>
-        <p>{{ session('status') }}</p>
         <!--A felhasználó szerkesztésére szolgáló form-->
-        <form action="" method="post" enctype=multipart/form-data> <!-- Létrehozunk egy formot a felhasználük adatainak szerkesztéséhez-->
+        <form action="" method="post" enctype=multipart/form-data id="user-edit-form"> <!-- Létrehozunk egy formot a felhasználük adatainak szerkesztéséhez-->
             @csrf
             <label for="name">{{ __('site.name') }}:* </label>
             <input type="text" class="form-control" id="name" placeholder="Kis Géza" name="name" value="{{ $user != null ? $user->name : '' }}" required autofocus>
@@ -78,12 +98,19 @@
             <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" value="{{$user != null ? $user->email : ''}}" required>
             <label for="password">{{ __('auth.password') }}:* </label>
             <input type="password" class="form-control" id="password" name="password" placeholder="********" {{$user == null ? 'reguired' : ''}}>
+            <label for="password_again">{{ __('auth.password_again') }}:* </label>
+            <input type="password" class="form-control" id="password_again" name="password_again" placeholder="********" {{$user == null ? 'reguired' : ''}}>
             <label for="cardId">{{ __('site.cardId') }}: </label>
             <input type="text" class="form-control" id="cardId" name="cardId" value="{{$user != null ? $user->cardId : ''}}">
-            <button type="submit" class="btn btn-primary mt-2 mb-2"  >{{$user != null ?  __('site.editUser')  :  __('site.addUser') }}</button>
+            <a type="button" class="btn btn-primary mt-2 mb-2" onclick="ValidateForm()" >{{$user != null ?  __('site.editUser')  :  __('site.addUser') }}</a>
             <a type="button" class="btn btn-danger mt-2 mb-2" href="javascript:history.back()" role="button">{{ __('site.cancel') }}</a> <!--Erre majd kell Laraveles megoldás is-->
         </form>
 </main>
+<script>
+    @if(session('status') != null && session('status') != "") //A backendről értkeő hibák kijelzése, azért ide került, hogy az oldal betöltése után jöjjön be és így nem lesz hiba, mert nem találja azokat!
+    ShowErrorMessage("{{ session('status') }}");
+    @endif
+</script>
 </body>
 @include('footer')
 </html>

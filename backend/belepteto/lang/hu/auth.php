@@ -20,6 +20,7 @@ return [
     'throttle' => 'Túl sok bejelentkezési kísérlet. Kérlek próbáld újra :seconds másodperc múlva!',
     'login' => 'Bejelentkezés',
     'logout' => 'Kijelentkezés',
+    'password_again' => "Jelszó megint",
     'please_login' => 'Kérlek jelentkezz be!',
     'remember' => 'Jegyezz meg',
     'password' => 'Jelszó',
