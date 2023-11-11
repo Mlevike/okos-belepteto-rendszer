@@ -28,7 +28,7 @@
     <tbody>
 
     @foreach($users as $user)
-        <tr onclick="window.location='{{ route('users-show', [$userId = $user->id]) }}'" style="cursor: pointer;">
+        <tr onclick="window.location='{{ route('users-show', [$userId = $user->id]) }}'" style="cursor: pointer;" title="{{ __('site.show_users_details') }}" >
             <td>{{$user->id}} </td>
             <td>{{$user->name}} </td>
             <td>

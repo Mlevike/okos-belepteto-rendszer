@@ -48,7 +48,7 @@
                 <td>{{$current->arriveTime}}</td>
                 <td>{{$current->leaveTime}}</td>
                 @if($current->picture != null)
-                    <td><a href="{{asset('/storage/pictures/log/'.$current->picture)}}" target="_blank" rel="noopener noreferer"><i class="bi bi-file-earmark-image"></i></a></td>
+                    <td><a href="{{asset('/storage/pictures/log/'.$current->picture)}}" target="_blank" rel="noopener noreferer" data-toggle="tooltip" title="{{ __('site.show_picture') }}"><i class="bi bi-file-earmark-image"></i></a></td>
                 @else
                     <td></td>
                 @endif

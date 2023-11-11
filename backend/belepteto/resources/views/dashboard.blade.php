@@ -122,7 +122,7 @@
                             <td>{{$current->sent_time}}</td>
                             <td>
                                 @if($current->operation_state == 'created')
-                                <a type="button" class="btn btn-danger"  onclick="triggerCancelOperationDialog({{$current->id}})"><i class="bi bi-x-octagon-fill"></i></a>
+                                <a type="button" class="btn btn-danger"  onclick="triggerCancelOperationDialog({{$current->id}})" data-toggle="tooltip" title="{{ __('site.cancel_operation') }}"data-toggle="tooltip" title="{{ __('site.cancel_operation') }}"><i class="bi bi-x-octagon-fill"></i></a>
                                 @endif
                             </td>
                         </tr>
@@ -146,7 +146,7 @@
                             {{__('site.no')}}
                         @endif
                     </p>
-                    <a type="button" class="btn btn-warning d-inline-block" href="{{ route('set-entry-enabled') }}" role="button"><i class="bi bi-pencil-fill"></i></a>
+                    <a type="button" class="btn btn-warning d-inline-block" href="{{ route('set-entry-enabled') }}" role="button" data-toggle="tooltip" title="{{ __('site.enable_diable_entry') }}"><i class="bi bi-pencil-fill"></i></a>
                 </div>
                <!-- <div class="mt-2 mb-2">
                         <p class="text-white d-inline-block">{{ __('site.isOutsideEntryEnabled') }}:
@@ -192,7 +192,7 @@
                 <p>{{ __('site.areYouSureToCancelOperation') }}</p>
             </div>
             <div class="modal-footer">
-                <a type="button" class="btn btn-danger" onclick="$('.modal').modal('hide')" id="cancel-operation-button" href="{{ route('cancel-operation') }}" role="button">{{ __('site.cancel') }}</a>
+                <a type="button" class="btn btn-danger" onclick="$('.modal').modal('hide')" id="cancel-operation-button" href="{{ route('cancel-operation') }}" role="button">{{ __('site.cancel_operation') }}</a>
                 <a type="button" class="btn btn-primary" onclick="$('.modal').modal('hide')">{{ __('site.back') }}</a>
             </div>
         </div>
@@ -208,8 +208,8 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="mr-sm-2" for="inlineFormCustomSelect">Ujjlenyomat ID: </label>
-                    <input id="fingerID" name="fingerID" type="number">
+                    <label class="mr-sm-2" for="fingerID">Ujjlenyomat ID: </label>
+                    <input id="fingerID" name="fingerID" type="number" min="1" max="127" step="1">
                 </div>
             </div>
             <div class="modal-footer">
