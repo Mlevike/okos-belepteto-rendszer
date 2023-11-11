@@ -4,15 +4,19 @@
 <head>
     @include('head')
     <script>
-      function updateClipboard(){ //A vágólapra történő másolásért felelő függvény
+      function updateClipboard(){ //A vágólapra történő másolásért felelős függvény
           try {
               navigator.clipboard.writeText(document.getElementById("copy-target").value).then(
-                  console.log("Sikeres másolás!")
+                  updateCopyButton()
           );
           }catch(ex){
-              alert("Sikertelen másolás!")
-              console.log("Sikertelen másolás!")
+              alert("Sikertelen másolás, próbáld meg manuálisan!")
           }
+      }
+
+      function updateCopyButton(){ //A másolás utáni visszajelzésért felelős függvény
+          document.getElementById("copy-button").innerHTML =  "<i class=\"bi bi-check-lg\"></i>";
+          document.getElementById("copy-button").classList = "btn btn-success";
       }
     </script>
 </head>
