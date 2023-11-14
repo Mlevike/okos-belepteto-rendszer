@@ -59,12 +59,17 @@
         function checkFingerprintID(){
             let usedIDs = @json($usedFingerprintIDs); //Átalakítjuk JSON tömbbé a JS miatt
             let id = document.getElementById("fingerID").value;
+            if( id >= 1 && id <= 127){
             if(usedIDs.includes(id)){
                 $('#fpRecordDialog').modal('hide');
                 $('#fpDuplicateWarnDialog').modal('show');
             }else{
                 $('#fpRecordDialog').modal('hide');
                 document.getElementById("fingerprintRecordForm").submit();
+            }
+            }else{
+                let errorMessage = document.getElementById("error-message");
+                errorMessage.style.visibility = "visible";
             }
         }
     </script>
@@ -334,6 +339,7 @@
                     <label class="mr-sm-2" for="fingerID">Ujjlenyomat ID: </label>
                     <input id="fingerID" name="fingerID" type="number" min="1" max="127" step="1">
                 </div>
+                <p id="error-message" style="font-weight: bold; visibility: hidden;" class="text-danger">Nem szám, vagy nem megfelelő ID lett megadva, kérlek 1-től 127-ig adj meg ID-t!</p>
             </div>
             <div class="modal-footer">
                 <input type="button" class="btn btn-primary" id="recordFingerprintButton" value="{{ __('site.record') }}" onclick="checkFingerprintID()">

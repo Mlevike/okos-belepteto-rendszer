@@ -52,7 +52,7 @@
         }
        setInterval(()=>{ //A setInterval() metódus segítségével megadjuk ms-ban, hogy bizonyos ídőközönként kérje le az adatokat a szerverről
             fetchCurrent()
-        },1000)
+        },2000)
     </script>
 </head>
 <body {{$current_user->darkMode ? 'data-bs-theme=dark' : ''}} onload="fetchCurrent()"> <!--Az onload attribútum segítségével már az oldal betöltésekkor meghívjuk a fetchCurrent() metódust! -->

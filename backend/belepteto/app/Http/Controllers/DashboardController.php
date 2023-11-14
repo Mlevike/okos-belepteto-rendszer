@@ -89,8 +89,14 @@ class DashboardController extends Controller
     }
 
     public function startFingerprintRecord(Request $request){ //Az ujjlenyomat felvételi folyamat elindításáért felelős metódus
-        SystemSideOperations::create(['name' => "register_fingerprint",'operation_state'  => "created", 'options' => json_encode(["id" => $request->fingerID]), "reference_token" => hash('sha256', $plainTextToken = Str::random(40)), 'timeout' => 300]); //Létrehozunk egy új adatbázis bejegyzést
-        return redirect(route('dashboard'))->with('status', 'Folyamat elindítva'); //Visszairányítjuk a felhasználót a vezérlőpultra
+        $current_user = Auth::user(); //Jelenleg bejelentkezett felhasználó adatainak lekérése
+        if($request->fingerID >= 1 && $request->fingerID <= 127){
+            SystemSideOperations::create(['name' => "register_fingerprint",'operation_state'  => "created", 'options' => json_encode(["id" => $request->fingerID]), "reference_token" => hash('sha256', $plainTextToken = Str::random(40)), 'timeout' => 300]); //Létrehozunk egy új adatbázis bejegyzést
+            return redirect(route('dashboard'))->with('status', 'Folyamat elindítva'); //Visszairányítjuk a felhasználót a vezérlőpultra
+        }else{
+            return view('error', ['errors' => "Nem megfelelő az ID!", 'back_link' => route('dashboard'), 'current_user' => $current_user]);
+        }
+
     }
 
     public function cancelOperation(Request $request){ //Az elindított rendszerműveletek törlésséért felelős metódus
