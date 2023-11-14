@@ -115,7 +115,7 @@ def TriggerRelay(): #Relét kapcsoló metódus
     GPIO.output(relay, GPIO.HIGH)
 
 def TakePhoto(filename): #A fénykép készítésért felelős metódus
-    return len(os.popen("fswebcam -q -r 640x480 --no-banner " + filename).read())
+    return len(os.popen("fswebcam -q -r 640x480 " + filename).read())
    
 def GetMethods(uid): #UID alapján megkapjuk az adott felhasználó hitelesítési módjait
     URL = getMethodsUrl
