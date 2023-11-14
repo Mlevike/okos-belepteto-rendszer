@@ -18,6 +18,7 @@ return [
     'areYouSureToCancelOperation' => "Are you sure to cancel operation?",
     'arriveTime' => "Arrive Time",
     'back' => "Back",
+    'both' => "Card + Fingerprint + Code",
     'choseHere' => "Choose here",
     'confirmation' => "Confirmation",
     'copy_to_clipboard' => "Copy to clipboard",
@@ -39,6 +40,7 @@ return [
     'no' => "No",
     'no_script' => "For the corresponding work, the site needs enabled JavaScript!",
     'no_password_match' => "No passwords match!",
+    'not_validate' => "Only Card",
     'newToken' => "New access token generated",
     'newTokenText' => "Above you can see the new access token, it can viewed only once.",
     'picture' => "Picture",
@@ -80,6 +82,7 @@ return [
     'out' => "Out",
     'isHere' => "Is here?",
     'hasCode' => "Has Code?",
+    'has_entry_permission' => "Has entry permission",
     'hasFingerprint' => "Has Fingerprint?",
     'here' => "Here",
     'workTime' => "Working Hours",
@@ -92,5 +95,8 @@ return [
     'off' => "Off",
     'unknown_user' => "UNKNOWN USER",
     'users_currently_in' => "Users currently in",
-    'validationMethod' => "Validation method"
+    'user_group_by_roles' => "Users by role",
+    'users_with_entry_permission' => "Users by entry permission",
+    'validationMethod' => "Validation method",
+    'validation_methods' => "Users by validation method"
 ];

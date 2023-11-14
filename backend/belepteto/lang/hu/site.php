@@ -17,6 +17,7 @@ return [
     'areYouSureToCancelOperation' => "Biztosan megszakítja a műveletet?",
     'arriveTime' => "Érkezési idő",
     'back' => "Vissza",
+    'both' => "Kártya + Ujjlenyomat + Kód",
     'choseHere' => "Válassz",
     'confirmation' => "Megerősítés",
     'copy_to_clipboard' => "Másolás a vágólapra",
@@ -38,6 +39,8 @@ return [
     'no' => "Nem",
     'no_script' => "Az oldal megfelelő működése érdekében kérem kapcsolja be a JavaScriptet!",
     'no_password_match' => "A megadott jelszavak nem egyeznek!",
+    'not_has_entry_permission' => "Nincsen belépési jogosultsága",
+    'not_validate' => "Csak kártya",
     'newToken' => "Új hozzáférési token létrehozva",
     'newTokenText' => "Alább látható az új hozzáférési token, ezt fel kell írni, mert csak most látható:",
 
@@ -80,6 +83,7 @@ return [
     'out' => "Ki",
     'isHere' => "Itt van?",
     'hasCode' => "Van kódja?",
+    'has_entry_permission' => "Van belépési jogosultsága",
     'hasFingerprint' => "Van rögzített ujjlenyomata?",
     'here' => "Itt van",
     'workTime' => "Munkaórák",
@@ -92,5 +96,8 @@ return [
     'off' => "Ki",
     'unknown_user' => "ISMERETLEN FELHASZNÁLÓ",
     'users_currently_in' => "Jelenleg bent tartózkodó felhasználók",
-    'validationMethod' => "Hitelesítési mód"
+    'user_group_by_roles' => "Felhasználók csoportosítása szerepkör szerint",
+    'users_with_entry_permission' => "Felhasználók belépési jogosultság szerint",
+    'validationMethod' => "Hitelesítési mód",
+    'validation_methods' => "Felhasználók hitelesítési mód szerint"
 ];

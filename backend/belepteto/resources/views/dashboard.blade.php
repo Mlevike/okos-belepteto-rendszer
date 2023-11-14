@@ -29,10 +29,25 @@
 
             fetch('{{ route('poll-dashboard') }}').then(response => response.json()).then(data => { //Le fetcheljük az adatot az API segítségével
                 //Ellenőrizzük, hogy változnak az adatok és csak akkor frissítjük az oldalt!
-                if(data.here != yValues[0] || data.notHere != yValues[1]){
-                    yValues = [data.here, data.notHere];
-                    chart.data.datasets[0].data = yValues;
-                    chart.update();
+                if(data.here != c1_yValues[0] || data.notHere != c1_yValues[1]){
+                    c1_yValues = [data.here, data.notHere];
+                    chart1.data.datasets[0].data = c1_yValues;
+                    chart1.update();
+                }
+                if(data.notValidate != c2_yValues[0] || data.validateWithCode != c2_yValues[1] || data.validateWithFingerprint != c2_yValues[2] || data.validateWithBoth != c2_yValues[3]){
+                    c2_yValues = [data.notValidate, data.validateWithCode, data.validateWithFingerprint, data.validateWithBoth];
+                    chart2.data.datasets[0].data = c2_yValues;
+                    chart2.update();
+                }
+                if(data.hasEntryPermission != c3_yValues[0] || data.notHasEntryPermission != c3_yValues[1]){
+                    c3_yValues = [data.hasEntryPermission, data.notHasEntryPermission];
+                    chart3.data.datasets[0].data = c3_yValues;
+                    chart3.update();
+                }
+                if(data.adminRole != c4_yValues[0] || data.employeeRole != c4_yValues[1] || data.userRole != c4_yValues[2]){
+                    c4_yValues = [data.adminRole, data.employeeRole, data.userRole];
+                    chart4.data.datasets[0].data = c4_yValues;
+                    chart4.update();
                 }
             })
         }
@@ -65,20 +80,20 @@
                 <canvas id="isHereChart" class=""></canvas> <!--Ez azért kell, hogy a helyén középre legyen rendezve a diagram -->
             </div>
             <script>
-                var xValues = ["{{__('site.here')}}", "{{__('site.left')}}"];
-                var yValues = [{{$here}}, {{$notHere}}];
-                var barColors = [
-                 "#00aba9",
-                 "#b91d47",
+                var c1_xValues = ["{{__('site.here')}}", "{{__('site.left')}}"];
+                var c1_yValues = [{{$here}}, {{$notHere}}];
+                var c1_barColors = [
+                 "#dc3545",
+                 "#0d6efd",
                 ];
 
-                let chart = new Chart("isHereChart", {
+                let chart1 = new Chart("isHereChart", {
                     type: "pie",
                     data: {
-                    labels: xValues,
+                    labels: c1_xValues,
                     datasets: [{
-                        backgroundColor: barColors,
-                        data: yValues
+                        backgroundColor: c1_barColors,
+                        data: c1_yValues
                     }]
              },
                     options: {
@@ -91,6 +106,114 @@
                     }
                 }
             });
+
+            </script>
+        </div>
+        <div class="col-12 col-md-6">
+            <h2>{{__('site.validation_methods')}}</h2>
+            <div class="position-relative">
+                <canvas id="validationMethodsChart" class=""></canvas> <!--Ez azért kell, hogy a helyén középre legyen rendezve a diagram -->
+            </div>
+            <script>
+                var c2_xValues = ["{{__('site.not_validate')}}", "{{__('site.code')}}", "{{__('site.fingerprint')}}", "{{__('site.both')}}"];
+                var c2_yValues = [{{$notValidate}}, {{$validateWithCode}}, {{$validateWithFingerprint}}, {{$validateWithBoth}}];
+                var c2_barColors = [
+                    "#dc3545",
+                    "#0d6efd",
+                    "#198754",
+                    "#ffc107",
+                ];
+
+                let chart2 = new Chart("validationMethodsChart", {
+                    type: "pie",
+                    data: {
+                        labels: c2_xValues,
+                        datasets: [{
+                            backgroundColor: c2_barColors,
+                            data: c2_yValues
+                        }]
+                    },
+                    options: {
+                        animation: {
+                            duration: 0
+                        },
+                        title: {
+                            display: true,
+                            text: "{{__('site.validation_methods')}}"
+                        },
+                    }
+                });
+
+            </script>
+        </div>
+        <div class="col-12 col-md-6">
+            <h2>{{__('site.users_with_entry_permission')}}</h2>
+            <div class="position-relative">
+                <canvas id="usersWithEntryPermissionChart" class=""></canvas> <!--Ez azért kell, hogy a helyén középre legyen rendezve a diagram -->
+            </div>
+            <script>
+                var c3_xValues = ["{{__('site.has_entry_permission')}}", "{{__('site.not_has_entry_permission')}}"];
+                var c3_yValues = [{{$hasEntryPermission}}, {{$notHasEntryPermission}}];
+                var c3_barColors = [
+                    "#dc3545",
+                    "#0d6efd",
+                ];
+
+                let chart3 = new Chart("usersWithEntryPermissionChart", {
+                    type: "pie",
+                    data: {
+                        labels: c3_xValues,
+                        datasets: [{
+                            backgroundColor: c3_barColors,
+                            data: c3_yValues
+                        }]
+                    },
+                    options: {
+                        animation: {
+                            duration: 0
+                        },
+                        title: {
+                            display: true,
+                            text: "{{__('site.users_with_entry_permission')}}"
+                        }
+                    }
+                });
+
+            </script>
+        </div>
+        <div class="col-12 col-md-6">
+            <h2>{{__('site.user_group_by_roles')}}</h2>
+            <div class="position-relative">
+                <canvas id="usersByRoleChart" class=""></canvas> <!--Ez azért kell, hogy a helyén középre legyen rendezve a diagram -->
+            </div>
+            <script>
+                var c4_xValues = ["admin", "employee", "user"];
+                var c4_yValues = [{{$adminRole}}, {{$employeeRole}}, {{$userRole}}];
+                var c4_barColors = [
+                    "#dc3545",
+                    "#0d6efd",
+                    "#198754"
+                ];
+
+                let chart4 = new Chart("usersByRoleChart", {
+                    type: "pie",
+                    data: {
+                        labels: c4_xValues,
+                        datasets: [{
+                            backgroundColor: c4_barColors,
+                            data: c4_yValues
+                        }]
+                    },
+                    options: {
+                        animation: {
+                            duration: 0
+                        },
+                        title: {
+                            display: true,
+                            text: "{{__('site.users_by_role')}}"
+                        }
+                    }
+                });
 
             </script>
         </div>
