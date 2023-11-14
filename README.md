@@ -310,8 +310,17 @@ A Settings model a következő attribútumokat tartalmazza:
 - `/setup`: Majd az eszköz beállításra fog szolgálni, de még fejlesztés alatt..
 
 ### A projektben használt Laravel Controllerek
+- DashboardController: A vezérlőpulttal kapcsolatos műveletek elvégzéséért felelős vezérlő.
+- LogController: A logok oldal adatainak összegyűjtéséért felelős vezérlő.
+- SystemController: A beléptetőrendszer Raspberry Pi miniszámítógépén futó programnak parancsokat átadó vezérlő.
 - UsersViewController: A felhasználókkal kapcsolatos műveletekért felelős vezérlő.
 - ValidationController: Az authentikációért felelős vezérlő.
+
+### A projektben található artisan parancsok
+A projekt tartalmaz pár olyan parancsot, melyeket a konzolról tudunk elindítani és valamilyen hatással vannak a Laravel backend működésére. Ezek a következők:
+- CheckOperationTimeout: A rendszernek átadott parancsok időbeli érvényességét ellenőrnző parancs, a helyes működéséhez bizonyos időközönként automatizáltan kell elindítani. Az automatizált elindításhoz egy jó eszköz a Linux alapú operációs rendszerekben alapból megtalálható cron időzítő.
+- GenerateDefaultSetting: A rendszer működéséhez nélkülözhetetlen, az adatbázisban tárolt változókat definiálja az a parancs. Ilyen változó páldául az access_token is.
+- CreateFirstUser: A rendszer telepítése során az első, admin jogosultággal rendelkező felhasználó létrehozására lehet használni.
 
 ### A web backend telepítése Docker segítségével
 
