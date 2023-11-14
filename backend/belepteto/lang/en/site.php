@@ -75,6 +75,7 @@ return [
     'system_logs' => "System logs",
     'system_side_operations' => "System side operations",
     'showCurrentUser' => "Show current entry attempt",
+    'my_profile' => "My profile",
     'show_picture' => "Show picture",
     'successful' => "Successful",
     'fail' => "Fail",

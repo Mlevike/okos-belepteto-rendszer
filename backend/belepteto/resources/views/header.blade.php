@@ -30,6 +30,7 @@
                         <li>
                             <a href="{{route('set-dark-mode')}}" class="dropdown-item"> {{ __('site.darkMode') }}: {{$current_user->darkMode ? __('site.on') : __('site.off')}}</a>
                         </li>
+                        <li><a class="dropdown-item" href="{{ route('users-show', [$userId = $current_user->id]) }}">{{__('site.my_profile')}}</a></li>
                         <div class="dropdown-divider"></div>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST">
                             @csrf

@@ -76,6 +76,7 @@ return [
     'system_logs' => "Rendszerrel kapcsolatos logok",
     'system_side_operations' => "Rendszer szintű műveletek",
     'showCurrentUser' => "Az aktuális belépési kísérlet mutatása",
+    'my_profile' => "Profilom",
     'show_picture' => "Kép megtekintése",
     'successful' => "Sikeres",
     'fail' => "Sikertelen",
