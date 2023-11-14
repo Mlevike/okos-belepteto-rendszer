@@ -354,18 +354,16 @@ php artisan app:create-first-user
 
 # Felhasznált software eszközök
 
+## A projekt során használt Laravel modulok
+- laravel/fortify a felhasználók webes felületen történő hitelesítéséhez.
+- yoeriboven/laravel-log-db az adatbázisban történő logoláshoz.
+
 ## A projekt frontendjének kialakítására használt külső könyvtárak
 - https://github.com/lipis/flag-icons
 - Bootstrap
 - Bootstrap icons
 
-## A projekt során használt Laravel modulok
-- laravel/fortify a felhasználók webes felületen történő hitelesítéséhez.
-- yoeriboven/laravel-log-db az adatbázisban történő logoláshoz.
-
-
-
-## Az Arudino programhoz felhasznált külső könyvtárak:
+## Az Arduino programhoz felhasznált külső könyvtárak:
 
 - HD44780_LCD_PCF8574 i2c LCD controller library - https://github.com/gavinlyonsrepo/HD44780_LCD_PCF8574
 - MFRC522v2 library - https://github.com/OSSLibraries/Arduino_MFRC522v2
@@ -373,14 +371,14 @@ php artisan app:create-first-user
 - Adafruit fingerprint libary - https://github.com/adafruit/Adafruit-Fingerprint-Sensor-Library/
 - TM16xx libary - https://github.com/maxint-rd/TM16xx/
 
-- A Raspberry Pi-n található vezérlő szoftvert Python programozási nyelv segítségével fejlesztettük le, ez a szoftver kommunikál a Laravel alapú PHP backenddel REST API segítségével.
+## A Rasperry Pi programhoz használt, az eszköz operációs rendszerére feltelepítendő szoftverek:
+- fswebcam, szoftver az USB-s kamera eléréséhez - http://www.sanslogic.co.uk/fswebcam/
+- - phpmyadmin
+
+## A Rasperry Pi programhoz a Python PIP csomagkezelő szoftver által feltelpített könyvtárak:
 - pip
 - gpio
-- phpmyadmin
-
-
-  A Python-hoz használt külső könyvtárak:
-  - pyserial
+- pyserial
 
   ## A dokumentáció írása során felhasznált források
 - [https://hub.docker.com/r/bitnami/laravel](https://hub.docker.com/r/bitnami/laravel)
