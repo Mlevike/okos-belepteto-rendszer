@@ -24,18 +24,18 @@
                         <img class="rounded-circle shadow-4-strong" alt="{{ __('site.picture') }}" src="{{asset('/storage/pictures/profile/'.$current_user->picture)}}" alt="profile_image" style="width: 50px;height: 50px; padding: 10px; margin: 0px; object-fit: cover; "/>
                     @endif
                 </a>
-                <ul class="dropdown-menu text-small">
-                    <li><p class="dropdown-header">Hello, {{$current_user->name}}</p></li>
-                    <div class="dropdown-divider"></div>
+                <ul class="dropdown-menu text-small"> <!-- A lenyíló menü konténer eleme -->
+                    <li><p class="dropdown-header">Hello, {{$current_user->name}}</p></li> <!-- A bejelentkezett felhasználót üdvözlő bekezdés -->
+                    <div class="dropdown-divider"></div> <!-- A lenyíló menü elválasztó eleme -->
                         <li>
-                            <a href="{{route('set-dark-mode')}}" class="dropdown-item"> {{ __('site.darkMode') }}: {{$current_user->darkMode ? __('site.on') : __('site.off')}}</a>
+                            <a href="{{route('set-dark-mode')}}" class="dropdown-item"> {{ __('site.darkMode') }}: {{$current_user->darkMode ? __('site.on') : __('site.off')}}</a> <!-- A sötét mód beállításáért felelős hivatkozás -->
                         </li>
-                        <li><a class="dropdown-item" href="{{ route('users-show', [$userId = $current_user->id]) }}">{{__('site.my_profile')}}</a></li>
-                        <div class="dropdown-divider"></div>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                            @csrf
+                        <li><a class="dropdown-item" href="{{ route('users-show', [$userId = $current_user->id]) }}">{{__('site.my_profile')}}</a></li> <!-- Az aktuális feléhasználó profiljára irányuló hivatkozás-->
+                        <div class="dropdown-divider"></div> <!-- A lenyíló menü elválasztó eleme -->
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST"> <!-- Az oldalról történő kiléptetésért felelős űrlap -->
+                            @csrf <!-- Itt található a CSRF token, enélkül a Laravel nem fogad HTTP POST metódussal küldött lekérdezéseket -->
                         </form>
-                    <li><a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{__('auth.logout')}}</a></li>
+                    <li><a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{__('auth.logout')}}</a></li> <!-- A kijelentkezés hivatkozása -->
                 </ul>
             </div>
         </div>

@@ -56,20 +56,20 @@
             fetchDashboard();
         },5000)
 
-        function checkFingerprintID(){
+        function checkFingerprintID(){ //Az ujjlenyomat ID validálásért felelős metódus
             let usedIDs = @json($usedFingerprintIDs); //Átalakítjuk JSON tömbbé a JS miatt
-            let id = document.getElementById("fingerID").value;
-            if( id >= 1 && id <= 127){
-            if(usedIDs.includes(id)){
-                $('#fpRecordDialog').modal('hide');
-                $('#fpDuplicateWarnDialog').modal('show');
-            }else{
-                $('#fpRecordDialog').modal('hide');
-                document.getElementById("fingerprintRecordForm").submit();
+            let id = document.getElementById("fingerID").value; //Vesszük a fingerID beviteli mezőt
+            if( id >= 1 && id <= 127){ //Abban az esetben, ha az ujjlenyomat ID 1 és 127 közé esik, akkor elévgezzük a műveleteket
+            if(usedIDs.includes(id)){ //Amennyiben az ID már használatban van
+                $('#fpRecordDialog').modal('hide'); //Elrejtjük az ujjlenyomat beolvasása dialógot
+                $('#fpDuplicateWarnDialog').modal('show'); //Megjelenítjük az ujjlenyomat ID felülírására figyelmeztető dialógot
+            }else{ //Amennyiben az ID még nincs használatban
+                $('#fpRecordDialog').modal('hide'); //Elrejtjük az ujjlenyomat beolvasása dialógot
+                document.getElementById("fingerprintRecordForm").submit(); //Elküldjük az űrlapot
             }
-            }else{
-                let errorMessage = document.getElementById("error-message");
-                errorMessage.style.visibility = "visible";
+            }else{ //Amennyiben nem megfelelő az ID formátuma, értéke
+                let errorMessage = document.getElementById("error-message"); //Vesszük a hibaüzenet kiírására szolgáló <p> taget
+                errorMessage.style.visibility = "visible"; //Láthatóvá tesszük azt
             }
         }
     </script>
