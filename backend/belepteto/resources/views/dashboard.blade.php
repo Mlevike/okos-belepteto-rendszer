@@ -75,7 +75,7 @@
     <h1>{{ __('site.dashboard') }}</h1>
     <div class="row">
         <div class="col-12 col-md-6">
-            <h2>{{__('site.users_currently_in')}}</h2>
+            <h2 style="text-align: center">{{__('site.users_currently_in')}}</h2>
             <div class="position-relative">
                 <canvas id="isHereChart" class=""></canvas> <!--Ez azért kell, hogy a helyén középre legyen rendezve a diagram -->
             </div>
@@ -110,7 +110,7 @@
             </script>
         </div>
         <div class="col-12 col-md-6">
-            <h2>{{__('site.validation_methods')}}</h2>
+            <h2 style="text-align: center">{{__('site.validation_methods')}}</h2>
             <div class="position-relative">
                 <canvas id="validationMethodsChart" class=""></canvas> <!--Ez azért kell, hogy a helyén középre legyen rendezve a diagram -->
             </div>
@@ -147,7 +147,7 @@
             </script>
         </div>
         <div class="col-12 col-md-6">
-            <h2>{{__('site.users_with_entry_permission')}}</h2>
+            <h2 style="text-align: center">{{__('site.users_with_entry_permission')}}</h2>
             <div class="position-relative">
                 <canvas id="usersWithEntryPermissionChart" class=""></canvas> <!--Ez azért kell, hogy a helyén középre legyen rendezve a diagram -->
             </div>
@@ -182,7 +182,7 @@
             </script>
         </div>
         <div class="col-12 col-md-6">
-            <h2>{{__('site.user_group_by_roles')}}</h2>
+            <h2 style="text-align: center">{{__('site.user_group_by_roles')}}</h2>
             <div class="position-relative">
                 <canvas id="usersByRoleChart" class=""></canvas> <!--Ez azért kell, hogy a helyén középre legyen rendezve a diagram -->
             </div>
@@ -218,7 +218,7 @@
             </script>
         </div>
         <div class="col-12 col-md-6">
-            <h2>{{__('site.system_side_operations')}}</h2>
+            <h2 style="text-align: center">{{__('site.system_side_operations')}}</h2>
             <div class="table-responsive" style="margin: 0px 10px 0px 10px;">
                 <table class="table table-hover">
                     <thead>
