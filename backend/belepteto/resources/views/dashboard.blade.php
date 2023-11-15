@@ -76,11 +76,84 @@
 </head>
 <body {{$current_user->darkMode ? 'data-bs-theme=dark' : ''}} onload="fetchIDS()">
 @include('header', ['current_user'=>$current_user])
-<main class="container m-1 w-100">
+<main class="m-1">
     <h1>{{ __('site.dashboard') }}</h1>
-    <div class="row">
+    <div class="container-fluid">
+        <div class="row g-2">
+            <div class="col-12 col-md-6">
+                <h2 style="text-align: center">{{__('site.system_side_operations')}}</h2>
+                <div class="table-responsive" style="margin: 0px 10px 0px 10px;">
+                    <table class="table table-hover">
+                        <thead>
+                        <th>#</th>
+                        <th>{{ __('site.name') }}</th>
+                        <th>{{ __('site.options') }}</th>
+                        <th>{{ __('site.operation_state') }}</th>
+                        <th>{{ __('site.sent_time') }}</th>
+                        <th>{{ __('site.cancel') }}</th>
+                        </thead>
+                        <tbody>
+                        @foreach($systemSideOperations as $current)
+                            <tr>
+                                <td>{{$current->id}}</td>
+                                <td style="white-space: nowrap">
+                                    @if($current->name == 'register_fingerprint')
+                                        {{ __('site.register_fp') }}
+                                    @else
+                                        {{$current->name}}
+                                    @endif
+                                </td>
+                                <td>{{$current->options}}</td>
+                                <td>{{ __('site.operation_state_'.$current->operation_state)}}</td>
+                                <td>{{$current->sent_time}}</td>
+                                <td>
+                                    @if($current->operation_state == 'created')
+                                        <a type="button" class="btn btn-danger"  onclick="triggerCancelOperationDialog({{$current->id}})" data-toggle="tooltip" title="{{ __('site.cancel_operation') }}"data-toggle="tooltip" title="{{ __('site.cancel_operation') }}"><i class="bi bi-x-octagon-fill"></i></a>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    {{$systemSideOperations->links()}}
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <h2 style="text-align: center;">{{__('site.options')}}</h2>
+                <a type="button" class="btn btn-primary w-100" href="{{ route('current') }}" role="button" target="_blank">{{ __('site.showCurrentUser') }}</a>
+                <a type="button" class="btn btn-primary w-100 mt-2 mb-2" onclick="triggerRecordFingerprintDialog()" role="button" >{{ __('site.register_FP_manually') }}</a>
+                <div class="bg-danger rounded mt-2 p-2">
+                    <h3 class="text-center text-bold text-white">{{__('site.dangerZone')}}</h3>
+                    <div class="mt-2 mb-2">
+                        <p class="text-white d-inline-block">{{ __('site.isInsideEntryEnabled') }}:
+                            @if($isEntryEnabled->setting_value)
+                                {{__('site.yes')}}
+                            @elseif(!($isEntryEnabled->setting_value))
+                                {{__('site.no')}}
+                            @endif
+                        </p>
+                        <a type="button" class="btn btn-warning d-inline-block" href="{{ route('set-entry-enabled') }}" role="button" data-toggle="tooltip" title="{{ __('site.enable_diable_entry') }}"><i class="bi bi-pencil-fill"></i></a>
+                    </div>
+                    <!-- <div class="mt-2 mb-2">
+                        <p class="text-white d-inline-block">{{ __('site.isOutsideEntryEnabled') }}:
+                            @if($isExitEnabled->setting_value)
+                        {{__('site.yes')}}
+                    @elseif(!($isExitEnabled->setting_value))
+                        {{__('site.no')}}
+                    @endif
+                    </p>
+                    <a type="button" class="btn btn-warning d-inline-block" href="{{ route('set-exit-enabled') }}" role="button"><i class="bi bi-pencil-fill"></i></a>
+                </div>  --> <!--Ideiglenesen kiszedve-->
+                    <a type="button" class="btn btn-warning w-100" onclick="triggerNewTokenDialog()" role="button">{{ __('site.generateNewAccessToken') }}</a>
+                </div>
+            </div>
+        </div>
+    <div class="row g-2">
+        <h2 style="text-align: center">{{__('site.statistics')}}</h2>
         <div class="col-12 col-md-6">
-            <h2 style="text-align: center">{{__('site.users_currently_in')}}</h2>
+            <h3 style="text-align: center">{{__('site.users_currently_in')}}</h3>
             <div class="position-relative">
                 <canvas id="isHereChart" class=""></canvas> <!--Ez azért kell, hogy a helyén középre legyen rendezve a diagram -->
             </div>
@@ -115,7 +188,7 @@
             </script>
         </div>
         <div class="col-12 col-md-6">
-            <h2 style="text-align: center">{{__('site.validation_methods')}}</h2>
+            <h3 style="text-align: center">{{__('site.validation_methods')}}</h3>
             <div class="position-relative">
                 <canvas id="validationMethodsChart" class=""></canvas> <!--Ez azért kell, hogy a helyén középre legyen rendezve a diagram -->
             </div>
@@ -152,7 +225,7 @@
             </script>
         </div>
         <div class="col-12 col-md-6">
-            <h2 style="text-align: center">{{__('site.users_with_entry_permission')}}</h2>
+            <h3 style="text-align: center">{{__('site.users_with_entry_permission')}}</h3>
             <div class="position-relative">
                 <canvas id="usersWithEntryPermissionChart" class=""></canvas> <!--Ez azért kell, hogy a helyén középre legyen rendezve a diagram -->
             </div>
@@ -187,7 +260,7 @@
             </script>
         </div>
         <div class="col-12 col-md-6">
-            <h2 style="text-align: center">{{__('site.user_group_by_roles')}}</h2>
+            <h3 style="text-align: center">{{__('site.user_group_by_roles')}}</h3>
             <div class="position-relative">
                 <canvas id="usersByRoleChart" class=""></canvas> <!--Ez azért kell, hogy a helyén középre legyen rendezve a diagram -->
             </div>
@@ -222,74 +295,8 @@
 
             </script>
         </div>
-        <div class="col-12 col-md-6">
-            <h2 style="text-align: center">{{__('site.system_side_operations')}}</h2>
-            <div class="table-responsive" style="margin: 0px 10px 0px 10px;">
-                <table class="table table-hover">
-                    <thead>
-                    <th>#</th>
-                    <th>{{ __('site.name') }}</th>
-                    <th>{{ __('site.options') }}</th>
-                    <th>{{ __('site.operation_state') }}</th>
-                    <th>{{ __('site.sent_time') }}</th>
-                    <th>{{ __('site.cancel') }}</th>
-                    </thead>
-                    <tbody>
-                    @foreach($systemSideOperations as $current)
-                        <tr>
-                            <td>{{$current->id}}</td>
-                            <td style="white-space: nowrap">
-                                @if($current->name == 'register_fingerprint')
-                                    {{ __('site.register_fp') }}
-                                @else
-                                    {{$current->name}}
-                                @endif
-                            </td>
-                            <td>{{$current->options}}</td>
-                            <td>{{ __('site.operation_state_'.$current->operation_state)}}</td>
-                            <td>{{$current->sent_time}}</td>
-                            <td>
-                                @if($current->operation_state == 'created')
-                                <a type="button" class="btn btn-danger"  onclick="triggerCancelOperationDialog({{$current->id}})" data-toggle="tooltip" title="{{ __('site.cancel_operation') }}"data-toggle="tooltip" title="{{ __('site.cancel_operation') }}"><i class="bi bi-x-octagon-fill"></i></a>
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-            <div>
-                {{$systemSideOperations->links()}}
-            </div>
-            <h2>{{__('site.options')}}</h2>
-            <a type="button" class="btn btn-primary w-100" href="{{ route('current') }}" role="button" target="_blank">{{ __('site.showCurrentUser') }}</a>
-            <a type="button" class="btn btn-primary w-100 mt-2 mb-2" onclick="triggerRecordFingerprintDialog()" role="button" >{{ __('site.register_FP_manually') }}</a>
-            <div class="bg-danger rounded mt-2 p-2">
-                <h3 class="text-center text-bold text-white">{{__('site.dangerZone')}}</h3>
-                <div class="mt-2 mb-2">
-                    <p class="text-white d-inline-block">{{ __('site.isInsideEntryEnabled') }}:
-                        @if($isEntryEnabled->setting_value)
-                            {{__('site.yes')}}
-                        @elseif(!($isEntryEnabled->setting_value))
-                            {{__('site.no')}}
-                        @endif
-                    </p>
-                    <a type="button" class="btn btn-warning d-inline-block" href="{{ route('set-entry-enabled') }}" role="button" data-toggle="tooltip" title="{{ __('site.enable_diable_entry') }}"><i class="bi bi-pencil-fill"></i></a>
-                </div>
-               <!-- <div class="mt-2 mb-2">
-                        <p class="text-white d-inline-block">{{ __('site.isOutsideEntryEnabled') }}:
-                            @if($isExitEnabled->setting_value)
-                                {{__('site.yes')}}
-                            @elseif(!($isExitEnabled->setting_value))
-                                {{__('site.no')}}
-                            @endif
-                        </p>
-                        <a type="button" class="btn btn-warning d-inline-block" href="{{ route('set-exit-enabled') }}" role="button"><i class="bi bi-pencil-fill"></i></a>
-                </div>  --> <!--Ideiglenesen kiszedve-->
-                <a type="button" class="btn btn-warning w-100" onclick="triggerNewTokenDialog()" role="button">{{ __('site.generateNewAccessToken') }}</a>
-            </div>
-        </div>
-        </div>
+    </div>
+    </div>
 </main>
 <!-- New Token Dialog -->
 <div class="modal fade" id="newTokenDialog" tabindex="-1" role="dialog" aria-hidden="true">
