@@ -27,8 +27,9 @@
 @include('header') <!--Be include-oljuk a menüt tartalmazó blade templatet -->
 <div class="alert alert-danger mx-2" role="alert" id="error-message" style="display: none"> <!-- Hibák esetén megjelenő üzenet -->
 </div>
-<main class="p-2">
-    <h1>{{$user != null ?  __('site.editUser')  :  __('site.addUser') }}</h1>
+<main>
+    <h1 class="p-2">{{$user != null ?  __('site.editUser')  :  __('site.addUser') }}</h1>
+    <div class="container-fluid">
         <!--A felhasználó szerkesztésére szolgáló form-->
         <form action="" method="post" enctype=multipart/form-data id="user-edit-form"> <!-- Létrehozunk egy formot a felhasználük adatainak szerkesztéséhez-->
             @csrf
@@ -96,15 +97,32 @@
             <input type="text" class="form-control" id="profile" name="profile" value="{{$user != null ? $user->profile : ''}}">
             <label for="email">{{ __('auth.email') }}:* </label>
             <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" value="{{$user != null ? $user->email : ''}}" required>
-            <label for="password">{{ __('auth.password') }}:* </label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="********" {{$user == null ? 'reguired' : ''}}>
-            <label for="password_again">{{ __('auth.password_again') }}:* </label>
-            <input type="password" class="form-control" id="password_again" name="password_again" placeholder="********" {{$user == null ? 'reguired' : ''}}>
+
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <label for="password">{{ __('auth.password') }}:* </label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="********" {{$user == null ? 'reguired' : ''}}>
+                    <label for="password_again">{{ __('auth.password_again') }}:* </label>
+                    <input type="password" class="form-control" id="password_again" name="password_again" placeholder="********" {{$user == null ? 'reguired' : ''}}>
+                </div>
+                <div class="col-12 col-md-6 gy-2">
+                    <ul class="list-group ">
+                        <li class="list-group-item bg-warning">{{ __('site.requirements_of_the_pw') }}</li>
+                        <li class="list-group-item"><i class="bi bi-x-square-fill"></i> {{ __('site.pw_min_amount_of_letters') }}</li>
+                        <li class="list-group-item"><i class="bi bi-x-square-fill"></i> {{ __('site.pw_small_and_capital_letters') }}</li>
+                        <li class="list-group-item"><i class="bi bi-x-square-fill"></i> {{ __('site.pw_special_chars') }}</li>
+                    </ul>
+                </div>
+            </div>
+
             <label for="cardId">{{ __('site.cardId') }}: </label>
             <input type="text" class="form-control" id="cardId" name="cardId" value="{{$user != null ? $user->cardId : ''}}">
-            <a type="button" class="btn btn-primary mt-2 mb-2" onclick="ValidateForm()" >{{$user != null ?  __('site.editUser')  :  __('site.addUser') }}</a>
-            <a type="button" class="btn btn-danger mt-2 mb-2" href="javascript:history.back()" role="button">{{ __('site.cancel') }}</a> <!--Erre majd kell Laraveles megoldás is-->
         </form>
+    </div>
+    <div class="p-2">
+    <a type="button" class="btn btn-primary mt-2 mb-2" onclick="ValidateForm()" >{{$user != null ?  __('site.editUser')  :  __('site.addUser') }}</a>
+    <a type="button" class="btn btn-danger mt-2 mb-2" href="javascript:history.back()" role="button">{{ __('site.cancel') }}</a> <!--Erre majd kell Laraveles megoldás is-->
+    </div>
 </main>
 <script>
     @if(session('status') != null && session('status') != "") //A backendről értkeő hibák kijelzése, azért ide került, hogy az oldal betöltése után jöjjön be és így nem lesz hiba, mert nem találja azokat!
