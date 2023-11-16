@@ -81,7 +81,7 @@ class ValidationController extends Controller
                                 }
                                 return response()->json(['success' => false, 'message' => "Hibás ujjlenyomat!"]);
                                 }
-                            else if(($user->validationMethod == 'code' || $user->validationMethod == 'both') && (!(Hash::check($request->code, $user->code) || ($request->code == null || $request->code == "")))){
+                            else if(($user->validationMethod == 'code' || $user->validationMethod == 'both') && (!(Hash::check($request->code, $user->code)) || ($request->code == null || $request->code == "" ))){
                                 $history = History::create(['cardId' => $user->cardId, 'userId' => $user->id, 'direction' => 'in', 'successful' => false, 'arriveTime' =>  now(),  'workTime' => null, 'picture' => null]); //Mentünk a logba!
                                 if($picture != ""){
                                     $filename = $history->id . '.jpg'; //Ez adja a fájl nevét
@@ -95,6 +95,13 @@ class ValidationController extends Controller
                                 }
                                 return response()->json(['success' => false, 'message' => "Hibás kód!"]);
                             }else{ //Abban az esetben, ha mind az ujjlenyomat, mind a kód megfelel, lehet hogy ezt később máshgyan kéne csinálni!
+                                log::Info("Ide belép");
+                                log::Info($request->code);
+                                if($request->has('code')){
+                                    log::debug("VAN");
+                                }else{
+                                    log::debug("NINCS");
+                                }
                                 History::create(['cardId' => $user->cardId, 'userId' => $user->id, 'direction' => 'in', 'successful' => true, 'arriveTime' =>  now(),  'workTime' => null, 'picture' => null]); //Mentünk a logba!
                                 $user->isHere = true;
                                 $user->save(); //Mentjük az user objektumot
