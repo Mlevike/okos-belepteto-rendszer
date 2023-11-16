@@ -124,7 +124,7 @@
                 <h2 style="text-align: center;">{{__('site.options')}}</h2>
                 <a type="button" class="btn btn-primary w-100" href="{{ route('current') }}" role="button" target="_blank">{{ __('site.showCurrentUser') }}</a>
                 <a type="button" class="btn btn-primary w-100 mt-2 mb-2" onclick="triggerRecordFingerprintDialog()" role="button" >{{ __('site.register_FP_manually') }}</a>
-                <div class="bg-danger rounded mt-2 p-2">
+                <div class="bg-danger rounded mt-2 mb-4 p-2">
                     <h3 class="text-center text-bold text-white">{{__('site.dangerZone')}}</h3>
                     <div class="mt-2 mb-2">
                         <p class="text-white d-inline-block">{{ __('site.isInsideEntryEnabled') }}:
