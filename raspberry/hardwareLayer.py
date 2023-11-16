@@ -75,12 +75,16 @@ def Authenticate(uid, entry, code, fingerprint, filename): #Az az authnetikáci�
     try:
         print(entry)
         if(entry):
-            file = open(filename, 'rb') #Megnyitjuk a képet
-            print("Kép megnyitva")
-            b64 = base64.b64encode(file.read()) #Átalakítjuk a képet BASE64 formátumúvá
-            print("Kép átalakítva")
-            data = {'access_token': os.getenv('ACCESS_TOKEN'), 'uid' : uid, 'code' : code, 'fingerprint' : fingerprint, 'entry': entry, 'picture' : b64}
-            r = requests.post(URL, data = data)
+            if(filename != ""):
+                file = open(filename, 'rb') #Megnyitjuk a képet
+                print("Kép megnyitva")
+                b64 = base64.b64encode(file.read()) #Átalakítjuk a képet BASE64 formátumúvá
+                print("Kép átalakítva")
+                data = {'access_token': os.getenv('ACCESS_TOKEN'), 'uid' : uid, 'code' : code, 'fingerprint' : fingerprint, 'entry': entry, 'picture' : b64}
+                r = requests.post(URL, data = data)
+            else:
+                data = {'access_token': os.getenv('ACCESS_TOKEN'), 'uid' : uid, 'code' : code, 'fingerprint' : fingerprint, 'entry': entry}
+                r = requests.post(URL, json = data)
         else:
              data = {'access_token': os.getenv('ACCESS_TOKEN'), 'uid' : uid, 'code' : code, 'fingerprint' : fingerprint, 'entry': entry}
              print(data)
@@ -116,11 +120,11 @@ def TriggerRelay(): #Relét kapcsoló metódus
     GPIO.output(relay, GPIO.HIGH)
 
 def TakePhoto(filename): #A fénykép készítésért felelős metódus
-    try:
-        subprocess.run(["fswebcam", "-q", "-r", "640x480", filename])
-        return True
-    except:
-        return False
+        webcamProcess = subprocess.run(["fswebcam", "--deinterlace", "-q", "-r", "640x480", filename]) #A returncode=0 azért kell, hogy kivételt emeljen a Python amennyiben valami hiba történne a kép készítesekkor
+        if(webcamProcess.returncode == 0): #Ha a fswebcam futás során nullás kóddal lép ki!
+            return True
+        else:
+            return False
 
 def GetMethods(uid): #UID alapján megkapjuk az adott felhasználó hitelesítési módjait
     URL = getMethodsUrl
@@ -391,6 +395,7 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                         print(methods)
                         code = ""
                         fingerprint = ""
+                        uploadFilename = "" #Létrehozunk egy fájlnév változót, melyben a feltöltendő kép fájlnevét tároljuk, erre azért van szükség, hogy csak akkor töltsünk fel képet, mikor ténylegesen sikerült is csinálni
                         if methods.get("enabled"):
                             if methods.get("code"): #Ez így nem helyes, de nem 
                                 LcdClearScreen() #Töröljük az LCD kijelző tartalmát
@@ -435,8 +440,9 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                             LcdGoto(0, 0)
                             LcdSendString("Hitelesites...")
                             time.sleep(0.2)
-                            print(TakePhoto(filename)) #Képet készítünk az authetikációhoz
-                            if Authenticate(uid, True, code, fingerprint, filename):
+                            if(TakePhoto(filename)): #Képet készítünk az authetikációhoz
+                                uploadFilename = filename
+                            if Authenticate(uid, True, code, fingerprint, uploadFilename):
                                 #SendLog(uid, 1, 1) #Meghívjuk a logoló metódust
                                 LcdClearScreen() #Töröljük az LCD kijelző tartalmát
                                 LcdGoto(0, 0) #A kurzort visszaállítjuk a nulla pontra
