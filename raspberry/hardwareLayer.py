@@ -391,8 +391,8 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                         LcdSendString("Ismeretlen")
                         LcdGoto(1, 0)
                         LcdSendString("Kartya!")
-                        time.sleep(1)
                         Authenticate(uid, True, '', '', '')
+                        time.sleep(1)
                         break
                     else:
                         print(methods)
