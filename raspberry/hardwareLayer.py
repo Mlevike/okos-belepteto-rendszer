@@ -81,9 +81,11 @@ def Authenticate(uid, entry, code, fingerprint, filename): #Az az authnetikáci�
                 b64 = base64.b64encode(file.read()) #Átalakítjuk a képet BASE64 formátumúvá
                 print("Kép átalakítva")
                 data = {'access_token': os.getenv('ACCESS_TOKEN'), 'uid' : uid, 'code' : code, 'fingerprint' : fingerprint, 'entry': entry, 'picture' : b64}
+                print(data)
                 r = requests.post(URL, data = data)
             else:
                 data = {'access_token': os.getenv('ACCESS_TOKEN'), 'uid' : uid, 'code' : code, 'fingerprint' : fingerprint, 'entry': entry}
+                print(data)
                 r = requests.post(URL, json = data)
         else:
              data = {'access_token': os.getenv('ACCESS_TOKEN'), 'uid' : uid, 'code' : code, 'fingerprint' : fingerprint, 'entry': entry}
@@ -390,6 +392,7 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                         LcdGoto(1, 0)
                         LcdSendString("Kartya!")
                         time.sleep(1)
+                        Authenticate(uid, True, '', '', '')
                         break
                     else:
                         print(methods)
