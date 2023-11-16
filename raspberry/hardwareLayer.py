@@ -117,11 +117,11 @@ def TriggerRelay(): #Relét kapcsoló metódus
 
 def TakePhoto(filename): #A fénykép készítésért felelős metódus
     try:
-        subprocess.run(['fswebcam', '-q', '-r', '640x480', filename])
-        return true
+        subprocess.run(["fswebcam", "-q", "-r", "640x480", filename])
+        return True
     except:
-        return false
-   
+        return False
+
 def GetMethods(uid): #UID alapján megkapjuk az adott felhasználó hitelesítési módjait
     URL = getMethodsUrl
     print(URL)
