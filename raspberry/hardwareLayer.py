@@ -14,6 +14,7 @@ import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 import requests
 from dotenv import load_dotenv
+import subprocess
 
 #Betöltjük a .env file-t
 
@@ -115,7 +116,11 @@ def TriggerRelay(): #Relét kapcsoló metódus
     GPIO.output(relay, GPIO.HIGH)
 
 def TakePhoto(filename): #A fénykép készítésért felelős metódus
-    return len(os.popen("fswebcam -q -r 640x480 " + filename).read())
+    try:
+        subprocess.run(['fswebcam', '-q', '-r', '640x480', filename)
+        return true
+    except:
+        return false
    
 def GetMethods(uid): #UID alapján megkapjuk az adott felhasználó hitelesítési módjait
     URL = getMethodsUrl
@@ -430,7 +435,7 @@ def ExternalAuthentication(): #Kártya Authentikáció metódusa
                             LcdGoto(0, 0)
                             LcdSendString("Hitelesites...")
                             time.sleep(0.2)
-                            TakePhoto(filename) #Képet készítünk az authetikációhoz
+                            print(TakePhoto(filename)) #Képet készítünk az authetikációhoz
                             if Authenticate(uid, True, code, fingerprint, filename):
                                 #SendLog(uid, 1, 1) #Meghívjuk a logoló metódust
                                 LcdClearScreen() #Töröljük az LCD kijelző tartalmát

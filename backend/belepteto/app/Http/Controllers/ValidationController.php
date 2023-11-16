@@ -95,13 +95,6 @@ class ValidationController extends Controller
                                 }
                                 return response()->json(['success' => false, 'message' => "Hibás kód!"]);
                             }else{ //Abban az esetben, ha mind az ujjlenyomat, mind a kód megfelel, lehet hogy ezt később máshgyan kéne csinálni!
-                                log::Info("Ide belép");
-                                log::Info($request->code);
-                                if($request->has('code')){
-                                    log::debug("VAN");
-                                }else{
-                                    log::debug("NINCS");
-                                }
                                 History::create(['cardId' => $user->cardId, 'userId' => $user->id, 'direction' => 'in', 'successful' => true, 'arriveTime' =>  now(),  'workTime' => null, 'picture' => null]); //Mentünk a logba!
                                 $user->isHere = true;
                                 $user->save(); //Mentjük az user objektumot
