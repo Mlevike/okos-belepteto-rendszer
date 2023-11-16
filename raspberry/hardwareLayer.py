@@ -117,7 +117,7 @@ def TriggerRelay(): #Relét kapcsoló metódus
 
 def TakePhoto(filename): #A fénykép készítésért felelős metódus
     try:
-        subprocess.run(['fswebcam', '-q', '-r', '640x480', filename)
+        subprocess.run(['fswebcam', '-q', '-r', '640x480', filename])
         return true
     except:
         return false
