@@ -133,6 +133,11 @@ class UsersViewController extends Controller
                      if ($request->filled('cardId')) {
                              $user->cardId = $request->cardId;
                      }
+
+                     if ($request->filled('profile')) {
+                         $user->profile = $request->profile;
+                     }
+
                      if ($request->filled('code')) {
                              $user->code = Hash::make($request->code, ['memory' => 1024, 'time' => 2, 'threads' => 2,]);
                      }
