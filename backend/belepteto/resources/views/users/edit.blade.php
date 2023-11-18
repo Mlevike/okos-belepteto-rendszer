@@ -21,6 +21,25 @@
                 document.getElementById("user-edit-form").submit(); //..akkor elküldjük a formot a szerverre
             }
         }
+        function updatePasswordRequirements(){ //A jelszóval kapcsolatos követelményeket frissítő függvény
+            //Definiáljuk az ikonokat, illetve a beviteli mezőt tartalmaző elemeket
+            let pwAmountIcon = document.getElementById("pw_amount_icon");
+            let pwSmallCapitalIcon = document.getElementById("pw_small_capital_icon");
+            let pwSpecialIcon = document.getElementById("pw_special_icon");
+            let pwField = document.getElementById("password");
+
+            //Elvégezzük a jelszó ellenírzéseit
+            if(pwField.value.length >= 8){
+                    pwAmountValue = true;
+                    pwAmountIcon.classList = "bi bi-check-square-fill";
+                    pwAmountIcon.style.color = "green";
+                }else{
+                    pwAmountValue = false;
+                    pwAmountIcon.classList = "bi bi-x-square-fill";
+                    pwAmountIcon.style.color = "red";
+                }
+            console.log(/(?=.*?[A-Z])(?=.*?[a-z])/.test(pwField.value))
+        }
     </script>
 </head>
 <body {{$current_user->darkMode ? 'data-bs-theme=dark' : ''}}>
@@ -132,7 +151,7 @@
                     <div class="row">
                 <div class="col-12 col-md-6">
                     <label for="password">{{ __('auth.password') }}:* </label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="********" {{$user == null ? 'reguired' : ''}}>
+                    <input type="password" onchange onpropertychange onkeyuponpaste oninput="updatePasswordRequirements()" class="form-control" id="password" name="password" placeholder="********" {{$user == null ? 'reguired' : ''}}>
                 </div>
                 <div class="col-12 col-md-6">
                     <label for="password_again">{{ __('auth.password_again') }}:* </label>
@@ -143,9 +162,9 @@
                 <div class="col-12 col-md-6 gy-2">
                     <ul class="list-group ">
                         <li class="list-group-item bg-warning">{{ __('site.requirements_of_the_pw') }}</li>
-                        <li class="list-group-item"><i class="bi bi-x-square-fill"></i> {{ __('site.pw_min_amount_of_letters') }}</li>
-                        <li class="list-group-item"><i class="bi bi-x-square-fill"></i> {{ __('site.pw_small_and_capital_letters') }}</li>
-                        <li class="list-group-item"><i class="bi bi-x-square-fill"></i> {{ __('site.pw_special_chars') }}</li>
+                        <li class="list-group-item"><i id="pw_amount_icon" class="bi bi-x-square-fill" style="color: red;"></i> {{ __('site.pw_min_amount_of_chars') }}</li>
+                        <li class="list-group-item"><i id="pw_small_capital_icon" class="bi bi-x-square-fill" style="color: red;"></i> {{ __('site.pw_small_and_capital_letters') }}</li>
+                        <li class="list-group-item"><i id="pw_special_icon" class="bi bi-x-square-fill" style="color: red;"></i> {{ __('site.pw_special_chars') }}</li>
                     </ul>
                 </div>
             </div>
