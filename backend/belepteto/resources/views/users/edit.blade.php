@@ -39,9 +39,10 @@
     }
 
     function CountUpperCaseChars(text){ //Egy szövegben a nagybetűk megszámolását végző függvény
+        let special = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; //Ebben a váltózóban a speciális karaktereket definiálom
         let count = 0;
         for(let i = 0;  i < text.length; i++){
-            if(text[i] == text[i].toUpperCase()){
+            if(text[i] == text[i].toUpperCase() && !(special.test(text[i]))){
                 count++;
             }
         }
