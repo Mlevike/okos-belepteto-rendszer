@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\SystemSideOperations;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Log;
 
 class DashboardController extends Controller
 {
@@ -53,7 +53,7 @@ class DashboardController extends Controller
                 if ($user->fingerprint)
                     array_push($usedFingerprintIDs, $user->fingerprint);
             }
-            return view('dashboard', ['current_user' => $current_user, 'here' => $here, 'notHere' => $notHere, 'isEntryEnabled' => $isEntryEnabled, "isExitEnabled" => $isExitEnabled, "hash" => $hash, "systemSideOperations" => $systemSideOperations, "usedFingerprintIDs" => $usedFingerprintIDs, 'validateWithCode' => $validateWithCode, 'validateWithFingerprint' => $validateWithFingerprint, 'validateWithBoth' => $validateWithBoth, 'notValidate' => $notValidate, 'hasEntryPermission' => $hasEntryPermission, 'notHasEntryPermission' => $notHasEntryPermission, 'userRole' => $userRole, 'employeeRole' => $employeeRole, 'adminRole' => $adminRole]); //Ez lehet, hogy csak ideiglenes megooldás lesz
+            return view('dashboard', ['current_user' => $current_user, 'here' => $here, 'notHere' => $notHere, 'isEntryEnabled' => $isEntryEnabled, "isExitEnabled" => $isExitEnabled, "hash" => $hash, "systemSideOperations" => $systemSideOperations, "usedFingerprintIDs" => $usedFingerprintIDs, 'validateWithCode' => $validateWithCode, 'validateWithFingerprint' => $validateWithFingerprint, 'validateWithBoth' => $validateWithBoth, 'notValidate' => $notValidate, 'hasEntryPermission' => $hasEntryPermission, 'notHasEntryPermission' => $notHasEntryPermission, 'userRole' => $userRole, 'employeeRole' => $employeeRole, 'adminRole' => $adminRole, 'current_page' => $systemSideOperations->currentPage()]); //Ez lehet, hogy csak ideiglenes megooldás lesz
         } else {
             return view('error', ['errors' => "Nincs jogosultságod a kért művelet elvégzéséhez!", 'back_link' => route('users'), 'current_user' => $current_user]); //Ez majd lehet, hogy máshová irányít át később
         }
@@ -103,7 +103,7 @@ class DashboardController extends Controller
         $operation = SystemSideOperations::findOrFail($request->id); //Lekérdezzük, az törölni kívánt sort az adatbázisból
         if($operation->operation_state == 'created') { //Erre azért van szükség, hogy a már kiküldött műveleteket ne lehessen törölni!
             $operation->delete(); //Töröljük a sort
-            return redirect(route('dashboard'))->with('status', 'Törlés sikeres!'); //Visszairányítjuk a felhasználót a vezérlőpultra
+            return redirect(route('dashboard', ["operation_page" => $request->operation_page]))->with('status', 'Törlés sikeres!'); //Visszairányítjuk a felhasználót a vezérlőpultra
         }else{
             return redirect(route('dashboard'))->with('status', 'Törlés sikertelen!'); //Visszairányítjuk a felhasználót a vezérlőpultra
         }

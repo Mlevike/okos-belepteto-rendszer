@@ -14,7 +14,7 @@
 
         function triggerCancelOperationDialog(id){ //Az ujjlenyomat felvételéért felelős metódus megjelenítése
             $('#cancelDialog').modal('show')
-            document.getElementById('cancel-operation-button').href = document.getElementById('cancel-operation-button').href + "?id=" + id;
+            document.getElementById('cancel-operation-button').href = document.getElementById('cancel-operation-button').href + "?id=" + id + "&operation_page=" + {{$current_page}};
         }
 
        function fetchIDS(){
