@@ -21,24 +21,57 @@
                 document.getElementById("user-edit-form").submit(); //..akkor elküldjük a formot a szerverre
             }
         }
-        function updatePasswordRequirements(){ //A jelszóval kapcsolatos követelményeket frissítő függvény
+
+        function CountUpperCaseChars(text){ //Egy szövegben a nagybetűk megszámolását végző függvény
+            let count = 0;
+            for(let i = 0;  i < text.length; i++){
+                if(text[i] == text[i].toUpperCase()){
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        function CountLowerCaseChars(text){ //Egy szövegben a kisbetűk megszámolását végző függvény
+            let count = 0;
+            for(let i = 0;  i < text.length; i++){
+                if(text[i] == text[i].toLowerCase()){
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        function UpdatePasswordRequirements(){ //A jelszóval kapcsolatos követelményeket frissítő függvény
             //Definiáljuk az ikonokat, illetve a beviteli mezőt tartalmaző elemeket
             let pwAmountIcon = document.getElementById("pw_amount_icon");
             let pwSmallCapitalIcon = document.getElementById("pw_small_capital_icon");
             let pwSpecialIcon = document.getElementById("pw_special_icon");
             let pwField = document.getElementById("password");
+            let special = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; //Ebben a váltózóban a speciális karaktereket definiálom
 
-            //Elvégezzük a jelszó ellenírzéseit
-            if(pwField.value.length >= 8){
-                    pwAmountValue = true;
+            //Elvégezzük a jelszó ellenőrzéseit
+            if(pwField.value.length >= 8){ //Ellenőrzöm a jelszó hosszát
                     pwAmountIcon.classList = "bi bi-check-square-fill";
                     pwAmountIcon.style.color = "green";
                 }else{
-                    pwAmountValue = false;
                     pwAmountIcon.classList = "bi bi-x-square-fill";
                     pwAmountIcon.style.color = "red";
                 }
-            console.log(/(?=.*?[A-Z])(?=.*?[a-z])/.test(pwField.value))
+            if(CountUpperCaseChars(pwField.value) > 0 && CountLowerCaseChars(pwField.value) > 0){ //Ellenőrzöm a nagy és kisbetűk meglétét
+                pwSmallCapitalIcon.classList = "bi bi-check-square-fill";
+                pwSmallCapitalIcon.style.color = "green";
+            }else{
+                pwSmallCapitalIcon.classList = "bi bi-x-square-fill";
+                pwSmallCapitalIcon.style.color = "red";
+            }
+            if(special.test(pwField.value)){ //Ellenőrzöm a speciális betűk meglétét
+                pwSpecialIcon.classList = "bi bi-check-square-fill";
+                pwSpecialIcon.style.color = "green";
+            }else{
+                pwSpecialIcon.classList = "bi bi-x-square-fill";
+                pwSpecialIcon.style.color = "red";
+            }
         }
     </script>
 </head>
@@ -75,7 +108,7 @@
             <div class="row">
                 <div class="col-12 col-md-10">
                     <label for="profile">{{ __('site.profile') }}: </label>
-                    <textarea type="text" class="form-control" id="profile" name="profile" style="height: 100px">{{$user != null ? $user->profile : ''}}</textarea>
+                    <textarea type="text" class="form-control" id="profile" name="profile" style="height: 100px;resize: none;">{{$user != null ? $user->profile : ''}}</textarea>
                 </div>
                 <div class="col-12 col-md-2">
                     <label for="picture">{{ __('site.picture') }}: </label>
@@ -151,7 +184,7 @@
                     <div class="row">
                 <div class="col-12 col-md-6">
                     <label for="password">{{ __('auth.password') }}:* </label>
-                    <input type="password" onchange onpropertychange onkeyuponpaste oninput="updatePasswordRequirements()" class="form-control" id="password" name="password" placeholder="********" {{$user == null ? 'reguired' : ''}}>
+                    <input type="password" onchange onpropertychange onkeyuponpaste oninput="UpdatePasswordRequirements()" class="form-control" id="password" name="password" placeholder="********" {{$user == null ? 'reguired' : ''}}>
                 </div>
                 <div class="col-12 col-md-6">
                     <label for="password_again">{{ __('auth.password_again') }}:* </label>
