@@ -27,11 +27,11 @@
 
         if(password !== password_again){ //Ha a megadott két jelszó nem egyezik meg
             ShowErrorMessage("{{ __('site.no_password_match') }}"); //Megjelenítjük a hibaüzenetet
-        }else if(pwField.value.length < 8){
+        }else if(pwField.value.length < 8 && pwField.value.length != 0){
             ShowErrorMessage("{{ __('site.password_too_short') }}"); //Megjelenítjük a hibaüzenetet
-        }else if(CountUpperCaseChars(pwField.value) == 0 || CountLowerCaseChars(pwField.value) == 0){
+        }else if((CountLowerCaseChars(pwField.value) == 0 || CountLowerCaseChars(pwField.value) == 0) && pwField.value.length != 0){
             ShowErrorMessage("{{ __('site.password_not_contains_upper_and_lower_chars') }}"); //Megjelenítjük a hibaüzenetet
-        }else if(!(special.test(pwField.value))){
+        }else if((!(special.test(pwField.value))) && pwField.value.length != 0){
             ShowErrorMessage("{{ __('site.password_not_contains_special_chars') }}"); //Megjelenítjük a hibaüzenetet
         }else{ //Ha minden adat stimmelt a formon..
             document.getElementById("user-edit-form").submit(); //..akkor elküldjük a formot a szerverre
