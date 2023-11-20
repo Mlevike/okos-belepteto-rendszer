@@ -3,80 +3,94 @@
 <!--Ebben a fájlban található a logok nézet sablonja.-->
 <head>
     @include('head') <!--Be includoljuk a bootstrap hivatkozásokat és más könyvtárakat behivatkozó blade templatet-->
-    <script>
-        function ShowErrorMessage(message){ //A hibaüzenetek megjelenítéséért felelős függvény
-            let errorMessage = document.getElementById("error-message"); //Létehozunk egy változót a div objekzum tárolására
-            errorMessage.innerText = message; //Beállítjuk a hibaüzenet szövegét
-            errorMessage.style.display = "block"; //Beállítjuk a hibaüzenet láthatóságát
-            document.body.scrollTop = document.documentElement.scrollTop = 0; //Visszatekerjük az csúszkát az oldal tetejére, hogy biztosan láthassuk s hibaüzenetet!
-        }
-
-        function ValidateForm(){ //Az űrlap frontenden történő ellenőrzésére szolgáló függvény
-            //Létrehozunk változókat a form mezőinek
-            let password = document.getElementById("password").value;
-            let password_again = document.getElementById("password_again").value;
-            if(password !== password_again){ //Ha a megadott két jelszó nem egyezik meg
-                ShowErrorMessage("{{ __('site.no_password_match') }}"); //Megjelenítjük a hibaüzenetet
-            }else{ //Ha minden adat stimmelt a formon..
-                document.getElementById("user-edit-form").submit(); //..akkor elküldjük a formot a szerverre
-            }
-        }
-
-        function CountUpperCaseChars(text){ //Egy szövegben a nagybetűk megszámolását végző függvény
-            let count = 0;
-            for(let i = 0;  i < text.length; i++){
-                if(text[i] == text[i].toUpperCase()){
-                    count++;
-                }
-            }
-            return count;
-        }
-
-        function CountLowerCaseChars(text){ //Egy szövegben a kisbetűk megszámolását végző függvény
-            let count = 0;
-            for(let i = 0;  i < text.length; i++){
-                if(text[i] == text[i].toLowerCase()){
-                    count++;
-                }
-            }
-            return count;
-        }
-
-        function UpdatePasswordRequirements(){ //A jelszóval kapcsolatos követelményeket frissítő függvény
-            //Definiáljuk az ikonokat, illetve a beviteli mezőt tartalmaző elemeket
-            let pwAmountIcon = document.getElementById("pw_amount_icon");
-            let pwSmallCapitalIcon = document.getElementById("pw_small_capital_icon");
-            let pwSpecialIcon = document.getElementById("pw_special_icon");
-            let pwField = document.getElementById("password");
-            let special = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; //Ebben a váltózóban a speciális karaktereket definiálom
-
-            //Elvégezzük a jelszó ellenőrzéseit
-            if(pwField.value.length >= 8){ //Ellenőrzöm a jelszó hosszát
-                    pwAmountIcon.classList = "bi bi-check-square-fill";
-                    pwAmountIcon.style.color = "green";
-                }else{
-                    pwAmountIcon.classList = "bi bi-x-square-fill";
-                    pwAmountIcon.style.color = "red";
-                }
-            if(CountUpperCaseChars(pwField.value) > 0 && CountLowerCaseChars(pwField.value) > 0){ //Ellenőrzöm a nagy és kisbetűk meglétét
-                pwSmallCapitalIcon.classList = "bi bi-check-square-fill";
-                pwSmallCapitalIcon.style.color = "green";
-            }else{
-                pwSmallCapitalIcon.classList = "bi bi-x-square-fill";
-                pwSmallCapitalIcon.style.color = "red";
-            }
-            if(special.test(pwField.value)){ //Ellenőrzöm a speciális betűk meglétét
-                pwSpecialIcon.classList = "bi bi-check-square-fill";
-                pwSpecialIcon.style.color = "green";
-            }else{
-                pwSpecialIcon.classList = "bi bi-x-square-fill";
-                pwSpecialIcon.style.color = "red";
-            }
-        }
-    </script>
-</head>
 <body {{$current_user->darkMode ? 'data-bs-theme=dark' : ''}}>
 @include('header') <!--Be include-oljuk a menüt tartalmazó blade templatet -->
+<script>
+    function ShowErrorMessage(message){ //A hibaüzenetek megjelenítéséért felelős függvény
+        let errorMessage = document.getElementById("error-message"); //Létehozunk egy változót a div objekzum tárolására
+        errorMessage.innerText = message; //Beállítjuk a hibaüzenet szövegét
+        errorMessage.style.display = "block"; //Beállítjuk a hibaüzenet láthatóságát
+        document.body.scrollTop = document.documentElement.scrollTop = 0; //Visszatekerjük az csúszkát az oldal tetejére, hogy biztosan láthassuk s hibaüzenetet!
+    }
+
+    function ValidateForm(){ //Az űrlap frontenden történő ellenőrzésére szolgáló függvény
+        //Létrehozunk változókat a form mezőinek
+        let password = document.getElementById("password").value;
+        let password_again = document.getElementById("password_again").value;
+
+        //Definiáljuk az ikonokat, illetve a beviteli mezőt tartalmaző elemeket
+        let pwAmountIcon = document.getElementById("pw_amount_icon");
+        let pwSmallCapitalIcon = document.getElementById("pw_small_capital_icon");
+        let pwSpecialIcon = document.getElementById("pw_special_icon");
+        let pwField = document.getElementById("password");
+        let special = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; //Ebben a váltózóban a speciális karaktereket definiálom
+
+        if(password !== password_again){ //Ha a megadott két jelszó nem egyezik meg
+            ShowErrorMessage("{{ __('site.no_password_match') }}"); //Megjelenítjük a hibaüzenetet
+        }else if(pwField.value.length < 8){
+            ShowErrorMessage("{{ __('site.password_too_short') }}"); //Megjelenítjük a hibaüzenetet
+        }else if(CountUpperCaseChars(pwField.value) == 0 || CountLowerCaseChars(pwField.value) == 0){
+            ShowErrorMessage("{{ __('site.password_not_contains_upper_and_lower_chars') }}"); //Megjelenítjük a hibaüzenetet
+        }else if(!(special.test(pwField.value))){
+            ShowErrorMessage("{{ __('site.password_not_contains_special_chars') }}"); //Megjelenítjük a hibaüzenetet
+        }else{ //Ha minden adat stimmelt a formon..
+            document.getElementById("user-edit-form").submit(); //..akkor elküldjük a formot a szerverre
+        }
+    }
+
+    function CountUpperCaseChars(text){ //Egy szövegben a nagybetűk megszámolását végző függvény
+        let count = 0;
+        for(let i = 0;  i < text.length; i++){
+            if(text[i] == text[i].toUpperCase()){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    function CountLowerCaseChars(text){ //Egy szövegben a kisbetűk megszámolását végző függvény
+        let count = 0;
+        for(let i = 0;  i < text.length; i++){
+            if(text[i] == text[i].toLowerCase()){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    function UpdatePasswordRequirements(){ //A jelszóval kapcsolatos követelményeket frissítő függvény
+        //Definiáljuk az ikonokat, illetve a beviteli mezőt tartalmaző elemeket
+        let pwAmountIcon = document.getElementById("pw_amount_icon");
+        let pwSmallCapitalIcon = document.getElementById("pw_small_capital_icon");
+        let pwSpecialIcon = document.getElementById("pw_special_icon");
+        let pwField = document.getElementById("password");
+        let special = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; //Ebben a váltózóban a speciális karaktereket definiálom
+
+        //Elvégezzük a jelszó ellenőrzéseit
+        if(pwField.value.length >= 8){ //Ellenőrzöm a jelszó hosszát
+            pwAmountIcon.classList = "bi bi-check-square-fill";
+            pwAmountIcon.style.color = "green";
+        }else{
+            pwAmountIcon.classList = "bi bi-x-square-fill";
+            pwAmountIcon.style.color = "red";
+        }
+        if(CountUpperCaseChars(pwField.value) > 0 && CountLowerCaseChars(pwField.value) > 0){ //Ellenőrzöm a nagy és kisbetűk meglétét
+            pwSmallCapitalIcon.classList = "bi bi-check-square-fill";
+            pwSmallCapitalIcon.style.color = "green";
+        }else{
+            pwSmallCapitalIcon.classList = "bi bi-x-square-fill";
+            pwSmallCapitalIcon.style.color = "red";
+        }
+        if(special.test(pwField.value)){ //Ellenőrzöm a speciális betűk meglétét
+            pwSpecialIcon.classList = "bi bi-check-square-fill";
+            pwSpecialIcon.style.color = "green";
+        }else{
+            pwSpecialIcon.classList = "bi bi-x-square-fill";
+            pwSpecialIcon.style.color = "red";
+        }
+    }
+</script>
+</head>
 <div class="alert alert-danger mx-2" role="alert" id="error-message" style="display: none"> <!-- Hibák esetén megjelenő üzenet -->
 </div>
 <main>

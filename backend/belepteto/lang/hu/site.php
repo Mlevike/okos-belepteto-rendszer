@@ -46,7 +46,6 @@ return [
     'not_validate' => "Csak kártya",
     'newToken' => "Új hozzáférési token létrehozva",
     'newTokenText' => "Alább látható az új hozzáférési token, ezt fel kell írni, mert csak most látható:",
-
     'picture' => "Kép",
     'register_FP_manually' => "Ujjlenyomat rögzítése",
     'record' => "Felvétel",
@@ -102,6 +101,9 @@ return [
     'pw_min_amount_of_chars' => "A jelszó legalább 8 karakter hosszú",
     'pw_small_and_capital_letters' => "A jelszó egyaránt tartalmaz kis- és nagybetűket is",
     'pw_special_chars' => "A jelszó tartalmaz speciális karaktereket",
+    'password_too_short' => "A jelszó túl rövid!",
+    'password_not_contains_upper_and_lower_chars' => "A jelszó nem tartalmaz kis- és nagy betűket egyaránt!",
+    'password_not_contains_special_chars' => "A jelszó nem tartalmaz spciális karaktereket!",
     'requirements_of_the_pw' => "A jelszóval szemben támasztot követelmények",
     'second' => "másodperc",
     'unknown_user' => "ISMERETLEN FELHASZNÁLÓ",
