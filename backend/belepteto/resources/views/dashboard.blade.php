@@ -364,7 +364,7 @@
                     <h5 class="modal-title" id="idDeleteDialogTitle">{{ __('site.confirmation' ) }}</h5>
                 </div>
                 <div class="modal-body">
-                    <p>A regisztrálni kívánt ujjlenyomat azonosító már használatban van, biztos folytatja a műveletet?</p>
+                    <p>{{__('site.duplicatedFpWarning')}}</p>
                 </div>
                 <div class="modal-footer">
                     <input type="button" class="btn btn-primary" id="recordFingerprintButton" value="{{ __('site.record') }}" onclick=document.getElementById("fingerprintRecordForm").submit();>
