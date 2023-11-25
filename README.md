@@ -171,7 +171,7 @@ Ezzel az üzenettel tetszőleges helyre pozicionálhatjuk a kijelző kurzorát. 
 
     {
         "key":"lcd_goto",
-        "row":[sorszám]
+        "row":[sorszám],
         "column":[oszlopszám]
     }
 
