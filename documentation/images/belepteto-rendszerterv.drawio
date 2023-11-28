@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2023-11-28T07:05:58.632Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.8 Chrome/114.0.5735.289 Electron/25.5.0 Safari/537.36" etag="woVplPLyG4OdvhjMA_4y" version="21.6.8" type="device">
+<mxfile host="Electron" modified="2023-11-28T07:07:10.818Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.8 Chrome/114.0.5735.289 Electron/25.5.0 Safari/537.36" etag="0OVRHJeuoOYnMj8kemkf" version="21.6.8" type="device">
   <diagram id="vzMh8M_eVgVNIFF011hd" name="Page-1">
     <mxGraphModel dx="1434" dy="844" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -39,7 +39,7 @@
         <mxCell id="Kv8iB2U00qw26i9B0Y5g-56" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;startArrow=classic;startFill=1;" parent="Kv8iB2U00qw26i9B0Y5g-30" source="BWEoTR9H0YAar0ySR4cO-20" target="Kv8iB2U00qw26i9B0Y5g-55" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="BWEoTR9H0YAar0ySR4cO-20" value="A miniszámítógépet, illetve a hardvert vezérlő hardwareLayer.php" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" parent="Kv8iB2U00qw26i9B0Y5g-30" vertex="1">
+        <mxCell id="BWEoTR9H0YAar0ySR4cO-20" value="A miniszámítógépet, illetve a hardvert vezérlő hardwareLayer.py" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" parent="Kv8iB2U00qw26i9B0Y5g-30" vertex="1">
           <mxGeometry x="15" y="60" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="Kv8iB2U00qw26i9B0Y5g-55" value="Egyéb hardver komponensek" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" parent="Kv8iB2U00qw26i9B0Y5g-30" vertex="1">
